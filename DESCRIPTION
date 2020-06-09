@@ -1,0 +1,20 @@
+Package: ccesMRPun
+Type: Package
+Title: Functions to Fit MRP models and draw estimates
+Version: 0.0.1
+Authors@R: person(given = "Shiro",
+             family = "Kuriwaki",
+             role = c("aut", "cre"),
+             email = "shirokuriwaki@gmail.com",
+             comment = c(ORCID = "0000-0002-5687-2647"))
+Description: Companion to ccesMRPprep
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 2.10),
+Language: en-US
+Roxygen: list(markdown = TRUE)
+License: GPL (>= 3)
+URL: https://www.github.com/kuriwaki/ccesMRPrun
+BugReports: http://github.com/kuriwaki/ccesMRPrun/issues
+VignetteBuilder: knitr
