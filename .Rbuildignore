@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^data-analysis$
+^README\.Rmd$
+^README\.md$

@@ -1,4 +1,4 @@
-Package: ccesMRPun
+Package: ccesMRPrun
 Type: Package
 Title: Functions to Fit MRP models and draw estimates
 Version: 0.0.1
