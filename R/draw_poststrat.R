@@ -30,7 +30,7 @@
 #' @importFrom brms pp_expect
 #'
 #'
-#' @examples
+#' @export
 poststrat_draws <- function(model, poststrat_tgt, orig_data) {
 
   # districts (CDs) to loop through
