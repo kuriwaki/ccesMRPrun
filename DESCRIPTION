@@ -1,6 +1,6 @@
 Package: ccesMRPrun
 Type: Package
-Title: Functions to Fit MRP models and draw estimates
+Title: Fitting MRP Models from Cleaned Data and Drawing Estimates
 Version: 0.0.1
 Authors@R: person(given = "Shiro",
              family = "Kuriwaki",

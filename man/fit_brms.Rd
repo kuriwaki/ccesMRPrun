@@ -24,7 +24,7 @@ shown to have good prior posterior draws}
 
 \item{prior_PD}{whether to etimate the prior predictive distribution}
 
-\item{seed}{seed for randomization 02138
+\item{.seed}{seed for randomization 02138
 Fit brms regressions based on input data}
 }
 \description{

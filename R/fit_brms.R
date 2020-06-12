@@ -7,10 +7,10 @@
 #'   is a standard normal prior, which is tighter than the brms default but has
 #'   shown to have good prior posterior draws
 #' @param prior_PD whether to etimate the prior predictive distribution
-#' @param seed seed for randomization 02138
+#' @param .seed seed for randomization 02138
 #' Fit brms regressions based on input data
 #'
-#' @importFrom brms brm
+#' @importFrom brms brm prior_string
 #'
 #' @export
 fit_brms <- function(.formula,
