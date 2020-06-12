@@ -3,6 +3,10 @@ title: "Running MRP with CCES"
 output: github_document
 ---
 
+<!-- badges: start -->
+[![R build status](https://github.com/kuriwaki/ccesMRPrun/workflows/R-CMD-check/badge.svg)](https://github.com/kuriwaki/ccesMRPrun/actions)
+<!-- badges: end -->
+
 ```{r, eval = FALSE}
 remotes::install_github("kuriwaki/ccesMRPrun")
 ```
