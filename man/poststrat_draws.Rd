@@ -4,7 +4,7 @@
 \alias{poststrat_draws}
 \title{Get MCMC draws of post-stratified estimate of demog x cd cells}
 \usage{
-poststrat_draws(model, poststrat_tgt, orig_data)
+poststrat_draws(model, poststrat_tgt, orig_data, new_levels = FALSE)
 }
 \arguments{
 \item{model}{stan model from fit_brms}
@@ -14,6 +14,10 @@ poststrat_draws(model, poststrat_tgt, orig_data)
 
 \item{orig_data}{original survey data, only used to subset the poststratification,
 containing question data.}
+
+\item{new_levels}{If there are new levels in the poststrat table that do not have
+coefficients in the survey data, should there be an extrapolation or assignment to 0s?
+The answer should almost always be No in MRP.}
 }
 \value{
 A tidy dataset with \code{qID} x \code{cd} x \code{iter} number of rows,

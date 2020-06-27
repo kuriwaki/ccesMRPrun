@@ -6,6 +6,9 @@
 #' `count`, which is treated as the number of \code{trials} in the binomial model.
 #' @param orig_data original survey data, only used to subset the poststratification,
 #' containing question data.
+#' @param new_levels If there are new levels in the poststrat table that do not have
+#' coefficients in the survey data, should there be an extrapolation or assignment to 0s?
+#' The answer should almost always be No in MRP.
 #'
 #'
 #' @return A tidy dataset with `qID` x `cd` x `iter` number of rows,
@@ -31,7 +34,7 @@
 #'
 #'
 #' @export
-poststrat_draws <- function(model, poststrat_tgt, orig_data) {
+poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE) {
 
   # districts (CDs) to loop through
   cds <- intersect(unique(poststrat_tgt$cd), unique(orig_data$cd))
@@ -43,7 +46,7 @@ poststrat_draws <- function(model, poststrat_tgt, orig_data) {
   # draw, then reshape to tidy form
   p_draws <- pp_expect(model,
                        newdata = cd_strat,
-                       allow_new_levels = TRUE,
+                       allow_new_levels = new_levels,
                        summary = FALSE)
 
   # format
