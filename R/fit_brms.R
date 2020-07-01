@@ -24,7 +24,6 @@ fit_brms_binomial <- function(.formula,
                      .warmup = floor(.iter/2),
                      verbose = TRUE,
                      .seed = 02138) {
-  if (!prior_PD) {
     fit <- brm(formula = .formula,
                data = .data,
                family = binomial,
@@ -37,9 +36,6 @@ fit_brms_binomial <- function(.formula,
                               max_treedepth = 10),
                refresh = ifelse(verbose, 200, 0),
                seed = .seed)
-  }
-  # attr(fit, "question") <- attr(.data, "question")
-
   return(fit)
 }
 
