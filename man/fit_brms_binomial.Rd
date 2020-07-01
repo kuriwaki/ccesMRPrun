@@ -11,6 +11,8 @@ fit_brms_binomial(
     class = "sd"), prior_string("normal(0, 1)", class = "Intercept")),
   .iter = 2000,
   .warmup = floor(.iter/2),
+  .cores = 4,
+  .chains = 4,
   verbose = TRUE,
   .seed = 2138
 )
