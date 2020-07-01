@@ -1,3 +1,7 @@
+# ccesMRPrun 0.0.3
+
+Allow different levels of iterations, separate prior PD
+
 # ccesMRPrun 0.0.2
 
 Set allow new levels in `poststrat_draws` to `FALSE`
