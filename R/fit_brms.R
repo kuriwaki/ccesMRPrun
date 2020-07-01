@@ -6,34 +6,24 @@
 #' @param .prior prior specification that can be interepreted by brms. The default
 #'   is a standard normal prior, which is tighter than the brms default but has
 #'   shown to have good prior posterior draws
-#' @param prior_PD whether to etimate the prior predictive distribution
-#' @param .seed seed for randomization 02138
+#' @param .iter Number of total iterations.
+#' @param .warmup Of the iterations, how much are burn-ins. Defaults to half.
+#' @param verbose Whether to show iteration messages
+#' @param .seed seed for randomization to pass into brm
 #' Fit brms regressions based on input data
 #'
 #' @importFrom brms brm prior_string
 #'
 #' @export
-fit_brms <- function(.formula,
+fit_brms_binomial <- function(.formula,
                      .data,
                      .prior = c(prior_string("normal(0, 1)", class = "b"),
                                 prior_string("normal(0, 1)", class = "sd"),
                                 prior_string("normal(0, 1)", class = "Intercept")),
-                     prior_PD = FALSE,
+                     .iter = 2e3,
+                     .warmup = floor(.iter/2),
+                     verbose = TRUE,
                      .seed = 02138) {
-
-  if (prior_PD) {
-    fit <- brm(formula = .formula,
-               data = .data,
-               family = binomial,
-               prior = .prior,
-               sample_prior = "only",
-               cores = 2,
-               chains = 2,
-               iter = 1.0e3,
-               warmup = 0.5e3,
-               seed = .seed)
-  }
-
   if (!prior_PD) {
     fit <- brm(formula = .formula,
                data = .data,
@@ -41,9 +31,11 @@ fit_brms <- function(.formula,
                prior = .prior,
                cores = 4,
                chains = 4,
-               iter = 2e3,
+               iter = .iter,
+               warmup = .warump,
                control = list(adapt_delta = 0.95,
                               max_treedepth = 10),
+               refresh = ifelse(verbose, 200, 0),
                seed = .seed)
   }
   # attr(fit, "question") <- attr(.data, "question")
@@ -51,3 +43,30 @@ fit_brms <- function(.formula,
   return(fit)
 }
 
+
+
+#' Use priors and covariates to generate a prior predictive distribution
+#'
+#' @inheritParams fit_brms_binomial
+#'
+#' @export
+prior_pd_binomial <- function(.formula,
+                              .data,
+                              .prior = c(prior_string("normal(0, 1)", class = "b"),
+                                         prior_string("normal(0, 1)", class = "sd"),
+                                         prior_string("normal(0, 1)", class = "Intercept")),
+
+                              .seed = 02138) {
+
+  brm(formula = .formula,
+      data = .data,
+      family = binomial,
+      prior = .prior,
+      sample_prior = "only",
+      cores = 2,
+      chains = 2,
+      iter = 1.0e3,
+      warmup = 0.5e3,
+      refresh = ifelse(verbose, 200, 0),
+      seed = .seed)
+}
