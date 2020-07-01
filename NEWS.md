@@ -1,6 +1,8 @@
 # ccesMRPrun 0.0.3
 
-Allow different levels of iterations, separate prior PD
+* Allow different levels of iterations, separate prior PD
+* Update to brms 2.13.0; require epred
+
 
 # ccesMRPrun 0.0.2
 
