@@ -30,7 +30,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr pivot_longer
 #' @importFrom readr parse_number
-#' @importFrom brms pp_expect
+#' @importFrom brms posterior_epred
 #'
 #'
 #' @export
@@ -44,7 +44,7 @@ poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE)
     rename(n_response = count)
 
   # draw, then reshape to tidy form
-  p_draws <- pp_expect(model,
+  p_draws <- posterior_epred(model,
                        newdata = cd_strat,
                        allow_new_levels = new_levels,
                        summary = FALSE)
