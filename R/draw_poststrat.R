@@ -28,13 +28,15 @@
 #'
 #' @importFrom dplyr mutate group_by summarize filter rename bind_cols matches
 #' @importFrom tibble as_tibble
-#' @importFrom tidyr pivot_longer
-#' @importFrom readr parse_number
 #' @importFrom brms posterior_epred
 #'
 #'
 #' @export
 poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE) {
+
+  # relabel, compute MRP
+  question <- attr(orig_data, "question")
+
 
   # districts (CDs) to loop through
   cds <- intersect(unique(poststrat_tgt$cd), unique(orig_data$cd))
@@ -50,17 +52,10 @@ poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE)
                        summary = FALSE)
 
   # format
-  cds_draws <- p_draws %>%
-    t() %>%
-    as_tibble() %>%
-    mutate(cell = 1:n()) %>%
-    bind_cols(cd_strat, .) %>%
-    pivot_longer(cols = matches("^V"), names_to = "iter", values_to = "pred_n_yes") %>%
-    mutate(iter = parse_number(iter))
+  cds_draws <- pivot_celldraws_longer(p_draws, cd_strat)
 
 
-  # relabel, compute MRP
-  question <- attr(orig_data, "question")
+  # mean estimator
   cd_est <- cds_draws %>%
     mutate(qID = question) %>%
     group_by(qID, cd, iter) %>%
@@ -68,4 +63,34 @@ poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE)
               .groups = "drop")
 
   cd_est
+}
+
+
+#' Take output from brms prediction and turn to tidy form
+#'
+#' @param model_draws Output from `posterior_*pred`, which is of dimension
+#'  `Iter` (in rows) by `Cells` (in columns)
+#' @param data_strat Covariates to append to. The number of rows should be
+#'  the number of `Cells`
+#' @param yhat_name The name of the value for the predicted outcome.
+#'
+#' @return A tidy long dataset with `Iter` x `Cells` rows. Columns
+#'  will include the columns of `data_strat`, the iteration and cell ID, and
+#'  the predicted value for that cell at that iteration.
+#'
+#' @importFrom tidyr pivot_longer
+#' @importFrom readr parse_number
+#'
+#' @export
+pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_yes") {
+
+  stopifnot(ncol(mod_draws) == nrow(data_strat))
+
+  mod_draws %>%
+    t() %>%
+    as_tibble() %>%
+    mutate(cell = 1:n()) %>%
+    bind_cols(data_strat, .) %>%
+    pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
+    mutate(iter = parse_number(iter))
 }
