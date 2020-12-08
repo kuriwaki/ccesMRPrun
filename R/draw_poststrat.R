@@ -51,13 +51,15 @@ poststrat_draws <- function(model,
 
   # districts (CDs) to loop through
   if (!is.null(orig_data)) {
-    cds <- intersect(unique(poststrat_tgt[[area_var]]), unique(orig_data[[area_var]]))
+    cds <- intersect(unique(poststrat_tgt[[area_var]]),
+                     unique(orig_data[[area_var]]))
 
     # subset to predict on
-    poststrat_tgt <- filter(poststrat_tgt, {{area_var}} %in% cds)
+    poststrat_tgt <- poststrat_tgt[poststrat_tgt[[area_var]] %in% cds, ]
   }
 
 
+  # rename variable for MRP est
   cd_strat <- rename(poststrat_tgt, n_response = {{count_var}})
 
   # draw, then reshape to tidy form
