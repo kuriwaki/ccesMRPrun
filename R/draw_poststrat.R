@@ -4,8 +4,17 @@
 #' @param model stan model from fit_brms
 #' @param poststrat_tgt The poststratification target. It must contain the column
 #' `count`, which is treated as the number of \code{trials} in the binomial model.
-#' @param orig_data original survey data, only used to subset the poststratification,
-#' containing question data.
+#' @param orig_data original survey data. This defaults to NULL but if supplied
+#'  be used to (1) subset the poststratification, to areas only in the survey, and
+#'  (2) label the question outcome.
+#' @param question_lbl A character string that indicates the outcome, e.g.
+#'  a shorthand for the outcome variable. This is useful when you want to preserve
+#'  the outcome or description of multiple models.
+#' @param area_var A character string for the variable name for area to group
+#'  and summarize by. Defaults to `"cd"`
+#' @param count_var A character string for the variable name for the population
+#'  count in the `poststrat_tgt` dataframe. This will be renamed as if it is
+#'  a trial count in the model. Defaults to `"count"`.
 #' @param new_levels If there are new levels in the poststrat table that do not have
 #' coefficients in the survey data, should there be an extrapolation or assignment to 0s?
 #' The answer should almost always be No in MRP.
@@ -32,24 +41,30 @@
 #'
 #'
 #' @export
-poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE) {
-
-  # relabel, compute MRP
-  question <- attr(orig_data, "question")
-
+poststrat_draws <- function(model,
+                            poststrat_tgt,
+                            orig_data = NULL,
+                            question_lbl = attr(orig_data, "question"),
+                            area_var =  "cd",
+                            count_var = "count",
+                            new_levels = FALSE) {
 
   # districts (CDs) to loop through
-  cds <- intersect(unique(poststrat_tgt$cd), unique(orig_data$cd))
+  if (!is.null(orig_data)) {
+    cds <- intersect(unique(poststrat_tgt[[area_var]]), unique(orig_data[[area_var]]))
 
-  # subset to predict on
-  cd_strat <- filter(poststrat_tgt, cd %in% cds) %>%
-    rename(n_response = count)
+    # subset to predict on
+    poststrat_tgt <- filter(poststrat_tgt, {{area_var}} %in% cds)
+  }
+
+
+  cd_strat <- rename(poststrat_tgt, n_response = {{count_var}})
 
   # draw, then reshape to tidy form
   p_draws <- posterior_epred(model,
-                       newdata = cd_strat,
-                       allow_new_levels = new_levels,
-                       summary = FALSE)
+                             newdata = cd_strat,
+                             allow_new_levels = new_levels,
+                             summary = FALSE)
 
   # format
   cds_draws <- pivot_celldraws_longer(p_draws, cd_strat)
@@ -57,7 +72,7 @@ poststrat_draws <- function(model, poststrat_tgt, orig_data, new_levels = FALSE)
 
   # mean estimator
   cd_est <- cds_draws %>%
-    mutate(qID = question) %>%
+    mutate(qID = question_lbl) %>%
     group_by(qID, cd, iter) %>%
     summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
               .groups = "drop")
