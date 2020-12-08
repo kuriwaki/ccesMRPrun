@@ -4,7 +4,15 @@
 \alias{poststrat_draws}
 \title{Get MCMC draws of post-stratified estimate of demog x cd cells}
 \usage{
-poststrat_draws(model, poststrat_tgt, orig_data, new_levels = FALSE)
+poststrat_draws(
+  model,
+  poststrat_tgt,
+  orig_data = NULL,
+  question_lbl = attr(orig_data, "question"),
+  area_var = "cd",
+  count_var = "count",
+  new_levels = FALSE
+)
 }
 \arguments{
 \item{model}{stan model from fit_brms}
@@ -12,8 +20,20 @@ poststrat_draws(model, poststrat_tgt, orig_data, new_levels = FALSE)
 \item{poststrat_tgt}{The poststratification target. It must contain the column
 \code{count}, which is treated as the number of \code{trials} in the binomial model.}
 
-\item{orig_data}{original survey data, only used to subset the poststratification,
-containing question data.}
+\item{orig_data}{original survey data. This defaults to NULL but if supplied
+be used to (1) subset the poststratification, to areas only in the survey, and
+(2) label the question outcome.}
+
+\item{question_lbl}{A character string that indicates the outcome, e.g.
+a shorthand for the outcome variable. This is useful when you want to preserve
+the outcome or description of multiple models.}
+
+\item{area_var}{A character string for the variable name for area to group
+and summarize by. Defaults to \code{"cd"}}
+
+\item{count_var}{A character string for the variable name for the population
+count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is
+a trial count in the model. Defaults to \code{"count"}.}
 
 \item{new_levels}{If there are new levels in the poststrat table that do not have
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?
