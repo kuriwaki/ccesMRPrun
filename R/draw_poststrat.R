@@ -68,9 +68,12 @@ poststrat_draws <- function(model,
                              allow_new_levels = new_levels,
                              summary = FALSE)
 
-  # format
-  cds_draws <- pivot_celldraws_longer(p_draws, cd_strat)
 
+  # binomial (yes | n_response model)
+  if (model$family$family == "binomial") {
+    cds_draws <- pivot_celldraws_longer(p_draws,
+                                        cd_strat,
+                                        yhat_name = "pred_n_yes")
 
   # mean estimator
   cd_est <- cds_draws %>%
@@ -78,7 +81,23 @@ poststrat_draws <- function(model,
     group_by(qID, cd, iter) %>%
     summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
               .groups = "drop")
+  }
 
+  # bernoulli
+  if (model$family$family == "bernoulli") {
+
+    cds_draws <- pivot_celldraws_longer(p_draws,
+                                        cd_strat,
+                                        yhat_name = "pred_yes")
+
+    # mean estimator
+    cd_est <- cds_draws %>%
+      mutate(qID = question_lbl) %>%
+      group_by(qID, cd, iter) %>%
+      summarize(p_mrp =  sum(pred_yes*n_response) / sum(n_response), # n_response still a misnomer, more like N in this case
+                .groups = "drop")
+
+  }
   cd_est
 }
 
