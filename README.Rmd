@@ -30,7 +30,7 @@ This is a simple wrapper around `brms::brm` but with some custom priors and a bi
 cces_georgia <- read_rds("data-analysis/cc-count_GA.rds")
 
 # don't run in readme, takes too long
-fit <- fit_brms("yes | trials(n_response) ~ (1 | age) + (1 | edu) + (1 | cd)",
+fit <- fit_brms_binomial("yes | trials(n_response) ~ (1 | age) + (1 | educ) + (1 | cd)",
                 cces_georgia)
 ```
 
