@@ -26,6 +26,15 @@ fit_brms_binomial <- function(.formula,
                      .chains = 4,
                      verbose = TRUE,
                      .seed = 02138) {
+
+  RHS <- attr(terms(as.formula(.formula)), "term.labels")
+
+  # no "b" for RE only model
+  if (all(str_detect(RHS, "|"))) {
+    .prior <- subset(.prior, class != "b")
+  }
+
+
     fit <- brm(formula = .formula,
                data = .data,
                family = binomial,
