@@ -40,17 +40,18 @@ fit <- fit_brms_binomial("yes | trials(n_response) ~ (1 | age) + (1 | educ) + (1
 
 ```{r}
 # sample data (too large for package; not in github yet)
-fit <- read_rds("data-analysis/fit_GA.rds")
+fit <- read_rds("data-analysis/fit-brms_GA.rds")
 summary(fit)
 ```
 
 There are two main methods in this package: modeling and 
 
 ```{r}
-cc_count <- read_rds("data-analysis/cc-count_GA.rds")
-poststrat <- read_rds("data-analysis/by-cd-cell_poststrat_2018.rds")
+poststrat_GA <- read_rds("data-analysis/by-cd-cell_poststrat_2018.rds")
 
-drw <- poststrat_draws(fit, poststrat, cc_count)
+drw <- poststrat_draws(fit, 
+                       poststrat_tgt = poststrat,
+                       orig_data = cces_georgia)
 
 drw
 ```
