@@ -1,9 +1,9 @@
-#' Fit a binomial brms model
+#' Fit a brms model with count data
 #'
 #'
 #' @param .formula model specification
 #' @param .data collapsed survey dataset, built from ccesMRPprep::build_counts
-#' @param .prior prior specification that can be interepreted by brms. The default
+#' @param .prior prior specification that can be interpreted by brms. The default
 #'   is a standard normal prior, which is tighter than the brms default but has
 #'   shown to have good prior posterior draws
 #' @param .iter Number of total iterations.
@@ -26,15 +26,6 @@ fit_brms_binomial <- function(.formula,
                      .chains = 4,
                      verbose = TRUE,
                      .seed = 02138) {
-
-  RHS <- attr(terms(as.formula(.formula)), "term.labels")
-
-  # no "b" for RE only model
-  if (all(str_detect(RHS, "|"))) {
-    .prior <- subset(.prior, class != "b")
-  }
-
-
     fit <- brm(formula = .formula,
                data = .data,
                family = binomial,
@@ -52,28 +43,3 @@ fit_brms_binomial <- function(.formula,
 
 
 
-#' Use priors and covariates to generate a prior predictive distribution
-#'
-#' @inheritParams fit_brms_binomial
-#'
-#' @export
-prior_pd_binomial <- function(.formula,
-                              .data,
-                              .prior = c(prior_string("normal(0, 1)", class = "b"),
-                                         prior_string("normal(0, 1)", class = "sd"),
-                                         prior_string("normal(0, 1)", class = "Intercept")),
-
-                              .seed = 02138) {
-
-  brm(formula = .formula,
-      data = .data,
-      family = binomial,
-      prior = .prior,
-      sample_prior = "only",
-      cores = 2,
-      chains = 2,
-      iter = 1.0e3,
-      warmup = 0.5e3,
-      refresh = ifelse(verbose, 200, 0),
-      seed = .seed)
-}
