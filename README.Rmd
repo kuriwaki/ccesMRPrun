@@ -26,33 +26,24 @@ To prepare, see <www.shirokuriwaki.com/ccesMRPprep>.
 
 This is a simple wrapper around `brms::brm` but with some custom priors and a binomial model as a default.
 
-```{r, eval = FALSE}
-cces_georgia <- read_rds("data-analysis/cc-count_GA.rds")
+```{r}
+ff <- "yes | trials(n_response) ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
+cc_count <- ccesMRPprep::build_counts(cces_GA, model_ff = ff)
 
-# don't run in readme, takes too long
-fit <- fit_brms_binomial("yes | trials(n_response) ~ (1 | age) + (1 | educ) + (1 | cd)",
-                cces_georgia)
+fit <- fit_brms_binomial(ff, cc_count)
 ```
 
 
 
 # Poststratification
 
-```{r}
-# sample data (too large for package; not in github yet)
-fit <- read_rds("data-analysis/fit-brms_GA.rds")
-summary(fit)
-```
-
 There are two main methods in this package: modeling and 
 
 ```{r}
-poststrat_GA <- read_rds("data-analysis/by-cd-cell_poststrat_2018.rds")
-
+poststrat_GA <- acs_GA
 drw <- poststrat_draws(fit, 
-                       poststrat_tgt = poststrat,
-                       orig_data = cces_georgia)
-
+                       poststrat_tgt = poststrat_GA,
+                       orig_data = cc_count)
 drw
 ```
 
@@ -61,6 +52,7 @@ drw
 We often care about the posterior mean and 95 percent credible intervals of the draws. 
 
 ```{r}
+drw$qID <- "Clinton_2pty"
 summ_sims(drw)
 ```
 
