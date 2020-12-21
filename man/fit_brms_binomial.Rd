@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_brms.R
 \name{fit_brms_binomial}
 \alias{fit_brms_binomial}
-\title{Fit a binomial brms model}
+\title{Fit a brms model with count data}
 \usage{
 fit_brms_binomial(
   .formula,
@@ -22,7 +22,7 @@ fit_brms_binomial(
 
 \item{.data}{collapsed survey dataset, built from ccesMRPprep::build_counts}
 
-\item{.prior}{prior specification that can be interepreted by brms. The default
+\item{.prior}{prior specification that can be interpreted by brms. The default
 is a standard normal prior, which is tighter than the brms default but has
 shown to have good prior posterior draws}
 
@@ -36,5 +36,5 @@ shown to have good prior posterior draws}
 Fit brms regressions based on input data}
 }
 \description{
-Fit a binomial brms model
+Fit a brms model with count data
 }
