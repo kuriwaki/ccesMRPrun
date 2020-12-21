@@ -36,6 +36,7 @@
 #'
 #'
 #' @importFrom dplyr mutate group_by summarize filter rename bind_cols matches
+#'  across all_of
 #' @importFrom tibble as_tibble
 #' @importFrom brms posterior_epred
 #'
@@ -75,12 +76,21 @@ poststrat_draws <- function(model,
                                         cd_strat,
                                         yhat_name = "pred_n_yes")
 
-  # mean estimator
-  cd_est <- cds_draws %>%
-    mutate(qID = question_lbl) %>%
-    group_by(qID, cd, iter) %>%
-    summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
-              .groups = "drop")
+    # group
+    iter_grp_vars <- c("cd", "iter")
+    if ("question_lbl" %in% colnames(cds_draws)) {
+      cds_draws <- cds_draws %>%
+        mutate(qID = question_lbl)
+      iter_grp_vars <- c("qID", iter_grp_vars)
+    }
+
+    cd_grp <- cds_draws %>%
+      group_by(across(all_of(iter_grp_vars)))
+
+    # mean estimator
+    cd_est <- cd_grp %>%
+      summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
+                .groups = "drop")
   }
 
   # bernoulli
