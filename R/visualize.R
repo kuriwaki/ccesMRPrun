@@ -13,6 +13,8 @@
 #' @importFrom scales percent
 #' @importFrom ggrepel geom_text_repel
 #'
+#'
+#' @export
 scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
                        show_error = TRUE, ...) {
   xvar <- enquo(xvar)
@@ -79,8 +81,8 @@ error_lbl <- function(truth, estimate, show_metrics = c("rmse", "mean"),
                        unit = "pp")
 
 
-  show_lbl <- str_c(metrics_lbl[show_metrics], show_stat, sep = ": ") %>%
-    str_c(collapse = "\n")
+  show_lbl <- str_c(str_c(metrics_lbl[show_metrics], show_stat, sep = ": "),
+                    collapse = "\n")
 
   show_lbl
 }
