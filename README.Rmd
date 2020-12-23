@@ -26,11 +26,13 @@ To prepare, see <www.shirokuriwaki.com/ccesMRPprep>.
 
 This is a simple wrapper around `brms::brm` but with some custom priors and a binomial model as a default.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 ff <- "yes | trials(n_response) ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
+
+# turn into counts
 cc_count <- ccesMRPprep::build_counts(cces_GA, model_ff = ff)
 
-fit <- fit_brms_binomial(ff, cc_count)
+fit <- fit_brms_binomial(ff, cc_count, verbose = FALSE)
 ```
 
 
@@ -52,7 +54,21 @@ drw
 We often care about the posterior mean and 95 percent credible intervals of the draws. 
 
 ```{r}
-drw$qID <- "Clinton_2pty"
 summ_sims(drw)
+```
+
+
+```{r}
+mrp_val <- summ_sims(drw) %>% 
+  left_join(distinct(acs_GA, cd, clinton_vote))
+```
+
+```{r, fig.w  = 4, fig.h = 4, fig.align = "center"}
+library(ggrepel)
+
+scatter_45(mrp_val, clinton_vote, p_mrp_est,
+           xlab = "Clinton Vote",
+           ylab = "MRP Estimate") +
+  geom_text_repel(aes(label = cd))
 ```
 
