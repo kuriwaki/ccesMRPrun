@@ -10,7 +10,7 @@
 #'
 #'
 #' @import ggplot2
-#' @importFrom scales percent
+#' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
 #'
 #'
@@ -62,7 +62,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
 #'
 #' @param show_metrics The metrics to show. Defaults to RMSE and accuracy
 #'
-#' @importFrom scales percent
+#' @importFrom scales percent_format percent
 #' @importFrom stringr str_c
 #' @importFrom glue glue
 #'
