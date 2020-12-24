@@ -9,8 +9,11 @@
 #'   \item{clinton_vote}{Hillary Clinton's voteshare as a portion of all votes}
 #'   \item{clinton_vote_2way}{Hillary Clinton's voteshare as a portion of only
 #'    Clinton and Trump voters}
-#'   \item{response}{A binary variable of Presidential vote. See the source code
-#'    in \code{data-raw} to see exactly how.}
+#'   \item{weight}{YouGov post-stratification weights for pre-electin wave}
+#'   \item{weight_post}{YouGov post-stratification weights for post-electin wave}
+#'   \item{response}{A binary variable of Presidential vote for Clinton using
+#'    post-election survey. See the source code in \code{data-raw} to see exactly
+#'    how.}
 #'   ...
 #' }
 "cces_GA"

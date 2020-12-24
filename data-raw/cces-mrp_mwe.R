@@ -14,7 +14,7 @@ cc_st <- ccc %>%
   filter(st == "GA", year == 2016) %>%
   ccc_std_demographics() %>%
   mutate(female = as.numeric(gender == 2)) %>%
-  select(year, case_id, weight, cd, age, female, educ, race, pid3,
+  select(year, case_id, weight, weight_post, cd, age, female, educ, race, pid3,
          voted_pres_party, intent_pres_party, vv_turnout_gvm) %>%
   mutate_if(is.labelled, as_factor)
 
