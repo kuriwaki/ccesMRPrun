@@ -7,13 +7,14 @@
 fit_brms_binomial(
   .formula,
   .data,
+  verbose = TRUE,
   .prior = c(prior_string("normal(0, 1)", class = "b"), prior_string("normal(0, 1)",
     class = "sd"), prior_string("normal(0, 1)", class = "Intercept")),
   .iter = 2000,
   .warmup = floor(.iter/2),
   .cores = 4,
   .chains = 4,
-  verbose = TRUE,
+  .backend = "rstan",
   .seed = 2138
 )
 }
@@ -21,6 +22,8 @@ fit_brms_binomial(
 \item{.formula}{model specification}
 
 \item{.data}{collapsed survey dataset, built from ccesMRPprep::build_counts}
+
+\item{verbose}{Whether to show iteration messages}
 
 \item{.prior}{prior specification that can be interpreted by brms. The default
 is a standard normal prior, which is tighter than the brms default but has
@@ -30,10 +33,10 @@ shown to have good prior posterior draws}
 
 \item{.warmup}{Of the iterations, how much are burn-ins. Defaults to half.}
 
-\item{verbose}{Whether to show iteration messages}
+\item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
+be \code{"cmdstanr"}}
 
-\item{.seed}{seed for randomization to pass into brm
-Fit brms regressions based on input data}
+\item{.seed}{seed for randomization to pass into brm}
 }
 \description{
 Fit a brms model with count data

@@ -10,22 +10,35 @@
 #' @param .warmup Of the iterations, how much are burn-ins. Defaults to half.
 #' @param verbose Whether to show iteration messages
 #' @param .seed seed for randomization to pass into brm
-#' Fit brms regressions based on input data
+#' @param .backend The backend argument of brms. Defaults to `"rstan"`, can also
+#'  be `"cmdstanr"`
+#'
+#'
 #'
 #' @importFrom brms brm prior_string
 #'
 #' @export
 fit_brms_binomial <- function(.formula,
-                     .data,
-                     .prior = c(prior_string("normal(0, 1)", class = "b"),
-                                prior_string("normal(0, 1)", class = "sd"),
-                                prior_string("normal(0, 1)", class = "Intercept")),
-                     .iter = 2e3,
-                     .warmup = floor(.iter/2),
-                     .cores = 4,
-                     .chains = 4,
-                     verbose = TRUE,
-                     .seed = 02138) {
+                              .data,
+                              verbose = TRUE,
+                              .prior = c(prior_string("normal(0, 1)", class = "b"),
+                                         prior_string("normal(0, 1)", class = "sd"),
+                                         prior_string("normal(0, 1)", class = "Intercept")),
+                              .iter = 2e3,
+                              .warmup = floor(.iter/2),
+                              .cores = 4,
+                              .chains = 4,
+                              .backend = "rstan",
+                              .seed = 02138) {
+
+
+  RHS <- attr(terms(as.formula(.formula)), "term.labels")
+
+  # no "b" for RE only model
+  if (all(grepl(x = RHS, pattern = "|"))) {
+    .prior <- subset(.prior, class != "b")
+  }
+
     fit <- brm(formula = .formula,
                data = .data,
                family = binomial,
@@ -37,6 +50,7 @@ fit_brms_binomial <- function(.formula,
                control = list(adapt_delta = 0.95,
                               max_treedepth = 10),
                refresh = ifelse(verbose, 200, 0),
+               backend = .backend,
                seed = .seed)
   return(fit)
 }

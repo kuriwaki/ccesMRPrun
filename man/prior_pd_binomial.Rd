@@ -21,8 +21,7 @@ prior_pd_binomial(
 is a standard normal prior, which is tighter than the brms default but has
 shown to have good prior posterior draws}
 
-\item{.seed}{seed for randomization to pass into brm
-Fit brms regressions based on input data}
+\item{.seed}{seed for randomization to pass into brm}
 }
 \description{
 Use priors and covariates to generate a prior predictive distribution
