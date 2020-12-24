@@ -4,23 +4,33 @@ output: github_document
 ---
 
 <!-- badges: start -->
+
 [![R build status](https://github.com/kuriwaki/ccesMRPrun/workflows/R-CMD-check/badge.svg)](https://github.com/kuriwaki/ccesMRPrun/actions)
+
 <!-- badges: end -->
+
+This is a set of functions to facilitate running MRP models on CCES data and is a companion to [`ccesMRPprep`](www.shirokuriwaki.com/ccesMRPprep).
+
+To install,
 
 ```{r, eval = FALSE}
 remotes::install_github("kuriwaki/ccesMRPrun")
 ```
 
+The **main functions** in this package are:
 
-```{r, message=FALSE}
+1.  `fit_brms_binomial` for fitting a multilevel model
+2.  `poststrat_draws` for extracting posterior draws for each area
+3.  `summ_sims` for obtaining summary statistics from these draws
+4.  `scatter_45` for clearly visualizing the relationship between the truth and estimate
+
+  
+See below for a demonstration with an example in the state of Georgia.
+
+```{r, message=FALSE, warning=FALSE}
 library(ccesMRPrun)
 library(tidyverse)
 ```
-
-
-
-
-To prepare, see <www.shirokuriwaki.com/ccesMRPprep>. 
 
 # Fitting
 
@@ -29,46 +39,80 @@ This is a simple wrapper around `brms::brm` but with some custom priors and a bi
 ```{r, warning=FALSE, message=FALSE}
 ff <- "yes | trials(n_response) ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
 
+cc_voters <- filter(cces_GA, vv_turnout_gvm == "Voted")
+
 # turn into counts
-cc_count <- ccesMRPprep::build_counts(cces_GA, model_ff = ff)
+cc_count <- ccesMRPprep::build_counts(data = cc_voters,
+                                      model_ff = ff)
 
 fit <- fit_brms_binomial(ff, cc_count, verbose = FALSE)
+summary(fit)
 ```
-
-
 
 # Poststratification
 
-There are two main methods in this package: modeling and 
+There are two main methods in this package: modeling and
 
 ```{r}
-poststrat_GA <- acs_GA
 drw <- poststrat_draws(fit, 
-                       poststrat_tgt = poststrat_GA,
+                       poststrat_tgt = acs_GA,
                        orig_data = cc_count)
 drw
 ```
 
-# summaries
+# Summaries
 
-We often care about the posterior mean and 95 percent credible intervals of the draws. 
+We often care about the posterior mean and 95 percent credible intervals of the draws.
 
 ```{r}
 summ_sims(drw)
 ```
 
+Append the truth and a baseline raw-sample
 
 ```{r}
+dir_val <- group_by(cc_voters, cd) %>% 
+  summarize(p_raw = mean(response, na.rm = TRUE),
+            p_ygw = weighted.mean(response, weight_post, na.rm = TRUE), 
+            .groups = "drop")
+
 mrp_val <- summ_sims(drw) %>% 
-  left_join(distinct(acs_GA, cd, clinton_vote))
+  left_join(distinct(acs_GA, cd, clinton_vote), by = "cd") %>% 
+  left_join(dir_val, by = "cd")
 ```
 
-```{r, fig.w  = 4, fig.h = 4, fig.align = "center"}
+# Visualization
+
+A wrapper for visualizing the accuracy relationship
+
+```{r mrp-plot, fig.w  = 4, fig.h = 4, fig.align = "center"}
 library(ggrepel)
 
 scatter_45(mrp_val, clinton_vote, p_mrp_est,
            xlab = "Clinton Vote",
            ylab = "MRP Estimate") +
-  geom_text_repel(aes(label = cd))
+  geom_text_repel(aes(label = cd), alpha = 0.5)
 ```
 
+Compare this with raw estimates:
+
+```{r bsl-plot, echo = FALSE}
+library(patchwork)
+gg_raw <- scatter_45(mrp_val, clinton_vote, p_raw,
+                     xlab = "Clinton Vote",
+                     ylab = "Raw Average",
+                     xlim = c(0.19, 0.85),
+                     ylim = c(0.19, 0.85), 
+                     expand_axes = FALSE) +
+  geom_text_repel(aes(label = cd), alpha = 0.5)
+
+gg_ygw <- scatter_45(mrp_val, clinton_vote, p_ygw,
+                     xlab = "Clinton Vote",
+                     ylab = "Simple Weighted Average",
+                     xlim = c(0.19, 0.85),
+                     ylim = c(0.19, 0.85),
+                     expand_axes = FALSE) +
+  geom_text_repel(aes(label = cd), alpha = 0.5)
+
+gg_raw + gg_ygw
+```
