@@ -130,11 +130,14 @@ poststrat_draws <- function(model,
 #' @export
 pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_yes") {
 
+  # mod_draws is Iter by Cell
   stopifnot(ncol(mod_draws) == nrow(data_strat))
 
-  mod_draws %>%
-    t() %>%
-    as_tibble() %>%
+  # Transpose to Cell by Iter
+  draws_transposed <- t(mod_draws)
+  colnames(draws_transposed) <- paste0("V", 1:ncol(draws_transposed))
+
+  as_tibble(draws_transposed) %>%
     mutate(cell = 1:n()) %>%
     bind_cols(data_strat, .) %>%
     pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
