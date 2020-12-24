@@ -11,7 +11,10 @@ scatter_45(
   lblvar = NULL,
   xlab = NULL,
   ylab = NULL,
+  xlim = NULL,
+  ylim = NULL,
   show_error = TRUE,
+  expand_axes = TRUE,
   ...
 )
 }
@@ -22,9 +25,14 @@ scatter_45(
 
 \item{yvar}{Variable to put on y-axis, unquoted}
 
-\item{xlab, ylab}{X and y-axis labels, respectivey}
+\item{xlab, ylab}{x and y-axis labels, respectively}
+
+\item{xlim, ylim}{x and y-axis limits, respectively.}
 
 \item{show_error}{Whether or not to show the accuracy metrics in caption}
+
+\item{expand_axes}{Whether to expand the axes so that the plot is a square,
+even if there is more whitespace. Overrides xlim and ylim.}
 
 \item{...}{Additional arguments sent to the \code{error_lbl} function}
 }

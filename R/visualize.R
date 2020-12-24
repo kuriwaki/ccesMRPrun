@@ -3,8 +3,11 @@
 #' @param tbl dataset of summary statistics
 #' @param xvar Variable to put on x-axis, unquoted
 #' @param yvar Variable to put on y-axis, unquoted
-#' @param xlab,ylab X and y-axis labels, respectivey
+#' @param xlab,ylab x and y-axis labels, respectively
+#' @param xlim,ylim x and y-axis limits, respectively.
 #' @param show_error Whether or not to show the accuracy metrics in caption
+#' @param expand_axes Whether to expand the axes so that the plot is a square,
+#'  even if there is more whitespace. Overrides xlim and ylim.
 #' @param ... Additional arguments sent to the \code{error_lbl} function
 #'
 #'
@@ -12,25 +15,35 @@
 #' @import ggplot2
 #' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom dplyr pull
 #'
 #'
 #' @export
 scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
-                       show_error = TRUE, ...) {
+                       xlim = NULL,
+                       ylim = NULL,
+                       show_error = TRUE,
+                       expand_axes = TRUE, ...) {
   xvar <- enquo(xvar)
   yvar <- enquo(yvar)
 
+  axis_lim <- range(c(pull(tbl, !!xvar), pull(tbl, !!yvar)))
+
+  if (expand_axes) {
+    xlim = ylim = axis_lim
+    }
+
   gg0 <- ggplot(tbl, aes(x = {{xvar}}, y = {{yvar}})) +
     geom_point() +
-    coord_equal() +
+    coord_equal(xlim = xlim, ylim = ylim) +
     scale_x_continuous(labels = percent_format(accuracy = 1)) +
     scale_y_continuous(labels = percent_format(accuracy = 1)) +
     theme_bw()
 
   gg1 <- gg0 +
-    geom_abline(linetype = "dashed")
+    geom_abline(linetype = "dashed", alpha = 0.75)
 
-  if (!is.null(lblvar)){
+  if (!is.null(lblvar)) {
     gg1 <- gg1 +
       geom_text_repel()
   }
@@ -40,7 +53,6 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
 
   if (!is.null(ylab))
     gg1 <- gg1 + labs(y = ylab)
-
 
   if (show_error) {
     err_txt <- error_lbl(truth = pull(tbl, !!xvar),
@@ -78,7 +90,7 @@ error_lbl <- function(truth, estimate, show_metrics = c("rmse", "mean"),
 
   show_stat <- percent(stat_vec[show_metrics],
                        accuracy = pp_accuracy,
-                       unit = "pp")
+                       suffix = "pp")
 
 
   show_lbl <- str_c(str_c(metrics_lbl[show_metrics], show_stat, sep = ": "),
@@ -88,6 +100,3 @@ error_lbl <- function(truth, estimate, show_metrics = c("rmse", "mean"),
 }
 
 
-
-error_lbl(runif(10), runif(10))
-error_lbl(runif(10), runif(10))
