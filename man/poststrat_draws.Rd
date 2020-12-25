@@ -28,8 +28,8 @@ be used to (1) subset the poststratification, to areas only in the survey, and
 a shorthand for the outcome variable. This is useful when you want to preserve
 the outcome or description of multiple models.}
 
-\item{area_var}{A character string for the variable name for area to group
-and summarize by. Defaults to \code{"cd"}}
+\item{area_var}{A character string for the variable name(s) for area to group
+and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 
 \item{count_var}{A character string for the variable name for the population
 count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is

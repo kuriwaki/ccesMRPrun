@@ -10,8 +10,8 @@
 #' @param question_lbl A character string that indicates the outcome, e.g.
 #'  a shorthand for the outcome variable. This is useful when you want to preserve
 #'  the outcome or description of multiple models.
-#' @param area_var A character string for the variable name for area to group
-#'  and summarize by. Defaults to `"cd"`
+#' @param area_var A character string for the variable name(s) for area to group
+#'  and aggregate by. That is, the area of interest in MRP. Defaults to `"cd"`
 #' @param count_var A character string for the variable name for the population
 #'  count in the `poststrat_tgt` dataframe. This will be renamed as if it is
 #'  a trial count in the model. Defaults to `"count"`.
@@ -52,11 +52,11 @@ poststrat_draws <- function(model,
 
   # districts (CDs) to loop through
   if (!is.null(orig_data)) {
-    cds <- intersect(unique(poststrat_tgt[[area_var]]),
+    areas <- intersect(unique(poststrat_tgt[[area_var]]),
                      unique(orig_data[[area_var]]))
 
     # subset to predict on
-    poststrat_tgt <- poststrat_tgt[poststrat_tgt[[area_var]] %in% cds, ]
+    poststrat_tgt <- poststrat_tgt[poststrat_tgt[[area_var]] %in% areas, ]
   }
 
 
@@ -69,26 +69,28 @@ poststrat_draws <- function(model,
                              allow_new_levels = new_levels,
                              summary = FALSE)
 
+  # group by variables
+  iter_grp_vars <- c(area_var, "iter")
+
+  if ("question_lbl" %in% colnames(cds_draws))
+    iter_grp_vars <- c("qID", iter_grp_vars)
+
 
   # binomial (yes | n_response model)
   if (model$family$family == "binomial") {
-    cds_draws <- pivot_celldraws_longer(p_draws,
-                                        cd_strat,
-                                        yhat_name = "pred_n_yes")
+    areas_draws <- pivot_celldraws_longer(
+      mod_draws = p_draws,
+      data_strat = cd_strat,
+      yhat_name = "pred_n_yes")
 
-    # group
-    iter_grp_vars <- c("cd", "iter")
-    if ("question_lbl" %in% colnames(cds_draws)) {
-      cds_draws <- cds_draws %>%
-        mutate(qID = question_lbl)
-      iter_grp_vars <- c("qID", iter_grp_vars)
-    }
+    if ("question_lbl" %in% colnames(areas_draws))
+      areas_draws <-  mutate(areas_draws, qID = question_lbl)
 
-    cd_grp <- cds_draws %>%
+    areas_grp <- cds_draws %>%
       group_by(across(all_of(iter_grp_vars)))
 
     # mean estimator
-    cd_est <- cd_grp %>%
+    areas_est <- areas_grp %>%
       summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
                 .groups = "drop")
   }
@@ -96,14 +98,14 @@ poststrat_draws <- function(model,
   # bernoulli
   if (model$family$family == "bernoulli") {
 
-    cds_draws <- pivot_celldraws_longer(p_draws,
+    areas_draws <- pivot_celldraws_longer(p_draws,
                                         cd_strat,
                                         yhat_name = "pred_yes")
 
     # mean estimator
-    cd_est <- cds_draws %>%
+    areas_est <- areas_grp %>%
       mutate(qID = question_lbl) %>%
-      group_by(qID, cd, iter) %>%
+      group_by(across(all_of(iter_grp_vars))) %>%
       summarize(p_mrp =  sum(pred_yes*n_response) / sum(n_response), # n_response still a misnomer, more like N in this case
                 .groups = "drop")
 

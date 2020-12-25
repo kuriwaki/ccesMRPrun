@@ -90,7 +90,6 @@ fit_brms <- function(.formula,
   formula_binomial <-
     glue("{name_ones_as} | trials({name_trls_as}) ~ {as.character(as.formula(.formula)[3])}")
 
-  print(formula_binomial)
 
   fit <- fit_brms_binomial(.formula = formula_binomial,
                            .data = df_count,
