@@ -26,6 +26,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
                        expand_axes = TRUE, ...) {
   xvar <- enquo(xvar)
   yvar <- enquo(yvar)
+  lblvar <- enquo(lblvar)
 
   axis_lim <- range(c(pull(tbl, !!xvar), pull(tbl, !!yvar)))
 
@@ -45,7 +46,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
 
   if (!is.null(lblvar)) {
     gg1 <- gg1 +
-      geom_text_repel()
+      geom_text_repel(aes(label = {{lblvar}}), alpha = 0.5)
   }
 
   if (!is.null(xlab))
