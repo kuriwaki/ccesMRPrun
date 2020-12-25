@@ -19,7 +19,7 @@ remotes::install_github("kuriwaki/ccesMRPrun")
 
 The **main functions** in this package are:
 
-1.  `fit_brms_binomial` for fitting a multilevel model
+1.  `fit_brms` for fitting a multilevel model (or `fit_brms_binomial`)
 2.  `poststrat_draws` for extracting posterior draws for each area
 3.  `summ_sims` for obtaining summary statistics from these draws
 4.  `scatter_45` for clearly visualizing the relationship between the truth and estimate
@@ -37,26 +37,23 @@ library(tidyverse)
 This is a simple wrapper around `brms::brm` but with some custom priors and a binomial model as a default.
 
 ```{r, warning=FALSE, message=FALSE}
-ff <- "yes | trials(n_response) ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
+form <- "response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
 
 cc_voters <- filter(cces_GA, vv_turnout_gvm == "Voted")
 
 # turn into counts
-cc_count <- ccesMRPprep::build_counts(data = cc_voters,
-                                      model_ff = ff)
+fit <- fit_brms(form, cc_voters, verbose = FALSE)
 
-fit <- fit_brms_binomial(ff, cc_count, verbose = FALSE)
 summary(fit)
 ```
 
 # Poststratification
 
-There are two main methods in this package: modeling and
+We can take predicted values from each of the MCMC draws, and aggregate it up to the area of interest.
 
 ```{r}
 drw <- poststrat_draws(fit, 
-                       poststrat_tgt = acs_GA,
-                       orig_data = cc_count)
+                       poststrat_tgt = acs_GA)
 drw
 ```
 
@@ -86,33 +83,28 @@ mrp_val <- summ_sims(drw) %>%
 A wrapper for visualizing the accuracy relationship
 
 ```{r mrp-plot, fig.w  = 4, fig.h = 4, fig.align = "center"}
-library(ggrepel)
-
-scatter_45(mrp_val, clinton_vote, p_mrp_est,
+scatter_45(mrp_val, clinton_vote, p_mrp_est, cd,
            xlab = "Clinton Vote",
-           ylab = "MRP Estimate") +
-  geom_text_repel(aes(label = cd), alpha = 0.5)
+           ylab = "MRP Estimate")
 ```
 
 Compare this with raw estimates:
 
 ```{r bsl-plot, echo = FALSE}
 library(patchwork)
-gg_raw <- scatter_45(mrp_val, clinton_vote, p_raw,
+gg_raw <- scatter_45(mrp_val, clinton_vote, p_raw, cd,
                      xlab = "Clinton Vote",
                      ylab = "Raw Average",
                      xlim = c(0.19, 0.85),
                      ylim = c(0.19, 0.85), 
-                     expand_axes = FALSE) +
-  geom_text_repel(aes(label = cd), alpha = 0.5)
+                     expand_axes = FALSE)
 
-gg_ygw <- scatter_45(mrp_val, clinton_vote, p_ygw,
+gg_ygw <- scatter_45(mrp_val, clinton_vote, p_ygw, cd,
                      xlab = "Clinton Vote",
                      ylab = "Simple Weighted Average",
                      xlim = c(0.19, 0.85),
                      ylim = c(0.19, 0.85),
-                     expand_axes = FALSE) +
-  geom_text_repel(aes(label = cd), alpha = 0.5)
+                     expand_axes = FALSE)
 
 gg_raw + gg_ygw
 ```

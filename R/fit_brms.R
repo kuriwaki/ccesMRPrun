@@ -56,4 +56,46 @@ fit_brms_binomial <- function(.formula,
 }
 
 
+#' Fit a binary model for MRP
+#'
+#' Internally, it creates a count version of the individual-data via
+#' `ccesMRPprep::build_counts` and then runs the regression in `fit_brms_binomial`.
+#'
+#'
+#' @inheritParams fit_brms_binomial
+#' @inheritDotParams fit_brms_binomial
+#' @param .formula Formula in `binary y ~ (1|x1) + (1|x2)` form.
+#' @param .data Individual-level dataset
+#'
+#'
+#' @importFrom ccesMRPprep build_counts
+#'
+#'
+#' @examples
+#' fit <- fit_brms(response ~ (1|educ) + (1|cd), cces_GA)
+#'
+#'
+#' @export
+fit_brms <- function(.formula,
+                     .data,
+                     name_ones_as = "yes",
+                     name_trls_as = "n_response",
+                     ...) {
+
+  df_count <- build_counts(formula = .formula,
+                           data = .data,
+                           name_ones_as = name_ones_as,
+                           name_trls_as = name_trls_as)
+
+  formula_binomial <-
+    glue("{name_ones_as} | trials({name_trls_as}) ~ {as.character(as.formula(.formula)[3])}")
+
+  print(formula_binomial)
+
+  fit <- fit_brms_binomial(.formula = formula_binomial,
+                           .data = df_count,
+                           ...)
+
+}
+
 

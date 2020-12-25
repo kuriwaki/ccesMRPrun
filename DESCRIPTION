@@ -17,6 +17,7 @@ Imports:
     dplyr,
     readr,
     tibble,
+    ccesMRPprep (>= 0.1.7),
     tidyr (>= 1.0.0)
 Language: en-US
 Roxygen: list(markdown = TRUE)
