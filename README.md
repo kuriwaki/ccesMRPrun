@@ -20,7 +20,7 @@ remotes::install_github("kuriwaki/ccesMRPrun")
 
 The **main functions** in this package are:
 
-1.  `fit_brms_binomial` for fitting a multilevel model
+1.  `fit_brms` for fitting a multilevel model (or `fit_brms_binomial`)
 2.  `poststrat_draws` for extracting posterior draws for each area
 3.  `summ_sims` for obtaining summary statistics from these draws
 4.  `scatter_45` for clearly visualizing the relationship between the
@@ -39,17 +39,15 @@ This is a simple wrapper around `brms::brm` but with some custom priors
 and a binomial model as a default.
 
 ``` r
-ff <- "yes | trials(n_response) ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
+form <- "response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
 
 cc_voters <- filter(cces_GA, vv_turnout_gvm == "Voted")
 
 # turn into counts
-cc_count <- ccesMRPprep::build_counts(data = cc_voters,
-                                      model_ff = ff)
-
-fit <- fit_brms_binomial(ff, cc_count, verbose = FALSE)
+fit <- fit_brms(form, cc_voters, verbose = FALSE)
 ```
 
+    ## yes | trials(n_response) ~ (1 | age) + (1 + female | educ) + clinton_vote + (1 | cd)
     ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
     ## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
     ## In file included from <built-in>:1:
@@ -113,12 +111,12 @@ summary(fit)
 
 # Poststratification
 
-There are two main methods in this package: modeling and
+We can take predicted values from each of the MCMC draws, and aggregate
+it up to the area of interest.
 
 ``` r
 drw <- poststrat_draws(fit, 
-                       poststrat_tgt = acs_GA,
-                       orig_data = cc_count)
+                       poststrat_tgt = acs_GA)
 drw
 ```
 
@@ -183,12 +181,9 @@ mrp_val <- summ_sims(drw) %>%
 A wrapper for visualizing the accuracy relationship
 
 ``` r
-library(ggrepel)
-
-scatter_45(mrp_val, clinton_vote, p_mrp_est,
+scatter_45(mrp_val, clinton_vote, p_mrp_est, cd,
            xlab = "Clinton Vote",
-           ylab = "MRP Estimate") +
-  geom_text_repel(aes(label = cd), alpha = 0.5)
+           ylab = "MRP Estimate")
 ```
 
 <img src="README_files/figure-gfm/mrp-plot-1.png" style="display: block; margin: auto;" />
