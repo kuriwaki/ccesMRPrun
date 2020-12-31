@@ -19,6 +19,11 @@ error_lbl(
 In fact, the metrics are invariant to which goes in which.}
 
 \item{show_metrics}{The metrics to show. Defaults to RMSE and accuracy}
+
+\item{metrics_lbl}{The labels to show for each metric. Named vaector}
+
+\item{pp_accuracy}{Significant digits for percentage points. Corresponds to
+the accuracy argument in scales::percent}
 }
 \description{
 Labels for accuracy metric

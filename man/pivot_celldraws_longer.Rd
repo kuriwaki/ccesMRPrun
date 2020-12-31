@@ -7,13 +7,13 @@
 pivot_celldraws_longer(mod_draws, data_strat, yhat_name = "pred_n_yes")
 }
 \arguments{
+\item{mod_draws}{Output from \code{posterior_*pred}, which is of dimension
+\code{Iter} (in rows) by \code{Cells} (in columns)}
+
 \item{data_strat}{Covariates to append to. The number of rows should be
 the number of \code{Cells}}
 
 \item{yhat_name}{The name of the value for the predicted outcome.}
-
-\item{model_draws}{Output from \code{posterior_*pred}, which is of dimension
-\code{Iter} (in rows) by \code{Cells} (in columns)}
 }
 \value{
 A tidy long dataset with \code{Iter} x \code{Cells} rows. Columns

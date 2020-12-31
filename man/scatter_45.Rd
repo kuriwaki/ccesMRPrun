@@ -13,6 +13,7 @@ scatter_45(
   ylab = NULL,
   xlim = NULL,
   ylim = NULL,
+  modelvar = NULL,
   show_error = TRUE,
   expand_axes = TRUE,
   ...
@@ -24,6 +25,8 @@ scatter_45(
 \item{xvar}{Variable to put on x-axis, unquoted}
 
 \item{yvar}{Variable to put on y-axis, unquoted}
+
+\item{lblvar}{Variable to use as labels for geom_text_repel, unquoted}
 
 \item{xlab, ylab}{x and y-axis labels, respectively}
 

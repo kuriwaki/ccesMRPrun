@@ -15,10 +15,17 @@ Depends:
 Imports:
     brms (>= 2.13.0),
     dplyr,
+    stats,
     readr,
     tibble,
     ccesMRPprep (>= 0.1.7),
-    tidyr (>= 1.0.0)
+    tidyr (>= 1.0.0),
+    ggplot2,
+    ggrepel,
+    glue,
+    scales, 
+    stringr
+Remotes: kuriwaki/ccesMRPprep
 Language: en-US
 Roxygen: list(markdown = TRUE)
 License: GPL (>= 3)

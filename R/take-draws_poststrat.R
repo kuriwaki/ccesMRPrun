@@ -50,7 +50,7 @@ poststrat_draws <- function(model,
                             count_var = "count",
                             new_levels = FALSE) {
 
-  # districts (CDs) to loop through
+  # districts (CDs) to loop through. Remove extra in post-strat target
   if (!is.null(orig_data)) {
     areas <- intersect(unique(poststrat_tgt[[area_var]]),
                      unique(orig_data[[area_var]]))
@@ -61,18 +61,18 @@ poststrat_draws <- function(model,
 
 
   # rename variable for MRP est
-  cd_strat <- rename(poststrat_tgt, n_response = {{count_var}})
+  areas_strat <- rename(poststrat_tgt, n_response = {{count_var}})
 
   # draw, then reshape to tidy form
   p_draws <- posterior_epred(model,
-                             newdata = cd_strat,
+                             newdata = areas_strat,
                              allow_new_levels = new_levels,
                              summary = FALSE)
 
   # group by variables
   iter_grp_vars <- c(area_var, "iter")
 
-  if ("question_lbl" %in% colnames(cds_draws))
+  if ("question_lbl" %in% colnames(areas_strat))
     iter_grp_vars <- c("qID", iter_grp_vars)
 
 
@@ -80,13 +80,13 @@ poststrat_draws <- function(model,
   if (model$family$family == "binomial") {
     areas_draws <- pivot_celldraws_longer(
       mod_draws = p_draws,
-      data_strat = cd_strat,
+      data_strat = areas_strat,
       yhat_name = "pred_n_yes")
 
     if ("question_lbl" %in% colnames(areas_draws))
       areas_draws <-  mutate(areas_draws, qID = question_lbl)
 
-    areas_grp <- cds_draws %>%
+    areas_grp <- areas_draws %>%
       group_by(across(all_of(iter_grp_vars)))
 
     # mean estimator
@@ -98,9 +98,10 @@ poststrat_draws <- function(model,
   # bernoulli
   if (model$family$family == "bernoulli") {
 
-    areas_draws <- pivot_celldraws_longer(p_draws,
-                                        cd_strat,
-                                        yhat_name = "pred_yes")
+    areas_draws <- pivot_celldraws_longer(
+      p_draws,
+      areas_strat,
+      yhat_name = "pred_yes")
 
     # mean estimator
     areas_est <- areas_grp %>%
@@ -110,13 +111,13 @@ poststrat_draws <- function(model,
                 .groups = "drop")
 
   }
-  cd_est
+  areas_est
 }
 
 
 #' Take output from brms prediction and turn to tidy form
 #'
-#' @param model_draws Output from `posterior_*pred`, which is of dimension
+#' @param mod_draws Output from `posterior_*pred`, which is of dimension
 #'  `Iter` (in rows) by `Cells` (in columns)
 #' @param data_strat Covariates to append to. The number of rows should be
 #'  the number of `Cells`

@@ -66,13 +66,17 @@ fit_brms_binomial <- function(.formula,
 #' @inheritDotParams fit_brms_binomial
 #' @param .formula Formula in `binary y ~ (1|x1) + (1|x2)` form.
 #' @param .data Individual-level dataset
-#'
+#' @param name_trls_as The name for the variable name of the number of trials
+#' @param name_ones_as The name for the variable name for the number of successes
 #'
 #' @importFrom ccesMRPprep build_counts
+#' @importFrom glue glue
 #'
 #'
 #' @examples
+#' \dontrun{
 #' fit <- fit_brms(response ~ (1|educ) + (1|cd), cces_GA)
+#' }
 #'
 #'
 #' @export

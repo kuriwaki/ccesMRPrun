@@ -17,6 +17,10 @@ fit_brms(
 
 \item{.data}{Individual-level dataset}
 
+\item{name_ones_as}{The name for the variable name for the number of successes}
+
+\item{name_trls_as}{The name for the variable name of the number of trials}
+
 \item{...}{
   Arguments passed on to \code{\link[=fit_brms_binomial]{fit_brms_binomial}}
   \describe{
@@ -36,7 +40,9 @@ Internally, it creates a count version of the individual-data via
 \code{ccesMRPprep::build_counts} and then runs the regression in \code{fit_brms_binomial}.
 }
 \examples{
+\dontrun{
 fit <- fit_brms(response ~ (1|educ) + (1|cd), cces_GA)
+}
 
 
 }

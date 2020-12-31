@@ -24,7 +24,6 @@ The **main functions** in this package are:
 3.  `summ_sims` for obtaining summary statistics from these draws
 4.  `scatter_45` for clearly visualizing the relationship between the truth and estimate
 
-  
 See below for a demonstration with an example in the state of Georgia.
 
 ```{r, message=FALSE, warning=FALSE}

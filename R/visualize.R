@@ -3,6 +3,7 @@
 #' @param tbl dataset of summary statistics
 #' @param xvar Variable to put on x-axis, unquoted
 #' @param yvar Variable to put on y-axis, unquoted
+#' @param lblvar Variable to use as labels for geom_text_repel, unquoted
 #' @param xlab,ylab x and y-axis labels, respectively
 #' @param xlim,ylim x and y-axis limits, respectively.
 #' @param show_error Whether or not to show the accuracy metrics in caption
@@ -19,9 +20,11 @@
 #'
 #'
 #' @export
-scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
+scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
+                       xlab = NULL, ylab = NULL,
                        xlim = NULL,
                        ylim = NULL,
+                       modelvar = NULL,
                        show_error = TRUE,
                        expand_axes = TRUE, ...) {
   xvar <- enquo(xvar)
@@ -72,8 +75,10 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL, xlab = NULL, ylab = NULL,
 #' @param truth Vector of true values
 #' @param estimate Vector of estimates, must be the same length as \code{truth}.
 #'  In fact, the metrics are invariant to which goes in which.
-#'
 #' @param show_metrics The metrics to show. Defaults to RMSE and accuracy
+#' @param metrics_lbl The labels to show for each metric. Named vaector
+#' @param pp_accuracy Significant digits for percentage points. Corresponds to
+#' the accuracy argument in scales::percent
 #'
 #' @importFrom scales percent_format percent
 #' @importFrom stringr str_c
@@ -99,5 +104,7 @@ error_lbl <- function(truth, estimate, show_metrics = c("rmse", "mean"),
 
   show_lbl
 }
+
+
 
 

@@ -3,6 +3,8 @@
 #' @param  sims output of \link{poststrat_draws}
 #'
 #' @importFrom dplyr group_by summarize across all_of
+#' @importFrom stats quantile
+#'
 #' @export
 summ_sims <- function(sims) {
 
