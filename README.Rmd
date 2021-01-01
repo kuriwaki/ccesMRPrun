@@ -107,3 +107,21 @@ gg_ygw <- scatter_45(mrp_val, clinton_vote, p_ygw, cd,
 
 gg_raw + gg_ygw
 ```
+
+It may be easier to store the models in long form and show them at once.
+
+```{r long-plot}
+# reshape to long
+mrp_long <- mrp_val %>% 
+    select(cd, p_mrp_est, p_raw, p_ygw, clinton_vote) %>% 
+    pivot_longer(-c(cd, clinton_vote), names_to = "model") 
+
+# plot
+scatter_45(mrp_long, 
+           clinton_vote, 
+           value, 
+           by_form = ~model,
+           by_labels = c(p_mrp_est = "MRP", p_raw = "Raw", p_ygw = "YouGov Weighted"),
+           xlab = "Clinton Vote",
+           ylab = "Estimate")
+```

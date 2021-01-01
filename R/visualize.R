@@ -6,6 +6,12 @@
 #' @param lblvar Variable to use as labels for geom_text_repel, unquoted
 #' @param xlab,ylab x and y-axis labels, respectively
 #' @param xlim,ylim x and y-axis limits, respectively.
+#' @param by_form If the dataset is in long form with separate rows for different
+#'  model estimates, you can supply a formula to be passed on to `facet_wrap()` to
+#'  have separate facets for each model.
+#' @param by_labels A named vector for the facets, where the names are the names
+#' of the unqiue values of the variable by specified in `by_form` (e.g. "model") and
+#' the values are the corresponding characters to recode to.
 #' @param show_error Whether or not to show the accuracy metrics in caption
 #' @param expand_axes Whether to expand the axes so that the plot is a square,
 #'  even if there is more whitespace. Overrides xlim and ylim.
@@ -16,7 +22,10 @@
 #' @import ggplot2
 #' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom dplyr pull
+#' @importFrom stringr str_replace str_trim
+#' @importFrom dplyr pull enquo
+#' @importFrom tibble enframe
+#' @importFrom purrr is_formula
 #'
 #'
 #' @export
@@ -24,12 +33,16 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        xlab = NULL, ylab = NULL,
                        xlim = NULL,
                        ylim = NULL,
-                       modelvar = NULL,
+                       by_form = NULL,
+                       by_labels = NULL,
                        show_error = TRUE,
                        expand_axes = TRUE, ...) {
   xvar <- enquo(xvar)
   yvar <- enquo(yvar)
   lblvar <- enquo(lblvar)
+  lbl_name <- quo_name(lblvar)
+  if (!is.null(by_form))
+    stopifnot(is_formula(by_form))
 
   axis_lim <- range(c(pull(tbl, !!xvar), pull(tbl, !!yvar)))
 
@@ -47,7 +60,14 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
   gg1 <- gg0 +
     geom_abline(linetype = "dashed", alpha = 0.75)
 
-  if (!is.null(lblvar)) {
+  if (!is.null(by_form)) {
+    form_char <- str_trim(str_remove(attr(terms(by_form), "term.labels"), "~"))
+    formvar <- enquo(form_char)
+    gg1 <- gg1 +
+      facet_wrap(by_form, labeller = as_labeller(by_labels))
+  }
+
+  if (lbl_name != "NULL") {
     gg1 <- gg1 +
       geom_text_repel(aes(label = {{lblvar}}), alpha = 0.5)
   }
@@ -59,11 +79,27 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     gg1 <- gg1 + labs(y = ylab)
 
   if (show_error) {
-    err_txt <- error_lbl(truth = pull(tbl, !!xvar),
-                         estimate = pull(tbl, !!yvar),
-                         ...)
-    gg1 <- gg1 +
-      labs(caption = err_txt)
+    if (is.null(by_form)) {
+      err_txt <- error_lbl(truth = pull(tbl, !!xvar),
+                           estimate = pull(tbl, !!yvar),
+                           ...)
+      gg1 <- gg1 +
+        labs(caption = err_txt)
+    }
+
+    # separate stats by model
+    if (!is.null(by_form)) {
+      err_df <- tbl %>%
+        group_by(across(all_of(form_char))) %>%
+        summarize(text_to_show = error_lbl(!!xvar, !!yvar),
+                  .groups = "drop")
+
+      gg1 <- gg1 +
+        geom_text(data = err_df,
+                  mapping = aes(label = text_to_show),
+                  x = Inf, y = -Inf, hjust = 1.1, vjust = -0.5,
+                  lineheight = 1, size = 2)
+    }
   }
 
   gg1

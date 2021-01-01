@@ -47,7 +47,6 @@ cc_voters <- filter(cces_GA, vv_turnout_gvm == "Voted")
 fit <- fit_brms(form, cc_voters, verbose = FALSE)
 ```
 
-    ## yes | trials(n_response) ~ (1 | age) + (1 + female | educ) + clinton_vote + (1 | cd)
     ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
     ## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
     ## In file included from <built-in>:1:
@@ -191,3 +190,23 @@ scatter_45(mrp_val, clinton_vote, p_mrp_est, cd,
 Compare this with raw estimates:
 
 ![](README_files/figure-gfm/bsl-plot-1.png)<!-- -->
+
+It may be easier to store the models in long form and show them at once.
+
+``` r
+# reshape to long
+mrp_long <- mrp_val %>% 
+    select(cd, p_mrp_est, p_raw, p_ygw, clinton_vote) %>% 
+    pivot_longer(-c(cd, clinton_vote), names_to = "model") 
+
+# plot
+scatter_45(mrp_long, 
+           clinton_vote, 
+           value, 
+           by_form = ~model,
+           by_labels = c(p_mrp_est = "MRP", p_raw = "Raw", p_ygw = "YouGov Weighted"),
+           xlab = "Clinton Vote",
+           ylab = "Estimate")
+```
+
+![](README_files/figure-gfm/long-plot-1.png)<!-- -->

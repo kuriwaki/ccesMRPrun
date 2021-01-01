@@ -13,7 +13,8 @@ scatter_45(
   ylab = NULL,
   xlim = NULL,
   ylim = NULL,
-  modelvar = NULL,
+  by_form = NULL,
+  by_labels = NULL,
   show_error = TRUE,
   expand_axes = TRUE,
   ...
@@ -31,6 +32,14 @@ scatter_45(
 \item{xlab, ylab}{x and y-axis labels, respectively}
 
 \item{xlim, ylim}{x and y-axis limits, respectively.}
+
+\item{by_form}{If the dataset is in long form with separate rows for different
+model estimates, you can supply a formula to be passed on to \code{facet_wrap()} to
+have separate facets for each model.}
+
+\item{by_labels}{A named vector for the facets, where the names are the names
+of the unqiue values of the variable by specified in \code{by_form} (e.g. "model") and
+the values are the corresponding characters to recode to.}
 
 \item{show_error}{Whether or not to show the accuracy metrics in caption}
 
