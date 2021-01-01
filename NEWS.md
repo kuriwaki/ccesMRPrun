@@ -1,3 +1,13 @@
+# ccesMRPrun 0.0.4++
+
+# ccesMRPrun 0.0.4
+
+
+* Adds an example dataset from Georgia, replicable in `data-raw`
+* Create `fit_brms` as wrapper
+* Be less strict about requiring a question attribute
+* Create visualization functions `scatter_45`, which can also make facetted graphs
+
 # ccesMRPrun 0.0.3
 
 * Allow different levels of iterations, separate prior PD
