@@ -18,6 +18,7 @@ Imports:
     stats,
     readr,
     tibble,
+    purrr,
     ccesMRPprep (>= 0.1.7),
     tidyr (>= 1.0.0),
     ggplot2,
