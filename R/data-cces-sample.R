@@ -26,3 +26,10 @@
 #' Post-stratification dataset for \code{cces_GA}.
 #'
 "acs_GA"
+
+
+
+#' Fitted brms model
+#'
+#'
+"fit_GA"
