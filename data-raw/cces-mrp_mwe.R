@@ -35,4 +35,19 @@ cc_df$response <- as.numeric(cc_df$voted_pres_party == "Democratic")
 # rename
 cces_GA <- cc_df
 
+# model
+form <- "response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)"
+fit_GA <- fit_brms(form, cces_GA, verbose = FALSE)
+
+
+# draws
+data("acs_GA", package = "ccesMRPrun")
+drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+
+
+# summaries
+summ_GA <- summ_sims(drw_GA)
+
+# Save
 usethis::use_data(cces_GA, overwrite = TRUE)
+usethis::use_data(fit_GA, overwrite = TRUE)
