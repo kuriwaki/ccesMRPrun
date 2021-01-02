@@ -7,8 +7,14 @@
 prior_pd_binomial(
   .formula,
   .data,
+  verbose = TRUE,
   .prior = c(prior_string("normal(0, 1)", class = "b"), prior_string("normal(0, 1)",
     class = "sd"), prior_string("normal(0, 1)", class = "Intercept")),
+  .iter = 1000,
+  .warmup = floor(.iter/2),
+  .cores = 2,
+  .chains = 2,
+  .backend = "rstan",
   .seed = 2138
 )
 }
@@ -17,9 +23,18 @@ prior_pd_binomial(
 
 \item{.data}{collapsed survey dataset, built from ccesMRPprep::build_counts}
 
+\item{verbose}{Whether to show iteration messages}
+
 \item{.prior}{prior specification that can be interpreted by brms. The default
 is a standard normal prior, which is tighter than the brms default but has
 shown to have good prior posterior draws}
+
+\item{.iter}{Number of total iterations.}
+
+\item{.warmup}{Of the iterations, how much are burn-ins. Defaults to half.}
+
+\item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
+be \code{"cmdstanr"}}
 
 \item{.seed}{seed for randomization to pass into brm}
 }

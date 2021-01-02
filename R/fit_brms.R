@@ -6,6 +6,8 @@
 #' @param .prior prior specification that can be interpreted by brms. The default
 #'   is a standard normal prior, which is tighter than the brms default but has
 #'   shown to have good prior posterior draws
+#' @param .cores Number of cores to uses
+#' @param .chains Number of chains to pass on fit_brms
 #' @param .iter Number of total iterations.
 #' @param .warmup Of the iterations, how much are burn-ins. Defaults to half.
 #' @param verbose Whether to show iteration messages
