@@ -23,9 +23,10 @@
 #' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom stringr str_replace str_trim
-#' @importFrom dplyr pull enquo
+#' @importFrom dplyr pull enquo `%>%`
 #' @importFrom tibble enframe
 #' @importFrom purrr is_formula
+#' @importFrom stats terms
 #'
 #'
 #' @export
@@ -91,7 +92,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     if (!is.null(by_form)) {
       err_df <- tbl %>%
         group_by(across(all_of(form_char))) %>%
-        summarize(text_to_show = error_lbl(!!xvar, !!yvar),
+        summarize(text_to_show = error_lbl({{xvar}}, {{yvar}}),
                   .groups = "drop")
 
       gg1 <- gg1 +

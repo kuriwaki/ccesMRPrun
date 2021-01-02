@@ -40,6 +40,12 @@
 #' @importFrom tibble as_tibble
 #' @importFrom brms posterior_epred
 #'
+#' @examples
+#' class(fit_GA) # brms object
+#' head(acs_GA) # dataset
+#'
+#' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+#'
 #'
 #' @export
 poststrat_draws <- function(model,
@@ -91,7 +97,7 @@ poststrat_draws <- function(model,
 
     # mean estimator
     areas_est <- areas_grp %>%
-      summarize(p_mrp = sum(pred_n_yes) / sum(n_response),
+      summarize(p_mrp = sum(.data$pred_n_yes) / sum(.data$n_response),
                 .groups = "drop")
   }
 
@@ -129,6 +135,10 @@ poststrat_draws <- function(model,
 #'
 #' @importFrom tidyr pivot_longer
 #' @importFrom readr parse_number
+#' @importFrom dplyr `%>%` n
+#'
+#' @examples
+#'
 #'
 #' @export
 pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_yes") {
@@ -142,7 +152,7 @@ pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_ye
 
   as_tibble(draws_transposed) %>%
     mutate(cell = 1:n()) %>%
-    bind_cols(data_strat, .) %>%
+    bind_cols(data_strat, .data) %>%
     pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
     mutate(iter = parse_number(iter))
 }

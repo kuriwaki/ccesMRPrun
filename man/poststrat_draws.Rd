@@ -56,3 +56,11 @@ It contains the columns
 \description{
 Get MCMC draws of post-stratified estimate of demog x cd cells
 }
+\examples{
+class(fit_GA) # brms object
+head(acs_GA) # dataset
+
+drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+
+
+}
