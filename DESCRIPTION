@@ -26,7 +26,8 @@ Imports:
     glue,
     scales, 
     stringr
-Remotes: kuriwaki/ccesMRPprep
+Remotes:
+    kuriwaki/ccesMRPprep
 Language: en-US
 Roxygen: list(markdown = TRUE)
 License: GPL (>= 3)
