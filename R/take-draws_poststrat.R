@@ -139,6 +139,22 @@ poststrat_draws <- function(model,
 #'
 #' @examples
 #'
+#' pred_df <- rename(acs_GA, n_response = count) # match variables with model call
+#' posterior_draws <- posterior_epred(object = fit_GA,  # stanfit
+#'                                    newdata = pred_df)
+#'
+#' # output is matrix, not tidy form
+#' class(posterior_draws)
+#' dim(posterior_draws)
+#'
+#' # tidy out
+#' out <- pivot_celldraws_longer(mod_draws = posterior_draws,
+#'                               data_strat = pred_df,
+#'                               yhat_name = "pred_n_yes")
+#'
+#' dim(out)
+#' select(out, cd, n_response, cell, iter, pred_n_yes)
+#'
 #'
 #' @export
 pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_yes") {
@@ -152,7 +168,7 @@ pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_ye
 
   as_tibble(draws_transposed) %>%
     mutate(cell = 1:n()) %>%
-    bind_cols(data_strat, .data) %>%
+    bind_cols(data_strat, .) %>%
     pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
     mutate(iter = parse_number(iter))
 }

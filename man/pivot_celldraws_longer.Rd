@@ -23,3 +23,23 @@ the predicted value for that cell at that iteration.
 \description{
 Take output from brms prediction and turn to tidy form
 }
+\examples{
+
+pred_df <- rename(acs_GA, n_response = count) # match variables with model call
+posterior_draws <- posterior_epred(object = fit_GA,  # stanfit
+                                   newdata = pred_df)
+
+# output is matrix, not tidy form
+class(posterior_draws)
+dim(posterior_draws)
+
+# tidy out
+out <- pivot_celldraws_longer(mod_draws = posterior_draws,
+                              data_strat = pred_df,
+                              yhat_name = "pred_n_yes")
+
+dim(out)
+select(out, cd, n_response, cell, iter, pred_n_yes)
+
+
+}
