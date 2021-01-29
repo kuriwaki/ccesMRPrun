@@ -27,6 +27,8 @@ fit_brms(
     \item{\code{.prior}}{prior specification that can be interpreted by brms. The default
 is a standard normal prior, which is tighter than the brms default but has
 shown to have good prior posterior draws}
+    \item{\code{.cores}}{Number of cores to uses}
+    \item{\code{.chains}}{Number of chains to pass on fit_brms}
     \item{\code{.iter}}{Number of total iterations.}
     \item{\code{.warmup}}{Of the iterations, how much are burn-ins. Defaults to half.}
     \item{\code{verbose}}{Whether to show iteration messages}

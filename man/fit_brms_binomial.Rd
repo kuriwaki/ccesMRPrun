@@ -33,6 +33,10 @@ shown to have good prior posterior draws}
 
 \item{.warmup}{Of the iterations, how much are burn-ins. Defaults to half.}
 
+\item{.cores}{Number of cores to uses}
+
+\item{.chains}{Number of chains to pass on fit_brms}
+
 \item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
 be \code{"cmdstanr"}}
 
