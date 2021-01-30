@@ -113,7 +113,7 @@ poststrat_draws <- function(model,
     areas_est <- areas_grp %>%
       mutate(qID = question_lbl) %>%
       group_by(across(all_of(iter_grp_vars))) %>%
-      summarize(p_mrp =  sum(pred_yes*n_response) / sum(n_response), # n_response still a misnomer, more like N in this case
+      summarize(p_mrp =  sum(.data$pred_yes*.data$n_response) / sum(.data$n_response), # n_response still a misnomer, more like N in this case
                 .groups = "drop")
 
   }
@@ -139,6 +139,7 @@ poststrat_draws <- function(model,
 #'
 #' @examples
 #' library(dplyr)
+#' library(brms)
 #'
 #' pred_df <- rename(acs_GA, n_response = count) # match variables with model call
 #' posterior_draws <- posterior_epred(object = fit_GA,  # stanfit
@@ -171,5 +172,5 @@ pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_ye
     mutate(cell = 1:n()) %>%
     bind_cols(data_strat, .) %>%
     pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
-    mutate(iter = parse_number(iter))
+    mutate(iter = parse_number(.data$iter))
 }

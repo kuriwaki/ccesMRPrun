@@ -25,6 +25,7 @@ Take output from brms prediction and turn to tidy form
 }
 \examples{
 library(dplyr)
+library(brms)
 
 pred_df <- rename(acs_GA, n_response = count) # match variables with model call
 posterior_draws <- posterior_epred(object = fit_GA,  # stanfit
