@@ -1,8 +1,11 @@
 ---
 title: "Post-stratification vs. Aggregate Regression Adjustment"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 8
+    fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Post-stratification and Aggregate Regression Adjustment in MRP}
+  %\VignetteIndexEntry{Post-stratification vs. Aggregate Regression Adjustment}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -99,13 +102,12 @@ mrp_df <- map_dfr(mrp_forms,
                                 add_on = val)},
                   .id = "spec")
 mrp_df
-
 ```
 
 
 Now let's plot the MRP results. 
 
-```{r, fig.width="100%"}
+```{r}
 mrp_plot <- mrp_df %>%
   mutate(spec = fct_inorder(spec))
 
@@ -118,17 +120,13 @@ scatter_45(mrp_plot,
            show_error = TRUE,
            by_labels = c(omitted = "~ (1|cd)",
                          mean_only = "~ (1|cd) + proportion HS",
-                         partisan_mean = "(1|cd) + prop_clinton_true",
-                         all_means = "(1|cd) + prop_HS_true + prop_clinton_true",
                          oracle = "~ (1|cd) + (1|education)"),
            xlab = "True Proportion of Adults with High School - only Education",
            ylab = "MRP Estimate") +
-  labs(title = "Controlling for the aggregate proportion helps, but it's not poststratification",
-       caption = "\nNote: Estimand is proportion of CD that has a high school education or less.
+  labs(caption = "Note: Estimand is proportion of CD that has a high school education or less.
        First model does not account for education.
        Third model poststratifies on education, and is therefore perfectly correct.
        Second model is only given CD-level proportion of High School-only graduates (the truth).")
-
 
 ```
 
