@@ -13,6 +13,8 @@ scatter_45(
   ylab = NULL,
   xlim = NULL,
   ylim = NULL,
+  ubvar = NULL,
+  lbvar = NULL,
   by_form = NULL,
   by_labels = NULL,
   show_error = TRUE,
@@ -27,18 +29,20 @@ scatter_45(
 
 \item{yvar}{Variable to put on y-axis, unquoted}
 
-\item{lblvar}{Variable to use as labels for geom_text_repel, unquoted}
+\item{lblvar}{Variable to use as labels for \code{geom_text_repel}, unquoted}
 
 \item{xlab, ylab}{x and y-axis labels, respectively}
 
 \item{xlim, ylim}{x and y-axis limits, respectively.}
+
+\item{ubvar, lbvar}{Variable to use as upper and lower bounds for \code{geom_errorbar}, unqoted}
 
 \item{by_form}{If the dataset is in long form with separate rows for different
 model estimates, you can supply a formula to be passed on to \code{facet_wrap()} to
 have separate facets for each model.}
 
 \item{by_labels}{A named vector for the facets, where the names are the names
-of the unqiue values of the variable by specified in \code{by_form} (e.g. "model") and
+of the unique values of the variable by specified in \code{by_form} (e.g. "model") and
 the values are the corresponding characters to recode to.}
 
 \item{show_error}{Whether or not to show the accuracy metrics in caption}
@@ -50,4 +54,22 @@ even if there is more whitespace. Overrides xlim and ylim.}
 }
 \description{
 Standard scatterplot with 45 degree line
+}
+\examples{
+library(dplyr)
+
+mrp_df <- summ_sims(poststrat_draws(fit_GA, poststrat_tgt = acs_GA)) \%>\%
+  left_join(elec_GA)
+
+
+scatter_45(mrp_df,
+           clinton_vote,
+           p_mrp_est,
+           lblvar = cd,
+           lbvar = p_mrp_050,
+           ubvar = p_mrp_950,
+           xlab = "Clinton Vote",
+           ylab = "MRP Estimate")
+
+
 }

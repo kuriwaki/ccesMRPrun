@@ -3,14 +3,15 @@
 #' @param tbl dataset of summary statistics
 #' @param xvar Variable to put on x-axis, unquoted
 #' @param yvar Variable to put on y-axis, unquoted
-#' @param lblvar Variable to use as labels for geom_text_repel, unquoted
+#' @param lblvar Variable to use as labels for `geom_text_repel`, unquoted
+#' @param ubvar,lbvar Variable to use as upper and lower bounds for `geom_errorbar`, unqoted
 #' @param xlab,ylab x and y-axis labels, respectively
 #' @param xlim,ylim x and y-axis limits, respectively.
 #' @param by_form If the dataset is in long form with separate rows for different
 #'  model estimates, you can supply a formula to be passed on to `facet_wrap()` to
 #'  have separate facets for each model.
 #' @param by_labels A named vector for the facets, where the names are the names
-#' of the unqiue values of the variable by specified in `by_form` (e.g. "model") and
+#' of the unique values of the variable by specified in `by_form` (e.g. "model") and
 #' the values are the corresponding characters to recode to.
 #' @param show_error Whether or not to show the accuracy metrics in caption
 #' @param expand_axes Whether to expand the axes so that the plot is a square,
@@ -28,20 +29,47 @@
 #' @importFrom purrr is_formula
 #' @importFrom stats terms
 #'
-#'
 #' @export
+#'
+#' @examples
+#' library(dplyr)
+#'
+#' mrp_df <- summ_sims(poststrat_draws(fit_GA, poststrat_tgt = acs_GA)) %>%
+#'   left_join(elec_GA)
+#'
+#'
+#' scatter_45(mrp_df,
+#'            clinton_vote,
+#'            p_mrp_est,
+#'            lblvar = cd,
+#'            lbvar = p_mrp_050,
+#'            ubvar = p_mrp_950,
+#'            xlab = "Clinton Vote",
+#'            ylab = "MRP Estimate")
+#'
+#'
 scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        xlab = NULL, ylab = NULL,
                        xlim = NULL,
                        ylim = NULL,
+                       ubvar = NULL, lbvar = NULL,
                        by_form = NULL,
                        by_labels = NULL,
                        show_error = TRUE,
                        expand_axes = TRUE, ...) {
+  # setup
   xvar <- enquo(xvar)
   yvar <- enquo(yvar)
+
   lblvar <- enquo(lblvar)
   lbl_name <- quo_name(lblvar)
+
+  lbvar <- enquo(lbvar)
+  lb_name <- quo_name(lbvar)
+  ubvar <- enquo(ubvar)
+  ub_name <- quo_name(ubvar)
+
+
   if (!is.null(by_form))
     stopifnot(is_formula(by_form))
 
@@ -51,6 +79,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     xlim = ylim = axis_lim
     }
 
+  # main plot -- defaults
   gg0 <- ggplot(tbl, aes(x = {{xvar}}, y = {{yvar}})) +
     geom_point() +
     coord_equal(xlim = xlim, ylim = ylim) +
@@ -66,6 +95,11 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     formvar <- enquo(form_char)
     gg1 <- gg1 +
       facet_wrap(by_form, labeller = as_labeller(by_labels))
+  }
+
+  if (ub_name != "NULL" & lb_name != "NULL") {
+    gg1 <- gg1 +
+      geom_errorbar(aes(ymin = {{lbvar}}, ymax = {{ubvar}}), width = 0, alpha = 0.8)
   }
 
   if (lbl_name != "NULL") {
