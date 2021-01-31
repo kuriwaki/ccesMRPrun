@@ -25,7 +25,8 @@ Imports:
     ggrepel,
     glue,
     scales, 
-    stringr
+    stringr,
+    Formula
 Remotes:
     kuriwaki/ccesMRPprep
 Language: en-US
