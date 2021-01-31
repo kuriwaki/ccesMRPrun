@@ -94,14 +94,6 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
-<span class="co">#&gt; ✔ ggplot2 3.3.3     ✔ purrr   0.3.4</span>
-<span class="co">#&gt; ✔ tibble  3.0.6     ✔ dplyr   1.0.3</span>
-<span class="co">#&gt; ✔ tidyr   1.1.2     ✔ stringr 1.4.0</span>
-<span class="co">#&gt; ✔ readr   1.4.0     ✔ forcats 0.5.1</span>
-<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
-<span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPrun">ccesMRPrun</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPprep">ccesMRPprep</a></span><span class="op">)</span></code></pre></div>
 <p>Variables like party ID and religion are not available in the population target. One option is to impute this to the population target through a machine learning model trained on individual data.</p>
@@ -119,8 +111,7 @@
 <code class="sourceCode R"><span class="va">val</span> <span class="op">&lt;-</span> <span class="va">acs_GA</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">is_HS</span>, <span class="va">is_BA</span>, wt <span class="op">=</span> <span class="va">count</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cd</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>prop_HS_truth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">is_HS</span><span class="op">*</span><span class="va">n</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,
-            prop_BA_truth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">is_BA</span><span class="op">*</span><span class="va">n</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>prop_HS_truth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">is_HS</span><span class="op">*</span><span class="va">n</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">acs_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">acs_GA</span>, <span class="va">val</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "cd"</span></code></pre></div>
@@ -131,11 +122,12 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>is_HS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">educ</span> <span class="op">==</span> <span class="st">"HS or Less"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cd</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># suppose you know the population aggregate</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">acs_df</span>, <span class="va">cd</span>, <span class="va">prop_HS_truth</span>, <span class="va">prop_BA_truth</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">acs_df</span>, <span class="va">cd</span>, <span class="va">prop_HS_truth</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>we merge <code>prop_HS_truth</code> here like a CD-level election result: we will <em>suppose</em> that we don’t have the <code>educ</code> variable in the ACS but we do know the CD-level aggregate, so we merge that in. Notice that this duplicates the rows for every CCES respondent in a given CD.</p>
+<p>Not surprisingly, the CD-level aggregate is predictive of the outcome (coefficient 0.85, t-stat of 7).</p>
 <p>Also notice that for this example, we are basically giving away the answer (<code>prop_HS_truth</code> is the quantity of interest, but we are going to throw it in the regression). Usually you have a predictive proxy only, like when you want to estimate the CD-level voteshare and you only have the lagged voteshare. We are giving away the answer to give the “regression” strategy its best case scenario.</p>
-<p>Now let’s try three models</p>
+<p>Now let’s try three model specifications:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># formula specs ----</span>
 <span class="va">mrp_forms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
@@ -143,7 +135,7 @@
   <span class="st">"mean_only"</span> <span class="op">=</span> <span class="va">is_HS</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cd</span><span class="op">)</span> <span class="op">+</span> <span class="va">prop_HS_truth</span>,
   <span class="st">"oracle"</span>    <span class="op">=</span> <span class="va">is_HS</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cd</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">educ</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p>“omitted” is a version with no relevant variables in the MRP. “prop_HS_truth” is where we will control for the CD-level predictor but we don’t have the individual level education. “oracle” is the model where we would <em>post-stratify</em> on education – this is what we would do if we have both education in the survey and population joint distribution.</p>
+<p><code>"omitted"</code> is a version with no relevant variables in the MRP. <code>"prop_HS_truth"</code> is where we will control for the CD-level predictor but we don’t have the individual level education. <code>"oracle"</code> is the model where we would <em>post-stratify</em> on education – this is what we would do if we have both education in the survey and population joint distribution.</p>
 <p>The ccesMRPrun package will do quick MRP in one step with the <code><a href="../reference/mrp_onestep.html">mrp_onestep()</a></code> function (see documentation). Let’s run MRP with these three specs, and bind the results.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># run MRP -- only change formulas at each step</span>
@@ -162,7 +154,7 @@
 <span class="co">#&gt; Compiling Stan program...</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="va">mrp_df</span>
-<span class="co">#&gt; # A tibble: 42 x 12</span>
+<span class="co">#&gt; # A tibble: 42 x 11</span>
 <span class="co">#&gt;    spec  cd    p_raw  p_wt n_raw p_mrp_est p_mrp_050 p_mrp_100 p_mrp_900</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 omit… GA-01 0.344 0.530   128     0.337     0.277     0.289     0.386</span>
@@ -175,8 +167,8 @@
 <span class="co">#&gt;  8 omit… GA-08 0.345 0.500   113     0.338     0.272     0.287     0.391</span>
 <span class="co">#&gt;  9 omit… GA-09 0.343 0.457   134     0.338     0.277     0.291     0.385</span>
 <span class="co">#&gt; 10 omit… GA-10 0.380 0.498   142     0.369     0.307     0.320     0.418</span>
-<span class="co">#&gt; # … with 32 more rows, and 3 more variables: p_mrp_950 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   prop_HS_truth &lt;dbl&gt;, prop_BA_truth &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt; # … with 32 more rows, and 2 more variables: p_mrp_950 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   prop_HS_truth &lt;dbl&gt;</span></code></pre></div>
 <p>Now let’s plot the MRP results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mrp_plot</span> <span class="op">&lt;-</span> <span class="va">mrp_df</span> <span class="op">%&gt;%</span>
