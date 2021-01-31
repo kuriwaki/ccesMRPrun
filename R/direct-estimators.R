@@ -2,9 +2,11 @@
 #'
 #' Collapses survey data to get direct estimates (i.e. non-pooled sample porportions)
 #'
-#' @param .data Survey data to be collapsed
 #' @param .formula MRP formula. Only thing that will be used is the outcome
 #'  variable (a binary variable)
+#' @param .data Survey data to be collapsed
+#' @param area_var Character for the variable(s) that corresponds to the area to
+#'  aggregate to.
 #' @param weight_var Character for the variable that corresponds to weights.
 #'
 #' @importFrom Formula as.Formula

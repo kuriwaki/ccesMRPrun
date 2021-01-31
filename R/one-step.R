@@ -5,7 +5,11 @@
 #'
 #' @param add_on Any area-level data to be merged with the output,
 #'  for example validation data
+#' @param ... Additional arguments to pass to the model fitting function, `fit_brms()`
 #'
+#' @inheritParams fit_brms
+#' @inheritParams direct_ests
+#' @inheritParams poststrat_draws
 #' @examples
 #' \dontrun{
 #' mrp_fit <- mrp_onestep(response ~ (1|educ) + (1|cd),

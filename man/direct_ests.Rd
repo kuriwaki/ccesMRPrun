@@ -12,6 +12,9 @@ variable (a binary variable)}
 
 \item{.data}{Survey data to be collapsed}
 
+\item{area_var}{Character for the variable(s) that corresponds to the area to
+aggregate to.}
+
 \item{weight_var}{Character for the variable that corresponds to weights.}
 }
 \description{

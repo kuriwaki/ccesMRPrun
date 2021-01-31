@@ -15,8 +15,22 @@ mrp_onestep(
 )
 }
 \arguments{
+\item{.formula}{Formula in \verb{binary y ~ (1|x1) + (1|x2)} form.}
+
+\item{.data}{Individual-level dataset}
+
+\item{poststrat_tgt}{The poststratification target. It must contain the column
+\code{count}, which is treated as the number of \code{trials} in the binomial model.}
+
+\item{area_var}{Character for the variable(s) that corresponds to the area to
+aggregate to.}
+
+\item{weight_var}{Character for the variable that corresponds to weights.}
+
 \item{add_on}{Any area-level data to be merged with the output,
 for example validation data}
+
+\item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
 }
 \description{
 Fits and tidies MRP outputs in one step

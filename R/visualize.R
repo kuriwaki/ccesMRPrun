@@ -23,7 +23,7 @@
 #' @import ggplot2
 #' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom stringr str_replace str_trim
+#' @importFrom stringr str_replace str_trim str_remove
 #' @importFrom dplyr pull enquo `%>%`
 #' @importFrom tibble enframe
 #' @importFrom purrr is_formula
