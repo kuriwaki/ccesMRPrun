@@ -1,0 +1,13 @@
+url: https://kuriwaki.github.io/ccesMRPrun
+
+
+destination: docs
+
+home:
+  title: Portable Routines for Running with MRP with CCES data
+  description: >
+    Runs MRP on CCES and ACS data prepared with the ccesMRPprep package
+
+authors:
+  Shiro Kuriwaki:
+    href: "https://www.shirokuriwaki.com"
