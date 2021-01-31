@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(mc.cores = 2) # need to limit cores for CI
 ```
 
 ```{r, message=FALSE}
