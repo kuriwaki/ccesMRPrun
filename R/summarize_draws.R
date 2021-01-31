@@ -25,11 +25,8 @@ summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp") {
 
     summarize(sims_grouped,
               p_mrp_est =     mean(.data[[est_var]]),
-              p_mrp_025 = quantile(.data[[est_var]], 0.025),
               p_mrp_050 = quantile(.data[[est_var]], 0.050),
               p_mrp_100 = quantile(.data[[est_var]], 0.100),
-              p_mrp_500 = quantile(.data[[est_var]], 0.500),
               p_mrp_900 = quantile(.data[[est_var]], 0.900),
-              p_mrp_950 = quantile(.data[[est_var]], 0.950),
-              p_mrp_975 = quantile(.data[[est_var]], 0.975))
+              p_mrp_950 = quantile(.data[[est_var]], 0.950))
 }
