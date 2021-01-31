@@ -3,6 +3,7 @@
 export(direct_ests)
 export(fit_brms)
 export(fit_brms_binomial)
+export(mrp_onestep)
 export(pivot_celldraws_longer)
 export(poststrat_draws)
 export(prior_pd_binomial)
