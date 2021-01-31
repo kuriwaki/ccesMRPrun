@@ -35,3 +35,7 @@ License: GPL (>= 3)
 URL: https://www.github.com/kuriwaki/ccesMRPrun
 BugReports: http://github.com/kuriwaki/ccesMRPrun/issues
 RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

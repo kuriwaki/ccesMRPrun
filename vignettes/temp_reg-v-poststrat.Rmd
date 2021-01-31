@@ -1,0 +1,136 @@
+---
+title: "Post-stratification vs. Aggregate Regression Adjustment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Post-stratification and Aggregate Regression Adjustment in MRP}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(tidyverse)
+library(ccesMRPrun)
+library(ccesMRPprep)
+```
+
+Variables like party ID and religion are not available in the population target. One option is to impute this to the population target through a machine learning model trained on individual data. 
+
+Another option that researchers often use is to include a area-level proportion and simply "control" for that aggregate variable in the regression. This is _not_ the same as poststratification, but we believe that it helps to account for this variable in some way. 
+
+We explore this proposition with a simple test case. 
+
+Suppose we want to know the _proportion of a CD's adults that have a high school degree or less_. This quantity is known in the aggregate and in some joint tables through the ACS, so we have a ground truth in this simulation. 
+
+
+First create the dummy variable of interest.
+
+
+```{r}
+acs_GA <- acs_GA %>%
+  mutate(is_HS = as.numeric(educ == "HS or Less"),
+         is_BA = as.numeric(educ %in% c("4-Year", "Post-Grad")))
+
+```
+
+`acs_GA` is a sample ACS population table. Education is already in the data, but suppose we do not know it. 
+
+With this binary variable, let's compute the CD-level quantity of interest.
+
+```{r}
+val <- acs_GA %>%
+  count(cd, is_HS, is_BA, wt = count) %>%
+  group_by(cd) %>%
+  summarize(prop_HS_truth = sum(is_HS*n)/sum(n),
+            prop_BA_truth = sum(is_BA*n)/sum(n))
+
+acs_df <- left_join(acs_GA, val)
+
+```
+
+Now suppose we have survey data we want to use for MRP. 
+
+```{r}
+cces_df <- cces_GA %>%
+  # same as ACS manipulation
+  mutate(is_HS = as.numeric(educ == "HS or Less")) %>%
+  group_by(cd) %>%
+  # suppose you know the population aggregate
+  left_join(distinct(acs_df, cd, prop_HS_truth, prop_BA_truth), by = "cd") %>%
+  ungroup()
+```
+
+we merge `prop_HS_truth` here like a CD-level election result: we will _suppose_ that we don't have the `educ` variable in the ACS but we do know the CD-level aggregate, so we merge that in. Notice that this duplicates the rows for every CCES respondent in a given CD.
+
+Also notice that for this example, we are basically giving away the answer (`prop_HS_truth` is the quantity of interest, but we are going to throw it in the regression). Usually you have a predictive proxy only, like when you want to estimate the CD-level voteshare and you only have the lagged voteshare. We are giving away the answer to give the "regression" strategy its best case scenario.
+
+
+Now let's try three models
+
+```{r}
+# formula specs ----
+mrp_forms <- c(
+  "omitted"   = is_HS ~ (1|cd),
+  "mean_only" = is_HS ~ (1|cd) + prop_HS_truth,
+  "oracle"    = is_HS ~ (1|cd) + (1|educ)
+)
+```
+
+"omitted" is a version with no relevant variables in the MRP. "prop_HS_truth" is where we will control for the CD-level predictor but we don't have the individual level education. "oracle" is the model where we would _post-stratify_ on education -- this is what we would do if we have both education in the survey and population joint distribution.
+
+
+The ccesMRPrun package will do quick MRP in one step with the `mrp_onestep()` function (see documentation). Let's run MRP with these three specs, and bind the results.
+
+
+```{r}
+# run MRP -- only change formulas at each step
+mrp_df <- map_dfr(mrp_forms,
+                  function(x) {
+                    mrp_onestep(x,
+                                cces_df,
+                                poststrat_tgt = acs_df,
+                                weight_var = "weight",
+                                add_on = val)},
+                  .id = "spec")
+mrp_df
+
+```
+
+
+Now let's plot the MRP results. 
+
+```{r, fig.width="100%"}
+mrp_plot <- mrp_df %>%
+  mutate(spec = fct_inorder(spec))
+
+scatter_45(mrp_plot,
+           prop_HS_truth,
+           p_mrp_est,
+           lbvar = p_mrp_050,
+           ubvar = p_mrp_900,
+           by_form = ~spec,
+           show_error = TRUE,
+           by_labels = c(omitted = "~ (1|cd)",
+                         mean_only = "~ (1|cd) + proportion HS",
+                         partisan_mean = "(1|cd) + prop_clinton_true",
+                         all_means = "(1|cd) + prop_HS_true + prop_clinton_true",
+                         oracle = "~ (1|cd) + (1|education)"),
+           xlab = "True Proportion of Adults with High School - only Education",
+           ylab = "MRP Estimate") +
+  labs(title = "Controlling for the aggregate proportion helps, but it's not poststratification",
+       caption = "\nNote: Estimand is proportion of CD that has a high school education or less.
+       First model does not account for education.
+       Third model poststratifies on education, and is therefore perfectly correct.
+       Second model is only given CD-level proportion of High School-only graduates (the truth).")
+
+
+```
+
+Notice that the second model where we only control for the CD-level aggregate will tighten the estimates around a 45 degree angle, but it does _not_ make the estimates more representative. There is still a bias of the survey undersampling HS-only voters, and controlling for an aggregate does not solve this question.
+
