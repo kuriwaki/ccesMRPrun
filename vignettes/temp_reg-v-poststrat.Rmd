@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
+```{r, message=FALSE}
 library(tidyverse)
 library(ccesMRPrun)
 library(ccesMRPprep)
@@ -50,8 +50,7 @@ With this binary variable, let's compute the CD-level quantity of interest.
 val <- acs_GA %>%
   count(cd, is_HS, is_BA, wt = count) %>%
   group_by(cd) %>%
-  summarize(prop_HS_truth = sum(is_HS*n)/sum(n),
-            prop_BA_truth = sum(is_BA*n)/sum(n))
+  summarize(prop_HS_truth = sum(is_HS*n)/sum(n))
 
 acs_df <- left_join(acs_GA, val)
 
@@ -65,16 +64,20 @@ cces_df <- cces_GA %>%
   mutate(is_HS = as.numeric(educ == "HS or Less")) %>%
   group_by(cd) %>%
   # suppose you know the population aggregate
-  left_join(distinct(acs_df, cd, prop_HS_truth, prop_BA_truth), by = "cd") %>%
+  left_join(distinct(acs_df, cd, prop_HS_truth), by = "cd") %>%
   ungroup()
 ```
 
 we merge `prop_HS_truth` here like a CD-level election result: we will _suppose_ that we don't have the `educ` variable in the ACS but we do know the CD-level aggregate, so we merge that in. Notice that this duplicates the rows for every CCES respondent in a given CD.
 
+Not surprisingly, the CD-level aggregate is predictive of the outcome (coefficient 0.85, t-stat of 7).
+
+
+
 Also notice that for this example, we are basically giving away the answer (`prop_HS_truth` is the quantity of interest, but we are going to throw it in the regression). Usually you have a predictive proxy only, like when you want to estimate the CD-level voteshare and you only have the lagged voteshare. We are giving away the answer to give the "regression" strategy its best case scenario.
 
 
-Now let's try three models
+Now let's try three model specifications:
 
 ```{r}
 # formula specs ----
@@ -85,7 +88,7 @@ mrp_forms <- c(
 )
 ```
 
-"omitted" is a version with no relevant variables in the MRP. "prop_HS_truth" is where we will control for the CD-level predictor but we don't have the individual level education. "oracle" is the model where we would _post-stratify_ on education -- this is what we would do if we have both education in the survey and population joint distribution.
+`"omitted"` is a version with no relevant variables in the MRP. `"prop_HS_truth"` is where we will control for the CD-level predictor but we don't have the individual level education. `"oracle"` is the model where we would _post-stratify_ on education -- this is what we would do if we have both education in the survey and population joint distribution.
 
 
 The ccesMRPrun package will do quick MRP in one step with the `mrp_onestep()` function (see documentation). Let's run MRP with these three specs, and bind the results.
@@ -131,4 +134,6 @@ scatter_45(mrp_plot,
 ```
 
 Notice that the second model where we only control for the CD-level aggregate will tighten the estimates around a 45 degree angle, but it does _not_ make the estimates more representative. There is still a bias of the survey undersampling HS-only voters, and controlling for an aggregate does not solve this question.
+
+
 
