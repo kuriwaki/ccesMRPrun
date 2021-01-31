@@ -11,3 +11,11 @@ home:
 authors:
   Shiro Kuriwaki:
     href: "https://www.shirokuriwaki.com"
+
+
+
+articles:
+- title: Investigation
+  navbar: ~
+  contents:
+    - temp_reg-v-poststrat
