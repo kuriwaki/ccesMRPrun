@@ -32,7 +32,7 @@ mrp_fit <- mrp_onestep(response ~ (1|educ) + (1|cd),
                        poststrat_tgt = acs_GA,
                        area_var = "cd",
                        weight_var = "weight_post",
-                       add_on = distinct(acs_GA, cd, clinton_vote))
+                       add_on = elec_GA)
 
 scatter_45(mrp_fit, clinton_vote, p_mrp_est,
            xlab = "Clinton Vote", ylab = "MRP Estimate")

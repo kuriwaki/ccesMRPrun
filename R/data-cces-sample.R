@@ -27,9 +27,12 @@
 #'
 "acs_GA"
 
+#' Election outcome (often the quantity to estimate)
+"elec_GA"
 
 
 #' Fitted brms model
 #'
 #'
 "fit_GA"
+

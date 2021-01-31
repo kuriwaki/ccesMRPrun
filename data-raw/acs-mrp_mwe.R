@@ -16,4 +16,7 @@ acs_GA <- acs_all %>%
   left_join(cd_elec)
 
 
+elec_GA <- distinct(acs_GA, cd, clinton_vote, clinton_vote_2pty)
+
 usethis::use_data(acs_GA, overwrite = TRUE)
+usethis::use_data(elec_GA, overwrite = TRUE)
