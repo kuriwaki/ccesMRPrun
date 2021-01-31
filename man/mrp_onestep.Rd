@@ -33,6 +33,9 @@ mrp_fit <- mrp_onestep(response ~ (1|educ) + (1|cd),
                        area_var = "cd",
                        weight_var = "weight_post",
                        add_on = distinct(acs_GA, cd, clinton_vote))
+
+scatter_45(mrp_fit, clinton_vote, p_mrp_est,
+           xlab = "Clinton Vote", ylab = "MRP Estimate")
 }
 
 }

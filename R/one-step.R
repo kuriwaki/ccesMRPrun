@@ -37,7 +37,7 @@ mrp_onestep <- function(.formula, .data,
   post_fit <- poststrat_draws(brms_fit, poststrat_tgt, area_var = area_var)
 
   # summarize
-  post_sum <- summ_sims(post_fit)
+  post_sum <- summ_sims(post_fit, area_var = area_var)
 
   # combine
   out <- left_join(drct_fit, post_sum, by = area_var)
