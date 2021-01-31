@@ -63,6 +63,9 @@ fit_brms_binomial <- function(.formula,
 #' Internally, it creates a count version of the individual-data via
 #' `ccesMRPprep::build_counts` and then runs the regression in `fit_brms_binomial`.
 #'
+#' @param .data Data for the bernoulli `fit` function is an indidividual-level dataset,
+#' rather than a collapsed version
+#'
 #'
 #' @inheritParams fit_brms_binomial
 #' @inheritDotParams fit_brms_binomial
