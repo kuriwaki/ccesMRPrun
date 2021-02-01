@@ -1,8 +1,6 @@
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: master
 
 name: pkgdown
 
@@ -13,6 +11,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+
+      - name: Configure git credentials
+        uses: OleksiyRudenko/gha-git-credentials@v2-latest
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
 
       - uses: r-lib/actions/setup-r@v1
 
@@ -32,32 +35,15 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: "[Custom block] [macOS] Set system libraries following ccesMRPrun"
-        if: runner.os == 'macOS'
-        run: |
-          # conflicts with gfortran from r-lib/actions when linking gcc
-          rm '/usr/local/bin/gfortran'
-          brew install pkg-config gdal proj geos
-
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown", type = "binary")
-          remotes::install_cran(c("rmarkdown", "tidyverse", "knitr", "patchwork"))
         shell: Rscript {0}
 
       - name: Install package
         run: R CMD INSTALL .
 
-      - name: Render README
-        run: Rscript -e 'rmarkdown::render("README.Rmd")'
-
-      - name: Register Git and commit changes to README
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git commit README.md -m 'Re-build README.Rmd' || echo "No changes to commit"
-          git push origin || echo "No changes to commit"
-
       - name: Deploy package
-        run: Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+        run: pkgdown::deploy_to_branch(new_process = FALSE)
+        shell: Rscript {0}
