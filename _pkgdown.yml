@@ -4,7 +4,7 @@ url: https://kuriwaki.github.io/ccesMRPrun
 destination: docs
 
 home:
-  title: Portable Routines for Running with MRP with CCES data
+  title: Estimating MRP with CCES data
   description: >
     Runs MRP on CCES and ACS data prepared with the ccesMRPprep package
 
@@ -12,10 +12,36 @@ authors:
   Shiro Kuriwaki:
     href: "https://www.shirokuriwaki.com"
 
+reference:
+  - title: Overall
+  - contents:
+    - mrp_onestep
+    - direct_ests
 
+  - title: Fit models
+  - contents:
+    - starts_with("fit_")
+    - prior_pd_binomial
+
+  - title: Poststratify
+    contents:
+      - poststrat_draws
+      - pivot_celldraws_longer
+
+  - title: Summarize and Visualize
+    contents:
+      - scatter_45
+      - summ_sims
+      - error_lbl
+
+  - title: Example Datasets
+  - contents:
+    - cces_GA
+    - acs_GA
+    - elec_GA
 
 articles:
-- title: Investigation
-  navbar: ~
-  contents:
-    - temp_reg-v-poststrat
+  - title: Investigation
+    navbar: ~
+    contents:
+      - temp_reg-v-poststrat
