@@ -36,6 +36,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
+      - name: "[Stage] [macOS] [Custom block] Install gfortran afresh"
+        if: runner.os == 'macOS'
+        run: brew install --cask gfortran
+
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
