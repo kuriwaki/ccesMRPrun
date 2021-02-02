@@ -1,5 +1,6 @@
 ---
 title: "Post-stratification vs. Aggregate Regression Adjustment"
+author: "Shiro Kuriwaki"
 output: 
   rmarkdown::html_vignette:
     fig_width: 8
@@ -139,9 +140,9 @@ Notice that the second model where we only control for the CD-level aggregate wi
 
 
 
-## Extensions: Impute-Poststratify
+## Extension: Synthetic Joint Estimation
 
-We extend the ACS table assisted by a survey model using a function called `cceMRPprep::synth_mlogit()`. 
+Instead of including the aggregate information, others might opt to model a synthetic joint distribution. We provide a simple set of functions to implement this. We extend the ACS table assisted by a survey model using a function called `cceMRPprep::synth_mlogit()`. 
 
 ```{r}
 acs_synth <- synth_mlogit(educ ~ female + age,
