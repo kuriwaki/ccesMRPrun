@@ -24,7 +24,7 @@ library(ccesMRPrun)
 library(ccesMRPprep)
 ```
 
-Variables like party ID and religion are not available in the population target. O
+Variables like party ID and religion are not available in the population target. This is a major challenge in MRP (see Leemann and Wasserfallen, [2017](https://doi.org/10.1111/ajps.12319)).
 
 One option that researchers often use is to include a area-level proportion and simply "control" for that aggregate variable in the regression. This is _not_ the same as poststratification, but we believe that it helps to account for this variable in some way.  (An alternative option, which I examine in the next section is to impute this to the population target through a machine learning model trained on individual data. This strategy introduces some modeling error but still allows for post-stratification.)
 
@@ -141,10 +141,10 @@ Notice that the second model where we only control for the CD-level aggregate wi
 
 ## Extensions: Impute-Poststratify
 
-We extend the ACS table assisted by a survey model. See [the function website](https://www.shirokuriwaki.com/ccesMRPprep/reference/impute_cells.html) for details.
+We extend the ACS table assisted by a survey model using a function called `cceMRPprep::synth_mlogit()`. 
 
 ```{r}
-acs_synth <- impute_cells(educ ~ female + age,
+acs_synth <- synth_mlogit(educ ~ female + age,
                           microdata = cces_GA,
                           # pretend we don't have education data
                           poptable = select(acs_df, -educ), 
