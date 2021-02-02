@@ -38,7 +38,7 @@ jobs:
 
       - name: "[Stage] [macOS] [Custom block] Install gfortran afresh"
         if: runner.os == 'macOS'
-        run: brew install --cask gfortran
+        run: brew install gfortran
 
       - name: Install dependencies
         run: |
