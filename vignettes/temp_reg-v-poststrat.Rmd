@@ -15,11 +15,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-options(mc.cores = 2) # need to limit cores for CI
 ```
 
 ```{r, message=FALSE}
 library(tidyverse)
+library(brms)
 library(ccesMRPrun)
 library(ccesMRPprep)
 ```
@@ -103,7 +103,8 @@ mrp_df <- map_dfr(mrp_forms,
                                 cces_df,
                                 poststrat_tgt = acs_df,
                                 weight_var = "weight",
-                                add_on = val)},
+                                add_on = val, 
+                                .cores = 2)},
                   .id = "spec")
 mrp_df
 ```
@@ -179,7 +180,8 @@ mrp_synth <- mrp_onestep(is_HS ~ (1|educ) + (1|cd),
                          .data = cces_df, 
                          poststrat_tgt = acs_synth,
                          weight_var = "weight",
-                         add_on = val)
+                         add_on = val,
+                         .cores = 2)
 
 ```
 
