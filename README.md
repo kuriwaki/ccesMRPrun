@@ -3,9 +3,7 @@ Running MRP with CCES
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/kuriwaki/ccesMRPrun/workflows/R-CMD-check/badge.svg)](https://github.com/kuriwaki/ccesMRPrun/actions)
-
+[![tic](https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master)](https://github.com/kuriwaki/ccesMRPrun/actions)
 <!-- badges: end -->
 
 This is a set of functions to facilitate running MRP models on CCES data
