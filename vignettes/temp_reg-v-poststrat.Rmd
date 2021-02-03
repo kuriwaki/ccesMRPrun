@@ -142,7 +142,7 @@ Notice that the second model where we only control for the CD-level aggregate wi
 
 ## Extension: Synthetic Joint Estimation
 
-Instead of including the aggregate information, others might opt to model a synthetic joint distribution. We provide a simple set of functions to implement this. We extend the ACS table assisted by a survey model using a function called `cceMRPprep::synth_mlogit()`. 
+Instead of including the aggregate information, others might opt to model a synthetic joint distribution. We provide a simple set of functions to implement this. We extend the ACS table assisted by a survey model using a function called [`cceMRPprep::synth_mlogit()`](https://www.shirokuriwaki.com/ccesMRPprep/reference/synth_mlogit.html). 
 
 ```{r}
 acs_synth <- synth_mlogit(educ ~ female + age,
@@ -153,12 +153,13 @@ acs_synth <- synth_mlogit(educ ~ female + age,
   mutate(count = as.integer(count)) # round
 ```
 
-The benefit of this example is that we can examine how our estimated counts of this synthetic table compared with the actual values.
 
-```{r, echo = FALSE}
+The benefit of this example is that we can examine how our estimated counts of this synthetic table compared with the actual values of the joint distribution. Here is a scatterplot comparing the counts. Each point represents a cell: [14 congressional districts] x [2 gender categories] x [5 age categories] x  [4 education categories].
+
+```{r, echo = FALSE, message=FALSE,warning=FALSE}
 library(scales)
 left_join(acs_synth,
-          acs_df, 
+          count(acs_df, cd, female, age, educ, wt = count, name = "count"),
           by = c("cd", "female", "age", "educ"), 
           suffix = c("_synth", "_truth")) %>% 
   ggplot(aes(count_truth, count_synth)) +
@@ -172,7 +173,7 @@ left_join(acs_synth,
 
 ```
 
-The plot does not look great. It is after all perhaps not that surprising that it is hard to estimate education from age bins and gender.
+The plot does not look great. It is after all perhaps not surprising that it is hard to estimate education from age bins and gender.
 
 In any case, this allows us to run MRP using this "synthetic" target:
 
