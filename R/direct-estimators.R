@@ -9,9 +9,12 @@
 #'  aggregate to.
 #' @param weight_var Character for the variable that corresponds to weights.
 #'
-#' @importFrom Formula as.Formula
-#' @importFrom dplyr group_by summarize `%>%`
+#' @return A wide dataframe where each row is a area, `p_raw` indicates the
+#'  raw average, `p_wt` indicates the weighted average( if `weight_var` is provided),
+#'  and `n_raw` is the raw sampe size.
 #'
+#' @importFrom Formula as.Formula
+#' @importFrom dplyr group_by summarize relocate left_join
 #' @export
 #'
 #' @examples
@@ -19,19 +22,30 @@
 #'              area_var = "cd",
 #'              weight_var = "weight_post")
 #'
-direct_ests <- function(.formula, .data, area_var, weight_var) {
+direct_ests <- function(.formula, .data, area_var, weight_var = NULL) {
   Form <- as.Formula(.formula)
   outcome_var <- all.vars(formula(Form, lhs = 1, rhs = 0))
 
-  .data %>%
+
+  out <- .data %>%
     group_by(!!!syms(area_var)) %>%
     summarize(p_raw = mean(.data[[outcome_var]],
                            na.rm = TRUE),
-              p_wt = weighted.mean(.data[[outcome_var]],
-                                    .data[[weight_var]],
-                                    na.rm = TRUE),
               n_raw = sum(!is.na(.data[[outcome_var]])),
               .groups = "drop")
+
+  # weighted prop
+  if (!is.null(weight_var)) {
+    w_df <- .data %>%
+      group_by(!!!syms(area_var)) %>%
+      summarize(p_wt = weighted.mean(.data[[outcome_var]],
+                                     .data[[weight_var]],
+                                     na.rm = TRUE))
+
+      out <- left_join(out, w_df, by = area_var) %>%
+        relocate(starts_with("p_"))
+  }
+ out
 }
 
 

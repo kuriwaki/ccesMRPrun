@@ -4,7 +4,7 @@
 \alias{direct_ests}
 \title{Direct Estimator}
 \usage{
-direct_ests(.formula, .data, area_var, weight_var)
+direct_ests(.formula, .data, area_var, weight_var = NULL)
 }
 \arguments{
 \item{.formula}{MRP formula. Only thing that will be used is the outcome
@@ -16,6 +16,11 @@ variable (a binary variable)}
 aggregate to.}
 
 \item{weight_var}{Character for the variable that corresponds to weights.}
+}
+\value{
+A wide dataframe where each row is a area, \code{p_raw} indicates the
+raw average, \code{p_wt} indicates the weighted average( if \code{weight_var} is provided),
+and \code{n_raw} is the raw sampe size.
 }
 \description{
 Collapses survey data to get direct estimates (i.e. non-pooled sample porportions)
