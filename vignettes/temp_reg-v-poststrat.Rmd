@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r, message=FALSE}
 library(tidyverse)
+library(scales)
 library(brms)
 library(ccesMRPrun)
 library(ccesMRPprep)
@@ -142,15 +143,39 @@ scatter_45(mrp_plot,
 Notice that the second model where we only control for the CD-level aggregate will tighten the estimates around a 45 degree angle, but it does _not_ make the estimates more representative. There is still a bias of the survey undersampling HS-only voters, and controlling for an aggregate does not solve this question.
 
 
+With a closer look, we see that including the aggregate variable worsens some estimates in this case. High education districts get their estimates pulled away from the truth, while low education districts improve. This again seems to be a function of pooling where the errors become more homogeneous. 
+
+```{r, echo = FALSE}
+mrp_plot %>% 
+  filter(spec %in% c("omitted", "mean_only")) %>% 
+  transmute(spec, 
+            cd, 
+            prop_HS_truth,
+            error = p_mrp_est - prop_HS_truth) %>% 
+  pivot_wider(id_cols = c(cd, prop_HS_truth), names_from = spec, values_from = error) %>% 
+  ggplot(aes(omitted, mean_only, color = prop_HS_truth)) +
+  geom_point() + 
+  geom_abline(linetype = "dashed") +
+  scale_x_continuous(labels = unit_format(scale = 100, accuracy = 1, suffix = "pp")) +
+  scale_y_continuous(labels = unit_format(scale = 100, accuracy = 1, suffix = "pp")) +
+  coord_equal() +
+  theme_bw() +
+  scale_color_binned(type = "viridis", labels = percent_format(accuracy = 1)) +
+  annotate("text", x = -Inf, y = Inf, hjust = -0.1, vjust = 1.1,  label = "Aggregate-only model\nImproves estimates", size = 2.5) +
+  annotate("text", x = Inf, y = -Inf, hjust = 1.1, vjust = -0.1,  label = "Aggregate-only model\nWorsens estimates", size = 2.5) +
+  labs(x = "Error from Omitted Variable Model",
+       y = "Error from Aggregate-Only Model",
+       color = "Actual Percent\nHigh School Only") +
+  theme(axis.text = element_text(color = "black"))
+  
+```
+
+
 
 # Approach 2: Synthetic Joint Estimation
 
 
-Instead of including the aggregate information, others might opt to model a synthetic joint distribution.
-
-## Estimating the Synthetic Joint
-
-We provide a simple set of functions to implement this. We extend the ACS table assisted by a survey model using a function called [`cceMRPprep::synth_mlogit()`](https://www.shirokuriwaki.com/ccesMRPprep/reference/synth_mlogit.html). 
+Instead of including the aggregate information, others might opt to model a synthetic joint distribution. The ccesMRPprep function provides several methods to compute such a synthetic table.
 
 ```{r}
 acs_syn_mlogit <- synth_mlogit(educ ~ female + age,
@@ -187,50 +212,7 @@ acs_syn_fix <- synth_smoothfix(educ ~ female + age,
                                area_var = "cd")
 ```
 
-The benefit of this example is that we can examine how our estimated counts of this synthetic table compared with the actual values of the joint distribution. Here is a scatterplot comparing the counts. Each point represents a cell: [14 congressional districts] x [2 gender categories] x [5 age categories] x  [4 education categories].
-
-```{r, echo = FALSE, message=FALSE,warning=FALSE}
-library(scales)
-
-
-syn_val <- select(acs_syn_prod, cd, female, age, educ, count_rake = count) %>% 
-  left_join(rename(acs_syn_mlogit, count_smooth = count),
-            by = c("cd", "female", "age", "educ")) %>%
-  left_join(rename(acs_syn_fix, count_smoothfix = count),
-            by = c("cd", "female", "age", "educ")) %>%
-  left_join(count(acs_GA, cd, female, educ, age, wt = count, name = "count_truth"),
-            by = c("cd", "female", "age", "educ")) %>% 
-  select(cd, female, age, educ, matches("count_"))
-
-syn_val_long <- syn_val %>% 
-  pivot_longer(c(count_rake, count_smooth, count_smoothfix), 
-               names_to = "method",
-               values_to = "estimate",
-               names_prefix = "count_") %>% 
-  mutate(method = recode_factor(method, 
-                                smooth = "Survey Model\n(synth_mlogit)", 
-                                rake = "Simple Product\n(synth_prod)",
-                                smoothfix = "Survey + Rake\n(synth_smoothfix)"))
-
-syn_val_long %>% 
-  ggplot(aes(count_truth, estimate, color = educ)) +
-  facet_wrap(~ method) +
-  geom_abline(linetype = "dashed") +
-  geom_point(size = 0.5, alpha = 0.5) +
-  theme_bw() +
-  coord_equal() +
-  scale_x_continuous(labels = comma) +
-  scale_y_continuous(labels = comma) +
-  labs(x = "True Joint Table Count",
-       y = "Estimate",
-       color = "Education of Cell") +
-  theme(legend.position = "bottom", 
-        panel.grid = element_blank())
-```
-
-The first plot does not look great. The simple product does surprisingly well. It is after all perhaps not surprising that it is hard to estimate education from age bins and gender.
-
-## MRP with Synthetic Population
+See the ccesMRPprep vignette for validation.
 
 In any case, this allows us to run MRP using this "synthetic" target. Now let's fix the specification and vary the targets
 
