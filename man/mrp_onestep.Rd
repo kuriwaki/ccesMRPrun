@@ -9,7 +9,8 @@ mrp_onestep(
   .data,
   poststrat_tgt,
   area_var = "cd",
-  weight_var,
+  count_var = "count",
+  weight_var = NULL,
   add_on = NULL,
   ...
 )
@@ -24,6 +25,10 @@ mrp_onestep(
 
 \item{area_var}{Character for the variable(s) that corresponds to the area to
 aggregate to.}
+
+\item{count_var}{A character string for the variable name for the population
+count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is
+a trial count in the model. Defaults to \code{"count"}.}
 
 \item{weight_var}{Character for the variable that corresponds to weights.}
 
@@ -45,6 +50,7 @@ mrp_fit <- mrp_onestep(response ~ (1|educ) + (1|cd),
                        .data = cces_GA,
                        poststrat_tgt = acs_GA,
                        area_var = "cd",
+                       count_var = "count",
                        weight_var = "weight_post",
                        add_on = elec_GA)
 

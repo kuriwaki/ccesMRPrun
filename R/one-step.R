@@ -16,6 +16,7 @@
 #'                        .data = cces_GA,
 #'                        poststrat_tgt = acs_GA,
 #'                        area_var = "cd",
+#'                        count_var = "count",
 #'                        weight_var = "weight_post",
 #'                        add_on = elec_GA)
 #'
@@ -27,7 +28,8 @@
 mrp_onestep <- function(.formula, .data,
                         poststrat_tgt,
                         area_var = "cd",
-                        weight_var,
+                        count_var = "count",
+                        weight_var = NULL,
                         add_on = NULL,
                         ...) {
 
@@ -38,7 +40,8 @@ mrp_onestep <- function(.formula, .data,
   brms_fit <- fit_brms(.formula, .data, ...)
 
   # P-step
-  post_fit <- poststrat_draws(brms_fit, poststrat_tgt, area_var = area_var)
+  post_fit <- poststrat_draws(brms_fit, poststrat_tgt,
+                              area_var = area_var, count_var = count_var)
 
   # summarize
   post_sum <- summ_sims(post_fit, area_var = area_var)
