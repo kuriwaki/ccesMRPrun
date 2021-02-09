@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ccesMRPrun</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -137,7 +137,8 @@
   <span class='va'>.data</span>,
   <span class='va'>poststrat_tgt</span>,
   area_var <span class='op'>=</span> <span class='st'>"cd"</span>,
-  <span class='va'>weight_var</span>,
+  count_var <span class='op'>=</span> <span class='st'>"count"</span>,
+  weight_var <span class='op'>=</span> <span class='cn'>NULL</span>,
   add_on <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -162,6 +163,12 @@
       <th>area_var</th>
       <td><p>Character for the variable(s) that corresponds to the area to
 aggregate to.</p></td>
+    </tr>
+    <tr>
+      <th>count_var</th>
+      <td><p>A character string for the variable name for the population
+count in the <code>poststrat_tgt</code> dataframe. This will be renamed as if it is
+a trial count in the model. Defaults to <code>"count"</code>.</p></td>
     </tr>
     <tr>
       <th>weight_var</th>
@@ -189,6 +196,7 @@ for options on visualization</p>
                        .data <span class='op'>=</span> <span class='va'>cces_GA</span>,
                        poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span>,
                        area_var <span class='op'>=</span> <span class='st'>"cd"</span>,
+                       count_var <span class='op'>=</span> <span class='st'>"count"</span>,
                        weight_var <span class='op'>=</span> <span class='st'>"weight_post"</span>,
                        add_on <span class='op'>=</span> <span class='va'>elec_GA</span><span class='op'>)</span>
 

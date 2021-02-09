@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ccesMRPrun</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -95,6 +95,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org">scales</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paul-buerkner/brms">brms</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPrun">ccesMRPrun</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPprep">ccesMRPprep</a></span><span class="op">)</span></code></pre></div>
@@ -161,18 +162,18 @@
 <span class="co">#&gt; Start sampling</span>
 <span class="va">mrp_df</span>
 <span class="co">#&gt; # A tibble: 42 x 11</span>
-<span class="co">#&gt;    spec  cd    p_raw  p_wt n_raw p_mrp_est p_mrp_050 p_mrp_100 p_mrp_900</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 omit… GA-01 0.344 0.530   128     0.337     0.277     0.289     0.386</span>
-<span class="co">#&gt;  2 omit… GA-02 0.353 0.584   116     0.345     0.280     0.293     0.398</span>
-<span class="co">#&gt;  3 omit… GA-03 0.391 0.474   138     0.379     0.319     0.330     0.428</span>
-<span class="co">#&gt;  4 omit… GA-04 0.266 0.380   207     0.271     0.224     0.233     0.311</span>
-<span class="co">#&gt;  5 omit… GA-05 0.219 0.436   187     0.233     0.186     0.196     0.270</span>
-<span class="co">#&gt;  6 omit… GA-06 0.113 0.162   141     0.154     0.105     0.115     0.194</span>
-<span class="co">#&gt;  7 omit… GA-07 0.226 0.322   146     0.242     0.190     0.201     0.285</span>
-<span class="co">#&gt;  8 omit… GA-08 0.345 0.500   113     0.338     0.272     0.287     0.391</span>
-<span class="co">#&gt;  9 omit… GA-09 0.343 0.457   134     0.338     0.277     0.291     0.385</span>
-<span class="co">#&gt; 10 omit… GA-10 0.380 0.498   142     0.369     0.307     0.320     0.418</span>
+<span class="co">#&gt;    spec  p_raw  p_wt cd    n_raw p_mrp_est p_mrp_050 p_mrp_100 p_mrp_900</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 omit… 0.344 0.530 GA-01   128     0.337     0.277     0.289     0.386</span>
+<span class="co">#&gt;  2 omit… 0.353 0.584 GA-02   116     0.345     0.280     0.293     0.398</span>
+<span class="co">#&gt;  3 omit… 0.391 0.474 GA-03   138     0.379     0.319     0.330     0.428</span>
+<span class="co">#&gt;  4 omit… 0.266 0.380 GA-04   207     0.271     0.224     0.233     0.311</span>
+<span class="co">#&gt;  5 omit… 0.219 0.436 GA-05   187     0.233     0.186     0.196     0.270</span>
+<span class="co">#&gt;  6 omit… 0.113 0.162 GA-06   141     0.154     0.105     0.115     0.194</span>
+<span class="co">#&gt;  7 omit… 0.226 0.322 GA-07   146     0.242     0.190     0.201     0.285</span>
+<span class="co">#&gt;  8 omit… 0.345 0.500 GA-08   113     0.338     0.272     0.287     0.391</span>
+<span class="co">#&gt;  9 omit… 0.343 0.457 GA-09   134     0.338     0.277     0.291     0.385</span>
+<span class="co">#&gt; 10 omit… 0.380 0.498 GA-10   142     0.369     0.307     0.320     0.418</span>
 <span class="co">#&gt; # … with 32 more rows, and 2 more variables: p_mrp_950 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   prop_HS_truth &lt;dbl&gt;</span></code></pre></div>
 <p>Now let’s plot the MRP results.</p>
@@ -198,15 +199,13 @@
        Second model is only given CD-level proportion of High School-only graduates (the truth)."</span><span class="op">)</span></code></pre></div>
 <p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Notice that the second model where we only control for the CD-level aggregate will tighten the estimates around a 45 degree angle, but it does <em>not</em> make the estimates more representative. There is still a bias of the survey undersampling HS-only voters, and controlling for an aggregate does not solve this question.</p>
+<p>With a closer look, we see that including the aggregate variable worsens some estimates in this case. High education districts get their estimates pulled away from the truth, while low education districts improve. This again seems to be a function of pooling where the errors become more homogeneous.</p>
+<p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div id="approach-2-synthetic-joint-estimation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#approach-2-synthetic-joint-estimation" class="anchor"></a>Approach 2: Synthetic Joint Estimation</h1>
-<p>Instead of including the aggregate information, others might opt to model a synthetic joint distribution.</p>
-<div id="estimating-the-synthetic-joint" class="section level2">
-<h2 class="hasAnchor">
-<a href="#estimating-the-synthetic-joint" class="anchor"></a>Estimating the Synthetic Joint</h2>
-<p>We provide a simple set of functions to implement this. We extend the ACS table assisted by a survey model using a function called <a href="https://www.shirokuriwaki.com/ccesMRPprep/reference/synth_mlogit.html"><code>cceMRPprep::synth_mlogit()</code></a>.</p>
+<p>Instead of including the aggregate information, others might opt to model a synthetic joint distribution. The ccesMRPprep function provides several methods to compute such a synthetic table.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">acs_syn_mlogit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ccesMRPprep/man/synth_mlogit.html">synth_mlogit</a></span><span class="op">(</span><span class="va">educ</span> <span class="op">~</span> <span class="va">female</span> <span class="op">+</span> <span class="va">age</span>,
                                microdata <span class="op">=</span> <span class="va">cces_GA</span>,
@@ -244,13 +243,7 @@
                                poptable <span class="op">=</span> <span class="va">acs_GA</span>, 
                                fix_to <span class="op">=</span> <span class="va">edu_margins</span>,
                                area_var <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
-<p>The benefit of this example is that we can examine how our estimated counts of this synthetic table compared with the actual values of the joint distribution. Here is a scatterplot comparing the counts. Each point represents a cell: [14 congressional districts] x [2 gender categories] x [5 age categories] x [4 education categories].</p>
-<p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<p>The first plot does not look great. The simple product does surprisingly well. It is after all perhaps not surprising that it is hard to estimate education from age bins and gender.</p>
-</div>
-<div id="mrp-with-synthetic-population" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mrp-with-synthetic-population" class="anchor"></a>MRP with Synthetic Population</h2>
+<p>See the ccesMRPprep vignette for validation.</p>
 <p>In any case, this allows us to run MRP using this “synthetic” target. Now let’s fix the specification and vary the targets</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">syn_datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -278,7 +271,6 @@
 <p>And examine the outcome.</p>
 <p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>The first estimate look bad. If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP <em>for an outcome</em> for which we supplied the joint for. If we were estimating å different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.</p>
-</div>
 </div>
   </div>
 
