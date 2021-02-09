@@ -1,4 +1,9 @@
-# ccesMRPrun 0.0.4++
+# ccesMRPrun 0.0.6++
+
+# ccesMRPrun 0.0.5
+
+* Add `mrp_onestep`
+* Add `direct_ests`
 
 # ccesMRPrun 0.0.4
 

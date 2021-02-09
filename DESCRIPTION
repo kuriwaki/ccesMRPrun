@@ -1,7 +1,7 @@
 Package: ccesMRPrun
 Type: Package
 Title: Fitting MRP Models from Cleaned Data and Drawing Estimates
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: person(given = "Shiro",
              family = "Kuriwaki",
              role = c("aut", "cre"),
