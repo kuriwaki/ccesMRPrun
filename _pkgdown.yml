@@ -14,14 +14,14 @@ authors:
 
 reference:
   - title: Overall
-  - contents:
-    - mrp_onestep
-    - direct_ests
+    contents:
+      - mrp_onestep
+      - direct_ests
 
   - title: Fit models
-  - contents:
-    - starts_with("fit_")
-    - prior_pd_binomial
+    contents:
+      - starts_with("fit_")
+      - prior_pd_binomial
 
   - title: Poststratify
     contents:
@@ -35,7 +35,7 @@ reference:
       - error_lbl
 
   - title: Example Datasets
-  - contents:
+    contents:
     - cces_GA
     - acs_GA
     - elec_GA
