@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   temp_reg-v-poststrat: temp_reg-v-poststrat.html
-last_built: 2021-02-12T04:47Z
+last_built: 2021-02-13T04:50Z
 urls:
   reference: https://kuriwaki.github.io/ccesMRPrun/reference
   article: https://kuriwaki.github.io/ccesMRPrun/articles
