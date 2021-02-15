@@ -184,7 +184,7 @@ acs_syn_mlogit <- synth_mlogit(educ ~ female + age,
                                area_var = "cd")
 ```
 
-On average, this produces a model where the _margins_ are smoothed out nationally. In the CCES survey sample, `r percent(mean(cces_GA$educ == "HS or Less"))` have a "HS or Less" degree, so it seems like the numbers match that.  This is not surprising because there are CD "fixed effects" not captured by gender and age, but it is nonethless troubling for MRP
+On average, this produces a model where the _margins_ are smoothed out nationally. In the CCES survey sample, `r percent(mean(cces_GA$educ == "HS or Less"))` have a "HS or Less" degree, so it seems like the numbers match that.  This is not surprising because there are CD "fixed effects" not captured by gender and age, but it is nonethless troubling for MRP.
 
 
 The ccesMRPprep package provide two other approaches to estimating the joint -- these incorporate another source of information, which is the margins that are available. 
@@ -260,6 +260,6 @@ mrsp_df %>%
 ```
 
 
-The first estimate look bad.  If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP _for an outcome_ for which we supplied the joint for.  If we were estimating å different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.
+The first estimate look bad.  If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP _for an outcome_ for which we supplied the joint for.  If we were estimating a different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.
 
 
