@@ -40,7 +40,9 @@ mrp_onestep <- function(.formula, .data,
   brms_fit <- fit_brms(.formula, .data, ...)
 
   # P-step
-  post_fit <- poststrat_draws(brms_fit, poststrat_tgt,
+  post_fit <- poststrat_draws(brms_fit,
+                              poststrat_tgt = poststrat_tgt,
+                              orig_data = .data,
                               area_var = area_var, count_var = count_var)
 
   # summarize
