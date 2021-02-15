@@ -53,9 +53,7 @@ some wrappers.
 
 ``` r
 fit <- fit_brms(form, cc_voters, verbose = FALSE)
-```
 
-``` r
 class(fit)
 ```
 
