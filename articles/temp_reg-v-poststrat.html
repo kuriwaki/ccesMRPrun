@@ -155,10 +155,76 @@
                                 .cores <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">}</span>,
                   .id <span class="op">=</span> <span class="st">"spec"</span><span class="op">)</span>
 <span class="co">#&gt; Compiling Stan program...</span>
+<span class="co">#&gt; Trying to compile a simple C file</span>
+<span class="co">#&gt; Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c</span>
+<span class="co">#&gt; clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/runner/work/_temp/Library/Rcpp/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/unsupported"  -I"/Users/runner/work/_temp/Library/BH/include" -I"/Users/runner/work/_temp/Library/StanHeaders/include/src/"  -I"/Users/runner/work/_temp/Library/StanHeaders/include/"  -I"/Users/runner/work/_temp/Library/RcppParallel/include/"  -I"/Users/runner/work/_temp/Library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:88:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt; ^</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt;                ^</span>
+<span class="co">#&gt;                ;</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found</span>
+<span class="co">#&gt; #include &lt;complex&gt;</span>
+<span class="co">#&gt;          ^~~~~~~~~</span>
+<span class="co">#&gt; 3 errors generated.</span>
+<span class="co">#&gt; make: *** [foo.o] Error 1</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="co">#&gt; Compiling Stan program...</span>
+<span class="co">#&gt; Trying to compile a simple C file</span>
+<span class="co">#&gt; Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c</span>
+<span class="co">#&gt; clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/runner/work/_temp/Library/Rcpp/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/unsupported"  -I"/Users/runner/work/_temp/Library/BH/include" -I"/Users/runner/work/_temp/Library/StanHeaders/include/src/"  -I"/Users/runner/work/_temp/Library/StanHeaders/include/"  -I"/Users/runner/work/_temp/Library/RcppParallel/include/"  -I"/Users/runner/work/_temp/Library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:88:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt; ^</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt;                ^</span>
+<span class="co">#&gt;                ;</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found</span>
+<span class="co">#&gt; #include &lt;complex&gt;</span>
+<span class="co">#&gt;          ^~~~~~~~~</span>
+<span class="co">#&gt; 3 errors generated.</span>
+<span class="co">#&gt; make: *** [foo.o] Error 1</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="co">#&gt; Compiling Stan program...</span>
+<span class="co">#&gt; Trying to compile a simple C file</span>
+<span class="co">#&gt; Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c</span>
+<span class="co">#&gt; clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/runner/work/_temp/Library/Rcpp/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/"  -I"/Users/runner/work/_temp/Library/RcppEigen/include/unsupported"  -I"/Users/runner/work/_temp/Library/BH/include" -I"/Users/runner/work/_temp/Library/StanHeaders/include/src/"  -I"/Users/runner/work/_temp/Library/StanHeaders/include/"  -I"/Users/runner/work/_temp/Library/RcppParallel/include/"  -I"/Users/runner/work/_temp/Library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:88:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt; ^</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator</span>
+<span class="co">#&gt; namespace Eigen {</span>
+<span class="co">#&gt;                ^</span>
+<span class="co">#&gt;                ;</span>
+<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
+<span class="co">#&gt; In file included from /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Dense:1:</span>
+<span class="co">#&gt; /Users/runner/work/_temp/Library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found</span>
+<span class="co">#&gt; #include &lt;complex&gt;</span>
+<span class="co">#&gt;          ^~~~~~~~~</span>
+<span class="co">#&gt; 3 errors generated.</span>
+<span class="co">#&gt; make: *** [foo.o] Error 1</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="va">mrp_df</span>
 <span class="co">#&gt; # A tibble: 42 x 11</span>
@@ -211,7 +277,7 @@
                                microdata <span class="op">=</span> <span class="va">cces_GA</span>,
                                poptable <span class="op">=</span> <span class="va">acs_df</span>,  <span class="co"># internally will be treated as if we don't know education</span>
                                area_var <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
-<p>On average, this produces a model where the <em>margins</em> are smoothed out nationally. In the CCES survey sample, 31% have a “HS or Less” degree, so it seems like the numbers match that. This is not surprising because there are CD “fixed effects” not captured by gender and age, but it is nonethless troubling for MRP</p>
+<p>On average, this produces a model where the <em>margins</em> are smoothed out nationally. In the CCES survey sample, 31% have a “HS or Less” degree, so it seems like the numbers match that. This is not surprising because there are CD “fixed effects” not captured by gender and age, but it is nonethless troubling for MRP.</p>
 <p>The ccesMRPprep package provide two other approaches to estimating the joint – these incorporate another source of information, which is the margins that are available.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">edu_margins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ccesMRPprep/man/collapse_table.html">collapse_table</a></span><span class="op">(</span><span class="va">acs_GA</span>, area_var <span class="op">=</span> <span class="st">"cd"</span>, X_vars <span class="op">=</span> <span class="st">"educ"</span>, 
@@ -271,7 +337,7 @@
 <span class="co">#&gt; Start sampling</span></code></pre></div>
 <p>And examine the outcome.</p>
 <p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
-<p>The first estimate look bad. If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP <em>for an outcome</em> for which we supplied the joint for. If we were estimating å different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.</p>
+<p>The first estimate look bad. If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP <em>for an outcome</em> for which we supplied the joint for. If we were estimating a different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.</p>
 </div>
   </div>
 
