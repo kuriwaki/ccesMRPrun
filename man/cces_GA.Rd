@@ -3,7 +3,7 @@
 \docType{data}
 \name{cces_GA}
 \alias{cces_GA}
-\title{Sample CCES data}
+\title{CCES 2016 from Georgia}
 \format{
 A survey dataset from the 2016 CCES
 \describe{
@@ -23,7 +23,6 @@ how.}
 cces_GA
 }
 \description{
-A dataset containing the prices and other attributes of almost 54,000
-diamonds.
+CCES 2016 from Georgia
 }
 \keyword{datasets}

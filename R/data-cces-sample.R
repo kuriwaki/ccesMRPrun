@@ -1,7 +1,5 @@
-#' Sample CCES data
+#' CCES 2016 from Georgia
 #'
-#' A dataset containing the prices and other attributes of almost 54,000
-#' diamonds.
 #'
 #' @format A survey dataset from the 2016 CCES
 #' \describe{
