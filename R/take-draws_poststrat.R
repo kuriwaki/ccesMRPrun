@@ -171,6 +171,6 @@ pivot_celldraws_longer <- function(mod_draws, data_strat, yhat_name = "pred_n_ye
   as_tibble(draws_transposed) %>%
     mutate(cell = 1:n()) %>%
     bind_cols(data_strat, .) %>%
-    pivot_longer(cols = matches("^V"), names_to = "iter", values_to = yhat_name) %>%
+    pivot_longer(cols = matches("^V[0-9]"), names_to = "iter", values_to = yhat_name) %>%
     mutate(iter = parse_number(.data$iter))
 }
