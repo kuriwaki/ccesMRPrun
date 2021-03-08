@@ -1,10 +1,6 @@
 Running MRP with CCES
 ================
 
-``` r
-knitr::opts_chunk$set(fig.path = "man/figures/README-")
-```
-
 <!-- badges: start -->
 
 [![tic](https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master)](https://github.com/kuriwaki/ccesMRPrun/actions)
@@ -81,16 +77,16 @@ drw
     ## # A tibble: 56,000 x 3
     ##    cd     iter p_mrp
     ##  * <chr> <dbl> <dbl>
-    ##  1 GA-01     1 0.434
+    ##  1 GA-01     1 0.429
     ##  2 GA-01     2 0.390
-    ##  3 GA-01     3 0.397
-    ##  4 GA-01     4 0.402
-    ##  5 GA-01     5 0.405
-    ##  6 GA-01     6 0.473
-    ##  7 GA-01     7 0.421
-    ##  8 GA-01     8 0.409
-    ##  9 GA-01     9 0.424
-    ## 10 GA-01    10 0.441
+    ##  3 GA-01     3 0.517
+    ##  4 GA-01     4 0.392
+    ##  5 GA-01     5 0.574
+    ##  6 GA-01     6 0.504
+    ##  7 GA-01     7 0.536
+    ##  8 GA-01     8 0.340
+    ##  9 GA-01     9 0.425
+    ## 10 GA-01    10 0.412
     ## # … with 55,990 more rows
 
 # Summaries
