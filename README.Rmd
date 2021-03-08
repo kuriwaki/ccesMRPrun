@@ -3,6 +3,11 @@ title: "Running MRP with CCES"
 output: github_document
 ---
 
+```{r}
+knitr::opts_chunk$set(fig.path = "man/figures/README-")
+```
+
+
 <!-- badges: start -->
 
 [![tic](https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master)](https://github.com/kuriwaki/ccesMRPrun/actions)
@@ -134,3 +139,5 @@ scatter_45(mrp_long,
            xlab = "Clinton Vote",
            ylab = "Estimate")
 ```
+
+![](README_files/figure-gfm/mrp-plot-1.png)

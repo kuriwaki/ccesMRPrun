@@ -1,6 +1,10 @@
 Running MRP with CCES
 ================
 
+``` r
+knitr::opts_chunk$set(fig.path = "man/figures/README-")
+```
+
 <!-- badges: start -->
 
 [![tic](https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master)](https://github.com/kuriwaki/ccesMRPrun/actions)
@@ -123,11 +127,11 @@ scatter_45(mrp_val, clinton_vote, p_mrp_est,
            ylab = "MRP Estimate ")
 ```
 
-<img src="README_files/figure-gfm/mrp-plot-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-mrp-plot-1.png" style="display: block; margin: auto;" />
 
 Compare this with raw estimates:
 
-![](README_files/figure-gfm/bsl-plot-1.png)<!-- -->
+![](man/figures/README-bsl-plot-1.png)<!-- -->
 
 It may be easier to store the models in long form and show them at once.
 
@@ -147,4 +151,6 @@ scatter_45(mrp_long,
            ylab = "Estimate")
 ```
 
-![](README_files/figure-gfm/long-plot-1.png)<!-- -->
+![](man/figures/README-long-plot-1.png)<!-- -->
+
+![](README_files/figure-gfm/mrp-plot-1.png)
