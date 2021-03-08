@@ -135,16 +135,16 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">## # A tibble: 56,000 x 3</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">##    cd     iter p_mrp</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">##  * &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">##  1 GA-01     1 0.434</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">##  1 GA-01     1 0.429</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">##  2 GA-01     2 0.390</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">##  3 GA-01     3 0.397</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">##  4 GA-01     4 0.402</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">##  5 GA-01     5 0.405</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">##  6 GA-01     6 0.473</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">##  7 GA-01     7 0.421</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">##  8 GA-01     8 0.409</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">##  9 GA-01     9 0.424</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">## 10 GA-01    10 0.441</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">##  3 GA-01     3 0.517</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">##  4 GA-01     4 0.392</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">##  5 GA-01     5 0.574</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">##  6 GA-01     6 0.504</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">##  7 GA-01     7 0.536</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">##  8 GA-01     8 0.340</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">##  9 GA-01     9 0.425</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">## 10 GA-01    10 0.412</span></span>
 <span id="cb7-14"><a href="#cb7-14"></a><span class="co">## # … with 55,990 more rows</span></span></code></pre></div>
 </div>
 <div id="summaries" class="section level1">
@@ -174,9 +174,9 @@
            lbvar <span class="op">=</span> <span class="va">p_mrp_050</span>,
            xlab <span class="op">=</span> <span class="st">"Clinton Vote"</span>,
            ylab <span class="op">=</span> <span class="st">"MRP Estimate "</span><span class="op">)</span></code></pre></div>
-<p><img src="README_files/figure-gfm/mrp-plot-1.png" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-mrp-plot-1.png" style="display: block; margin: auto;"></p>
 <p>Compare this with raw estimates:</p>
-<p><img src="README_files/figure-gfm/bsl-plot-1.png"><!-- --></p>
+<p><img src="reference/figures/README-bsl-plot-1.png"><!-- --></p>
 <p>It may be easier to store the models in long form and show them at once.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># reshape to long</span>
@@ -192,7 +192,8 @@
            by_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>p_mrp_est <span class="op">=</span> <span class="st">"MRP"</span>, p_raw <span class="op">=</span> <span class="st">"Raw"</span>, p_wt <span class="op">=</span> <span class="st">"YouGov Weighted"</span><span class="op">)</span>,
            xlab <span class="op">=</span> <span class="st">"Clinton Vote"</span>,
            ylab <span class="op">=</span> <span class="st">"Estimate"</span><span class="op">)</span></code></pre></div>
-<p><img src="README_files/figure-gfm/long-plot-1.png"><!-- --></p>
+<p><img src="reference/figures/README-long-plot-1.png"><!-- --></p>
+<p><img src="README_files/figure-gfm/mrp-plot-1.png"></p>
 </div>
 
   </div>
