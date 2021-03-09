@@ -7,6 +7,5 @@ if (ci_on_ghactions() && ci_has_env("BUILD_PKGDOWN")) {
   get_stage("install") %>%
     add_step(step_install_cran("patchwork"))
 
-  do_readme_rmd()
   do_pkgdown()
 }
