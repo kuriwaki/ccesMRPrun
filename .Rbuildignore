@@ -10,3 +10,4 @@
 ^pkgdown$
 ^\.ccache$
 ^tic\.R$
+^LICENSE\.md$
