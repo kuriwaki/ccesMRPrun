@@ -6,9 +6,15 @@ Running MRP with CCES
 [![tic](https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master)](https://github.com/kuriwaki/ccesMRPrun/actions)
 <!-- badges: end -->
 
+Cite as:
+
+-   Shiro Kuriwaki (2020). ccesMRPrun: Fitting and Visualizing MRP
+    Models from Cleaned CCES and Census Data. R package.
+    <https://www.github.com/kuriwaki/ccesMRPrun>
+
 This is a set of functions to facilitate running MRP models on CCES data
 and is a companion to
-[`ccesMRPprep`](www.shirokuriwaki.com/ccesMRPprep).
+[**`ccesMRPprep`**](https://www.shirokuriwaki.com/ccesMRPprep).
 
 To install,
 
@@ -148,5 +154,3 @@ scatter_45(mrp_long,
 ```
 
 ![](man/figures/README-long-plot-1.png)<!-- -->
-
-![](README_files/figure-gfm/mrp-plot-1.png)
