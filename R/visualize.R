@@ -6,7 +6,8 @@
 #' @param lblvar Variable to use as labels for `geom_text_repel`, unquoted
 #' @param ubvar,lbvar Variable to use as upper and lower bounds for `geom_errorbar`, unqoted
 #' @param xlab,ylab x and y-axis labels, respectively
-#' @param xlim,ylim x and y-axis limits, respectively.
+#' @param xlim,ylim x and y-axis limits, respectively
+#' @param size.point Size of points to use in ggplot
 #' @param by_form If the dataset is in long form with separate rows for different
 #'  model estimates, you can supply a formula to be passed on to `facet_wrap()` to
 #'  have separate facets for each model.
@@ -52,6 +53,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        xlab = NULL, ylab = NULL,
                        xlim = NULL,
                        ylim = NULL,
+                       size.point = 0.8,
                        ubvar = NULL, lbvar = NULL,
                        by_form = NULL,
                        by_labels = NULL,
@@ -81,7 +83,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
 
   # main plot -- defaults
   gg0 <- ggplot(tbl, aes(x = {{xvar}}, y = {{yvar}})) +
-    geom_point() +
+    geom_point(size = size.point) +
     coord_equal(xlim = xlim, ylim = ylim) +
     scale_x_continuous(labels = percent_format(accuracy = 1)) +
     scale_y_continuous(labels = percent_format(accuracy = 1)) +

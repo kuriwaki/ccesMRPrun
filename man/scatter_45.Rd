@@ -13,6 +13,7 @@ scatter_45(
   ylab = NULL,
   xlim = NULL,
   ylim = NULL,
+  size.point = 0.8,
   ubvar = NULL,
   lbvar = NULL,
   by_form = NULL,
@@ -33,7 +34,9 @@ scatter_45(
 
 \item{xlab, ylab}{x and y-axis labels, respectively}
 
-\item{xlim, ylim}{x and y-axis limits, respectively.}
+\item{xlim, ylim}{x and y-axis limits, respectively}
+
+\item{size.point}{Size of points to use in ggplot}
 
 \item{ubvar, lbvar}{Variable to use as upper and lower bounds for \code{geom_errorbar}, unqoted}
 
