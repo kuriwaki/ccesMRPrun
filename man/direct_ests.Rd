@@ -4,7 +4,7 @@
 \alias{direct_ests}
 \title{Direct Estimator}
 \usage{
-direct_ests(.formula, .data, area_var, weight_var = NULL)
+direct_ests(.formula, .data, area_var, weight_var = NULL, shape = "wide")
 }
 \arguments{
 \item{.formula}{MRP formula. Only thing that will be used is the outcome
@@ -16,11 +16,17 @@ variable (a binary variable)}
 aggregate to.}
 
 \item{weight_var}{Character for the variable that corresponds to weights.}
+
+\item{shape}{Whether to return the output in \code{"wide"} (with one row per states)
+or \code{"long"} (one row per state x estimate). Defaults to \code{"wide"}.}
 }
 \value{
 A wide dataframe where each row is a area, \code{p_raw} indicates the
-raw average, \code{p_wt} indicates the weighted average( if \code{weight_var} is provided),
-and \code{n_raw} is the raw sampe size.
+raw average, \code{p_wt} indicates the weighted average (if \code{weight_var} is provided),
+and \code{n_raw} is the raw sample size.  We also provide standard errors in the form \code{se_}
+\code{se_raw} follows the standard standard error for proportion \code{sqrt(p*(1-p)/n)}.
+The \code{se_wt} implements the weighted standard error, where the sample size
+is replaced with the effective sample size, \code{sum(wt)^2 / sum(wt^2)}.
 }
 \description{
 Collapses survey data to get direct estimates (i.e. non-pooled sample porportions)
