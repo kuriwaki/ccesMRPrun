@@ -23,6 +23,7 @@ Imports:
     tidyr (>= 1.0.0),
     ggplot2,
     ggrepel,
+    lemon,
     glue,
     scales, 
     stringr,

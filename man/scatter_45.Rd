@@ -14,8 +14,13 @@ scatter_45(
   xlim = NULL,
   ylim = NULL,
   size.point = 0.8,
+  size.text = 2,
+  size.errorstat = 2,
   ubvar = NULL,
   lbvar = NULL,
+  alpha.CI = 0.8,
+  alpha.text = 0.5,
+  max.overlaps = 20,
   by_form = NULL,
   by_labels = NULL,
   show_error = TRUE,
@@ -38,22 +43,36 @@ scatter_45(
 
 \item{size.point}{Size of points to use in ggplot}
 
+\item{size.text}{Size for the labels}
+
+\item{size.errorstat}{Size for the error statistic}
+
 \item{ubvar, lbvar}{Variable to use as upper and lower bounds for \code{geom_errorbar}, unqoted}
 
+\item{alpha.CI}{The transparency value for the error bars, ranging from 0 to 1.}
+
+\item{alpha.text}{The transparency value for the labels, ranging from 0 to 1.}
+
+\item{max.overlaps}{To be passed on to \code{geom_text_repel} if a label
+is used.}
+
 \item{by_form}{If the dataset is in long form with separate rows for different
-model estimates, you can supply a formula to be passed on to \code{facet_wrap()} to
+model estimates, you can supply a formula to be passed on to \code{facet_rep_wrap()} to
 have separate facets for each model.}
 
 \item{by_labels}{A named vector for the facets, where the names are the names
 of the unique values of the variable by specified in \code{by_form} (e.g. "model") and
 the values are the corresponding characters to recode to.}
 
-\item{show_error}{Whether or not to show the accuracy metrics in caption}
+\item{show_error}{Whether or not to show the error statistic in a caption or a corner of the figure}
 
 \item{expand_axes}{Whether to expand the axes so that the plot is a square,
 even if there is more whitespace. Overrides xlim and ylim.}
 
 \item{...}{Additional arguments sent to the \code{error_lbl} function}
+
+\item{repeat.ticks}{Whether to reproduce the axis texts for every facets in
+\code{facet_rep_wrap()}. Defaults to \code{FALSE}}
 }
 \description{
 Standard scatterplot with 45 degree line

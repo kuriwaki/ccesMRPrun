@@ -7,14 +7,22 @@
 #' @param ubvar,lbvar Variable to use as upper and lower bounds for `geom_errorbar`, unqoted
 #' @param xlab,ylab x and y-axis labels, respectively
 #' @param xlim,ylim x and y-axis limits, respectively
-#' @param size.point Size of points to use in ggplot
 #' @param by_form If the dataset is in long form with separate rows for different
-#'  model estimates, you can supply a formula to be passed on to `facet_wrap()` to
+#'  model estimates, you can supply a formula to be passed on to `facet_rep_wrap()` to
 #'  have separate facets for each model.
 #' @param by_labels A named vector for the facets, where the names are the names
 #' of the unique values of the variable by specified in `by_form` (e.g. "model") and
 #' the values are the corresponding characters to recode to.
-#' @param show_error Whether or not to show the accuracy metrics in caption
+#' @param alpha.CI The transparency value for the error bars, ranging from 0 to 1.
+#' @param alpha.text The transparency value for the labels, ranging from 0 to 1.
+#' @param size.point Size of points to use in ggplot
+#' @param size.text Size for the labels
+#' @param size.errorstat Size for the error statistic
+#' @param max.overlaps To be passed on to \code{geom_text_repel} if a label
+#'  is used.
+#' @param repeat.ticks Whether to reproduce the axis texts for every facets in
+#'  `facet_rep_wrap()`. Defaults to `FALSE`
+#' @param show_error Whether or not to show the error statistic in a caption or a corner of the figure
 #' @param expand_axes Whether to expand the axes so that the plot is a square,
 #'  even if there is more whitespace. Overrides xlim and ylim.
 #' @param ... Additional arguments sent to the \code{error_lbl} function
@@ -22,6 +30,7 @@
 #'
 #'
 #' @import ggplot2
+#' @importFrom lemon facet_rep_wrap
 #' @importFrom scales percent_format
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom stringr str_replace str_trim str_remove
@@ -54,7 +63,12 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        xlim = NULL,
                        ylim = NULL,
                        size.point = 0.8,
+                       size.text = 2,
+                       size.errorstat = 2,
                        ubvar = NULL, lbvar = NULL,
+                       alpha.CI = 0.8,
+                       alpha.text = 0.5,
+                       max.overlaps = 20,
                        by_form = NULL,
                        by_labels = NULL,
                        show_error = TRUE,
@@ -96,17 +110,20 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     form_char <- str_trim(str_remove(attr(terms(by_form), "term.labels"), "~"))
     formvar <- enquo(form_char)
     gg1 <- gg1 +
-      facet_wrap(by_form, labeller = as_labeller(by_labels))
+      facet_rep_wrap(by_form, labeller = as_labeller(by_labels), repeat.tick.labels)
   }
 
   if (ub_name != "NULL" & lb_name != "NULL") {
     gg1 <- gg1 +
-      geom_errorbar(aes(ymin = {{lbvar}}, ymax = {{ubvar}}), width = 0, alpha = 0.8)
+      geom_errorbar(aes(ymin = {{lbvar}}, ymax = {{ubvar}}), width = 0, alpha = alpha.CI)
   }
 
   if (lbl_name != "NULL") {
     gg1 <- gg1 +
-      geom_text_repel(aes(label = {{lblvar}}), alpha = 0.5)
+      geom_text_repel(aes(label = {{lblvar}}),
+                      alpha = alpha.text,
+                      size = size.text,
+                      max.overlaps = max.overlaps)
   }
 
   if (!is.null(xlab))
@@ -135,7 +152,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
         geom_text(data = err_df,
                   mapping = aes(label = text_to_show),
                   x = Inf, y = -Inf, hjust = 1.1, vjust = -0.5,
-                  lineheight = 1, size = 2)
+                  lineheight = 1, size = size.errorstat)
     }
   }
 
