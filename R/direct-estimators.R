@@ -20,6 +20,7 @@
 #'
 #' @importFrom Formula as.Formula
 #' @importFrom dplyr group_by summarize relocate left_join
+#' @importFrom tidyr pivot_longer
 #' @export
 #'
 #' @examples
@@ -53,7 +54,7 @@ direct_ests <- function(.formula, .data, area_var, weight_var = NULL, shape = "w
                 )
 
       out <- left_join(out, w_df, by = area_var) %>%
-        relocate(!!syms(area_var), starts_with("p_"))
+        relocate(starts_with(area_var), starts_with("p_"))
   }
 
   if (shape == "wide")
@@ -61,7 +62,7 @@ direct_ests <- function(.formula, .data, area_var, weight_var = NULL, shape = "w
 
   if (shape == "long") {
     out %>%
-      pivot_longer(-st,
+      pivot_longer(cols = !all_of(area_var),
                    names_pattern = "(p|n|se)_(raw|wt)",
                    names_to = c(".value", "method")) %>%
       return()
