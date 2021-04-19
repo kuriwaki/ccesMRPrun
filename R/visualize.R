@@ -15,6 +15,7 @@
 #' the values are the corresponding characters to recode to.
 #' @param alpha.CI The transparency value for the error bars, ranging from 0 to 1.
 #' @param alpha.text The transparency value for the labels, ranging from 0 to 1.
+#' @param alpha.segment The transparency value for the segments linking the labels to the points, ranging from 0 to 1.
 #' @param size.point Size of points to use in ggplot
 #' @param size.text Size for the labels
 #' @param size.errorstat Size for the error statistic
@@ -68,7 +69,9 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        ubvar = NULL, lbvar = NULL,
                        alpha.CI = 0.8,
                        alpha.text = 0.5,
+                       alpha.segment = 0.5,
                        max.overlaps = 20,
+                       repeat.axis.text = FALSE,
                        by_form = NULL,
                        by_labels = NULL,
                        show_error = TRUE,
@@ -110,7 +113,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     form_char <- str_trim(str_remove(attr(terms(by_form), "term.labels"), "~"))
     formvar <- enquo(form_char)
     gg1 <- gg1 +
-      facet_rep_wrap(by_form, labeller = as_labeller(by_labels), repeat.tick.labels)
+      facet_rep_wrap(by_form, labeller = as_labeller(by_labels), repeat.tick.labels = repeat.axis.text)
   }
 
   if (ub_name != "NULL" & lb_name != "NULL") {
@@ -123,6 +126,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
       geom_text_repel(aes(label = {{lblvar}}),
                       alpha = alpha.text,
                       size = size.text,
+                      segment.alpha = alpha.segment,
                       max.overlaps = max.overlaps)
   }
 

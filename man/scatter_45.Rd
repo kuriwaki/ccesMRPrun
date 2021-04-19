@@ -20,7 +20,9 @@ scatter_45(
   lbvar = NULL,
   alpha.CI = 0.8,
   alpha.text = 0.5,
+  alpha.segment = 0.5,
   max.overlaps = 20,
+  repeat.axis.text = FALSE,
   by_form = NULL,
   by_labels = NULL,
   show_error = TRUE,
@@ -52,6 +54,8 @@ scatter_45(
 \item{alpha.CI}{The transparency value for the error bars, ranging from 0 to 1.}
 
 \item{alpha.text}{The transparency value for the labels, ranging from 0 to 1.}
+
+\item{alpha.segment}{The transparency value for the segments linking the labels to the points, ranging from 0 to 1.}
 
 \item{max.overlaps}{To be passed on to \code{geom_text_repel} if a label
 is used.}
