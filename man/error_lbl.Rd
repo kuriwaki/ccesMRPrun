@@ -7,8 +7,8 @@
 error_lbl(
   truth,
   estimate,
-  show_metrics = c("rmse", "mean"),
-  metrics_lbl = c(rmse = "RMSE", mean = "MAD"),
+  show_metrics = c("rmse", "mean", "bias"),
+  metrics_lbl = c(rmse = "RMSE", mean = "Mean Abs. Dev.", bias = "Mean Dev."),
   pp_accuracy = 0.1
 )
 }

@@ -10,6 +10,8 @@
 #' @param by_form If the dataset is in long form with separate rows for different
 #'  model estimates, you can supply a formula to be passed on to `facet_rep_wrap()` to
 #'  have separate facets for each model.
+#' @param by_nrow If using facets, how many rows should the facet take? Defaults to NULL,
+#' which is facet_wrap's default
 #' @param by_labels A named vector for the facets, where the names are the names
 #' of the unique values of the variable by specified in `by_form` (e.g. "model") and
 #' the values are the corresponding characters to recode to.
@@ -73,6 +75,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        max.overlaps = 20,
                        repeat.axis.text = FALSE,
                        by_form = NULL,
+                       by_nrow = NULL,
                        by_labels = NULL,
                        show_error = TRUE,
                        expand_axes = TRUE, ...) {
@@ -113,7 +116,10 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     form_char <- str_trim(str_remove(attr(terms(by_form), "term.labels"), "~"))
     formvar <- enquo(form_char)
     gg1 <- gg1 +
-      facet_rep_wrap(by_form, labeller = as_labeller(by_labels), repeat.tick.labels = repeat.axis.text)
+      facet_rep_wrap(by_form,
+                     labeller = as_labeller(by_labels),
+                     repeat.tick.labels = repeat.axis.text,
+                     nrow = by_nrow)
   }
 
   if (ub_name != "NULL" & lb_name != "NULL") {
@@ -178,20 +184,21 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
 #' @importFrom stringr str_c
 #' @importFrom glue glue
 #'
-#'
-error_lbl <- function(truth, estimate, show_metrics = c("rmse", "mean"),
-                      metrics_lbl = c(rmse = "RMSE", mean = "MAD"),
+#' @export
+error_lbl <- function(truth, estimate,
+                      show_metrics = c("rmse", "mean", "bias"),
+                      metrics_lbl = c(rmse = "RMSE", mean = "Mean Abs. Dev.", bias = "Mean Dev."),
                       pp_accuracy = 0.1) {
 
   rmse_stat <- sqrt(mean((truth - estimate)^2))
   mean_stat <- mean(abs(truth - estimate))
+  bias_stat <- mean(truth - estimate)
 
-  stat_vec <- c(rmse = rmse_stat, mean = mean_stat)
+  stat_vec <- c(rmse = rmse_stat, mean = mean_stat, bias = bias_stat)
 
   show_stat <- percent(stat_vec[show_metrics],
                        accuracy = pp_accuracy,
                        suffix = "pp")
-
 
   show_lbl <- str_c(str_c(metrics_lbl[show_metrics], show_stat, sep = ": "),
                     collapse = "\n")

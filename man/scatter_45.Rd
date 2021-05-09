@@ -24,6 +24,7 @@ scatter_45(
   max.overlaps = 20,
   repeat.axis.text = FALSE,
   by_form = NULL,
+  by_nrow = NULL,
   by_labels = NULL,
   show_error = TRUE,
   expand_axes = TRUE,
@@ -63,6 +64,9 @@ is used.}
 \item{by_form}{If the dataset is in long form with separate rows for different
 model estimates, you can supply a formula to be passed on to \code{facet_rep_wrap()} to
 have separate facets for each model.}
+
+\item{by_nrow}{If using facets, how many rows should the facet take? Defaults to NULL,
+which is facet_wrap's default}
 
 \item{by_labels}{A named vector for the facets, where the names are the names
 of the unique values of the variable by specified in \code{by_form} (e.g. "model") and
