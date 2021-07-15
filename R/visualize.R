@@ -192,7 +192,7 @@ error_lbl <- function(truth, estimate,
 
   rmse_stat <- sqrt(mean((truth - estimate)^2))
   mean_stat <- mean(abs(truth - estimate))
-  bias_stat <- mean(truth - estimate)
+  bias_stat <- mean(estimate - truth)
 
   stat_vec <- c(rmse = rmse_stat, mean = mean_stat, bias = bias_stat)
 
