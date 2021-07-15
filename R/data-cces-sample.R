@@ -31,6 +31,11 @@
 
 #' Fitted brms model
 #'
+#' @description A fitted multilevel of the formula
+#'  `response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)`
+#' where `response` is a binary variable for voting for Hilary Clinton in
+#' 2016. The sample is `r nrow(cces_GA)` respondents in Georgia in 2016.
+#'
 #'
 "fit_GA"
 

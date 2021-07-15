@@ -11,6 +11,9 @@ An object of class \code{brmsfit} of length 20.
 fit_GA
 }
 \description{
-Fitted brms model
+A fitted multilevel of the formula
+\code{response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)}
+where \code{response} is a binary variable for voting for Hilary Clinton in
+2016. The sample is 2062 respondents in Georgia in 2016.
 }
 \keyword{datasets}
