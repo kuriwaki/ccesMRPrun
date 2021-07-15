@@ -4,21 +4,43 @@
 \alias{posthoc_error}
 \title{Compute absolute deviation}
 \source{
-https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
+Modified from AbsError in https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
 }
 \usage{
-posthoc_error(delta, y, n, yhat)
+posthoc_error(delta, xi, ests, n)
 }
 \arguments{
 \item{delta}{The parameter of interest}
 
-\item{y}{The true target}
+\item{xi}{The true target}
 
-\item{yhat}{A vector of current estimate}
+\item{ests}{A vector of current estimate, by cell}
+
+\item{n}{The sample size of the estimates, by cell}
 }
 \description{
 Compute absolute deviation
 }
+\examples{
+
+ biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+ sizes <- rbinom(n = 100, size = 100, prob = 0.1)
+ tru <- 0.5
+
+ # one delta
+ posthoc_error(delta = 0.1, xi = tru, ests = biased_ests, n = sizes)
+
+ # test multiple deltas
+ deltas <- seq(-3, 3, by = 0.1)
+ abserr <- purrr::map_dbl(.x = deltas,
+         .f = ~posthoc_error(.x, xi = tru, ests= biased_ests, n = sizes))
+ plot(deltas, abserr, bty = "n")
+
+ @export
+}
+\seealso{
+logit_ghitza posthoc_intercept
+}
 \author{
-Yair Ghitza
+Yair Ghitza and Shiro Kuriwaki
 }

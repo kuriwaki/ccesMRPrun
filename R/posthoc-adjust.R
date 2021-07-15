@@ -3,8 +3,8 @@
 
 #' A logit transformation as implemented by Ghitza
 #'
-#' This logit transformation does some trimming around
-#' extreme values.
+#' This logit transformation (from a probability scale to unbounded) does some
+#' trimming around extreme values.
 #'
 #' @author Yair Ghitza
 #'
@@ -14,6 +14,8 @@
 #'  logit_ghitza(0.000001, digits = 1)
 #'  logit_ghitza(0.000001, digits = 10)
 #'
+#' @seealso posthoc_error posthoc_intercept
+#' @export
 logit_ghitza <- function(x, digits=5) {
   return(-1 * log(1/pmin(
     1 - 1 * 10^(-1 * digits),
@@ -25,18 +27,38 @@ logit_ghitza <- function(x, digits=5) {
 #' Compute absolute deviation
 #'
 #' @param delta The parameter of interest
-#' @param y The true target
-#' @param yhat A vector of current estimate
+#' @param xi The true target
+#' @param ests A vector of current estimate, by cell
+#' @param n The sample size of the estimates, by cell
 #'
-#' @author Yair Ghitza
-#' @source https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
-#'
+#' @author Yair Ghitza and Shiro Kuriwaki
+#' @source Modified from AbsError in https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
 #'
 #' @importFrom arm invlogit
-posthoc_error <- function(delta, y, n, yhat) {
-  y <- pmin(logit_ghitza(1), pmax(logit_ghitza(0), y))
-  abs((sum(invlogit(logit_ghitza(y) + delta) * n) /
-         sum(n) - yhat))
+#' @seealso logit_ghitza posthoc_intercept
+#'
+#' @examples
+#'
+#'  biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+#'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
+#'  tru <- 0.5
+#'
+#'  # one delta
+#'  posthoc_error(delta = 0.1, xi = tru, ests = biased_ests, n = sizes)
+#'
+#'  # test multiple deltas
+#'  deltas <- seq(-3, 3, by = 0.1)
+#'  abserr <- purrr::map_dbl(.x = deltas,
+#'          .f = ~posthoc_error(.x, xi = tru, ests= biased_ests, n = sizes))
+#'  plot(deltas, abserr, bty = "n")
+#'
+#'  @export
+posthoc_error <- function(delta, xi, ests, n) {
+  ests_adj <- pmin(logit_ghitza(1), pmax(logit_ghitza(0), ests))
+
+  ests_d_pr <- invlogit(logit_ghitza(ests_adj) + delta)
+
+  abs(xi - (sum(ests_d_pr * n) / sum(n)))
 }
 
 
@@ -50,16 +72,29 @@ posthoc_error <- function(delta, y, n, yhat) {
 #' to best fit the estimand y. It is the argmin of the sum of
 #' absolute values of the deviation.
 #'
-#' @author Yair Ghitza
-#' @source https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
+#' @param search The lower and upper endpoints of the interval to search
+#' @inheritParams posthoc_error
 #'
+#' @author Yair Ghitza
+#' @source FindDelta function at https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
+#' @seealso posthoc_error
 #'
 #' @examples
 #'  cell_sims <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
 #'  mrp_by_edu <- summ_sims(cell_sims, area_var = c("cd", "educ"))
 #'
+#'  biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+#'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
+#'  tru <- 0.5
+#'
+#'  posthoc_intercept(tru, biased_ests, sizes)
+#'
 #' @export
-posthoc_intercept <- function(y, n, yhat) {
-  optimize(posthoc_error, interval = c(-5, 5), y, n, yhat)$minimum
+posthoc_intercept <- function(xi, ests, n, search = c(-5, 5)) {
+  optimize(posthoc_error,
+           interval = search,
+           xi = xi,
+           ests = ests,
+           n = n)$minimum
 }
 

@@ -7,8 +7,8 @@
 logit_ghitza(x, digits = 5)
 }
 \description{
-This logit transformation does some trimming around
-extreme values.
+This logit transformation (from a probability scale to unbounded) does some
+trimming around extreme values.
 }
 \examples{
  arm::logit(0.000001)
@@ -16,6 +16,9 @@ extreme values.
  logit_ghitza(0.000001, digits = 1)
  logit_ghitza(0.000001, digits = 10)
 
+}
+\seealso{
+posthoc_error posthoc_intercept
 }
 \author{
 Yair Ghitza
