@@ -22,8 +22,7 @@ posthoc_error(delta, xi, ests, n)
 Compute absolute deviation
 }
 \examples{
-
- biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+ biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
  tru <- 0.5
 

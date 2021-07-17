@@ -20,8 +20,8 @@ posthoc_intercept(xi, ests, n, search = c(-5, 5))
 }
 \description{
 For a given geography g, there may be a value y_g which is
-the ground truth. You have C cells with estiamtes of y that
-may be biased. This function, prosed by Ghitza and Gelman
+the ground truth. You have C cells with estimates of y that
+may be biased. This function, proposed by Ghitza and Gelman
 and Ghitza, will find a intercept shift for all C cells
 to best fit the estimand y. It is the argmin of the sum of
 absolute values of the deviation.
@@ -30,7 +30,7 @@ absolute values of the deviation.
  cell_sims <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
  mrp_by_edu <- summ_sims(cell_sims, area_var = c("cd", "educ"))
 
- biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+ biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
  tru <- 0.5
 

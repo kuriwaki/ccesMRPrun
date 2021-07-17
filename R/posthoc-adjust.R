@@ -1,6 +1,3 @@
-
-
-
 #' A logit transformation as implemented by Ghitza
 #'
 #' This logit transformation (from a probability scale to unbounded) does some
@@ -9,7 +6,8 @@
 #' @author Yair Ghitza
 #'
 #' @examples
-#'  arm::logit(0.000001)
+#'  logit <- function(x) log(x/(1 - x))
+#'  logit(0.000001)
 #'  logit_ghitza(0.000001, digits = 5) # the default
 #'  logit_ghitza(0.000001, digits = 1)
 #'  logit_ghitza(0.000001, digits = 10)
@@ -34,12 +32,10 @@ logit_ghitza <- function(x, digits=5) {
 #' @author Yair Ghitza and Shiro Kuriwaki
 #' @source Modified from AbsError in https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
 #'
-#' @importFrom arm invlogit
 #' @seealso logit_ghitza posthoc_intercept
 #'
 #' @examples
-#'
-#'  biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+#'  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
 #'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
 #'  tru <- 0.5
 #'
@@ -62,12 +58,15 @@ posthoc_error <- function(delta, xi, ests, n) {
 }
 
 
+#' Traditional inverse logit
+invlogit <- function(x) {1/(1 + exp(-x))}
+
 #' Find intercept correction for cell estimates
 #'
 #'
 #' For a given geography g, there may be a value y_g which is
-#' the ground truth. You have C cells with estiamtes of y that
-#' may be biased. This function, prosed by Ghitza and Gelman
+#' the ground truth. You have C cells with estimates of y that
+#' may be biased. This function, proposed by Ghitza and Gelman
 #' and Ghitza, will find a intercept shift for all C cells
 #' to best fit the estimand y. It is the argmin of the sum of
 #' absolute values of the deviation.
@@ -83,7 +82,7 @@ posthoc_error <- function(delta, xi, ests, n) {
 #'  cell_sims <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
 #'  mrp_by_edu <- summ_sims(cell_sims, area_var = c("cd", "educ"))
 #'
-#'  biased_ests <- arm::invlogit(rnorm(n = 100, mean = 1, sd = 1))
+#'  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
 #'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
 #'  tru <- 0.5
 #'
