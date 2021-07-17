@@ -38,6 +38,5 @@ BugReports: http://github.com/kuriwaki/ccesMRPrun/issues
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
-    purrr,
     rmarkdown
 VignetteBuilder: knitr

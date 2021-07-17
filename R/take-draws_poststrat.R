@@ -18,6 +18,13 @@
 #' @param new_levels If there are new levels in the poststrat table that do not have
 #' coefficients in the survey data, should there be an extrapolation or assignment to 0s?
 #' The answer should almost always be No in MRP.
+#' @param calibrate Adjust each cell's posthoc estimates so they add up to
+#'  a pre-specificed, user input? See `calib_area_to`
+#' @param calib_area_to A dataset with area-level correct values to calibrate to in the last
+#'  column.
+#' @param calib_join_var The variable that defines the level of the calibration dataframe
+#'  that can be joined, e.g. the area
+#' @param calib_to_var The variable to calibrate to, e.g. the voteshare
 #'
 #'
 #' @return A tidy dataset with `qID` x `cd` x `iter` number of rows,
@@ -36,15 +43,24 @@
 #'
 #'
 #' @importFrom dplyr mutate group_by summarize filter rename bind_cols matches
-#'  across all_of
+#'  across all_of select
 #' @importFrom tibble as_tibble
 #' @importFrom brms posterior_epred
+#' @importFrom glue glue
 #'
 #' @examples
 #' class(fit_GA) # brms object
 #' head(acs_GA) # dataset
 #'
 #' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+#'
+#' if (FALSE)  {
+#' # takes about 75 secs
+#' drw_GA_fix <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, calibrate = TRUE,
+#'                               calib_area_to = elec_GA,
+#'                               calib_join_var = "cd",
+#'                               calib_to_var = "clinton_vote_2pty")
+#' }
 #'
 #'
 #' @export
@@ -54,6 +70,10 @@ poststrat_draws <- function(model,
                             question_lbl = attr(orig_data, "question"),
                             area_var =  "cd",
                             count_var = "count",
+                            calibrate = FALSE,
+                            calib_area_to = NULL,
+                            calib_to_var = NULL,
+                            calib_join_var = NULL,
                             new_levels = FALSE) {
 
   # districts (CDs) to loop through. Remove extra in post-strat target
@@ -92,8 +112,30 @@ poststrat_draws <- function(model,
     if ("question_lbl" %in% colnames(areas_draws))
       areas_draws <-  mutate(areas_draws, qID = question_lbl)
 
-    areas_grp <- areas_draws %>%
-      group_by(across(all_of(iter_grp_vars)))
+    if (calibrate) {
+      message(glue("Calibrating for results in {n_distinct(calib_area_to[[area_var]])} districts, {n_distinct(areas_draws$iter)} iterations each."))
+
+      correct_add <- areas_draws %>%
+        select(-matches(calib_to_var)) %>%
+        left_join(calib_area_to, by = calib_join_var) %>%
+        group_by(across(all_of(iter_grp_vars))) %>%
+        summarize(
+          delta = posthoc_intercept(xi = unique(.data[[calib_to_var]]),
+                                    ests = pred_n_yes / n_response,
+                                    n = n_response)
+        )
+      areas_grp <- areas_draws %>%
+        group_by(across(all_of(iter_grp_vars))) %>%
+        left_join(correct_add, by = iter_grp_vars) %>%
+        mutate(pred_n_yes = n_response * invlogit(delta + logit_ghitza(pred_n_yes / n_response)))
+
+    }
+
+    if (!calibrate) {
+      areas_grp <- areas_draws %>%
+        group_by(across(all_of(iter_grp_vars)))
+    }
+
 
     # mean estimator
     areas_est <- areas_grp %>%
@@ -108,6 +150,14 @@ poststrat_draws <- function(model,
       p_draws,
       areas_strat,
       yhat_name = "pred_yes")
+
+    if (calibrate) {
+      stop("Cannot allow for any bernoulli / logit model now")
+    }
+    if (!calibrate) {
+      areas_grp <- areas_draws %>%
+        group_by(across(all_of(iter_grp_vars)))
+    }
 
     # mean estimator
     areas_est <- areas_grp %>%

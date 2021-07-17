@@ -11,6 +11,10 @@ poststrat_draws(
   question_lbl = attr(orig_data, "question"),
   area_var = "cd",
   count_var = "count",
+  calibrate = FALSE,
+  calib_area_to = NULL,
+  calib_to_var = NULL,
+  calib_join_var = NULL,
   new_levels = FALSE
 )
 }
@@ -34,6 +38,17 @@ and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 \item{count_var}{A character string for the variable name for the population
 count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is
 a trial count in the model. Defaults to \code{"count"}.}
+
+\item{calibrate}{Adjust each cell's posthoc estimates so they add up to
+a pre-specificed, user input? See \code{calib_area_to}}
+
+\item{calib_area_to}{A dataset with area-level correct values to calibrate to in the last
+column.}
+
+\item{calib_to_var}{The variable to calibrate to, e.g. the voteshare}
+
+\item{calib_join_var}{The variable that defines the level of the calibration dataframe
+that can be joined, e.g. the area}
 
 \item{new_levels}{If there are new levels in the poststrat table that do not have
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?
@@ -61,6 +76,14 @@ class(fit_GA) # brms object
 head(acs_GA) # dataset
 
 drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+
+if (FALSE)  {
+# takes about 75 secs
+drw_GA_fix <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, calibrate = TRUE,
+                              calib_area_to = elec_GA,
+                              calib_join_var = "cd",
+                              calib_to_var = "clinton_vote_2pty")
+}
 
 
 }
