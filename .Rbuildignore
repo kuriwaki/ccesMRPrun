@@ -11,3 +11,4 @@
 ^\.ccache$
 ^tic\.R$
 ^LICENSE\.md$
+vignettes/temp_reg-v-poststrat.Rmd

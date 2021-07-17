@@ -44,9 +44,3 @@ reference:
     - cces_GA
     - acs_GA
     - elec_GA
-
-articles:
-  - title: Investigation
-    navbar: ~
-    contents:
-      - temp_reg-v-poststrat
