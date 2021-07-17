@@ -48,7 +48,7 @@ logit_ghitza <- function(x, digits=5) {
 #'          .f = ~posthoc_error(.x, xi = tru, ests= biased_ests, n = sizes))
 #'  plot(deltas, abserr, bty = "n")
 #'
-#'  @export
+#' @export
 posthoc_error <- function(delta, xi, ests, n) {
   ests_adj <- pmin(logit_ghitza(1), pmax(logit_ghitza(0), ests))
 

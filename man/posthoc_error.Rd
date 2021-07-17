@@ -35,7 +35,6 @@ Compute absolute deviation
          .f = ~posthoc_error(.x, xi = tru, ests= biased_ests, n = sizes))
  plot(deltas, abserr, bty = "n")
 
- @export
 }
 \seealso{
 logit_ghitza posthoc_intercept
