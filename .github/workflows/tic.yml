@@ -22,9 +22,9 @@ jobs:
       matrix:
         config:
           # use a different tic template type if you do not want to build on all listed platforms
-          - { os: macOS-latest, r: "release", pkgdown: "true", latex: "false" }
-          - { os: ubuntu-latest, r: "release" }
-          - { os: windows-latest, r: "release" }
+          - { os: macOS-latest, r: "4.0.4", pkgdown: "true", latex: "false" }
+          - { os: ubuntu-latest, r: "4.0.4" }
+          - { os: windows-latest, r: "4.0.4" }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
