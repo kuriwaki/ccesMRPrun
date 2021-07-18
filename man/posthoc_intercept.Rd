@@ -27,8 +27,6 @@ to best fit the estimand y. It is the argmin of the sum of
 absolute values of the deviation.
 }
 \examples{
- cell_sims <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
- mrp_by_edu <- summ_sims(cell_sims, area_var = c("cd", "educ"))
 
  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
  sizes <- rbinom(n = 100, size = 100, prob = 0.1)

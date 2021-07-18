@@ -58,7 +58,9 @@ posthoc_error <- function(delta, xi, ests, n) {
 }
 
 
-#' Traditional inverse logit
+#' Traditional inverse logit. Turn llogit scale to probability.
+#' @param x input
+#' @keywords internal
 invlogit <- function(x) {1/(1 + exp(-x))}
 
 #' Find intercept correction for cell estimates
@@ -79,8 +81,6 @@ invlogit <- function(x) {1/(1 + exp(-x))}
 #' @seealso posthoc_error
 #'
 #' @examples
-#'  cell_sims <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
-#'  mrp_by_edu <- summ_sims(cell_sims, area_var = c("cd", "educ"))
 #'
 #'  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
 #'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
