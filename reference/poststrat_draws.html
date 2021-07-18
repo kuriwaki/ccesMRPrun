@@ -184,7 +184,7 @@ a trial count in the model. Defaults to <code>"count"</code>.</p></td>
     <tr>
       <th>calibrate</th>
       <td><p>Adjust each cell's posthoc estimates so they add up to
-a pre-specificed, user input? See <code>calib_area_to</code></p></td>
+a pre-specified, user input? Logical, defaulting to FALSE. See <code>calib_area_to</code></p></td>
     </tr>
     <tr>
       <th>calib_area_to</th>
@@ -237,8 +237,22 @@ It contains the columns</p><dl>
 #&gt; <span style='color: #BCBCBC;'>4</span>  <span style='text-decoration: underline;'>2</span>016 GA-01      0 Some Coll… 18 to 24 ye… <span style='text-decoration: underline;'>14</span>732        0.409            0.420
 #&gt; <span style='color: #BCBCBC;'>5</span>  <span style='text-decoration: underline;'>2</span>016 GA-01      0 Some Coll… 18 to 24 ye…  <span style='text-decoration: underline;'>1</span>214        0.409            0.420
 #&gt; <span style='color: #BCBCBC;'>6</span>  <span style='text-decoration: underline;'>2</span>016 GA-01      0 4-Year     18 to 24 ye…  <span style='text-decoration: underline;'>1</span>810        0.409            0.420</div><div class='input'>
-<span class='va'>drw_GA</span> <span class='op'>&lt;-</span> <span class='fu'>poststrat_draws</span><span class='op'>(</span><span class='va'>fit_GA</span>, poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span><span class='op'>)</span>
-
+<span class='va'>drw_GA</span> <span class='op'>&lt;-</span> <span class='fu'>poststrat_draws</span><span class='op'>(</span><span class='va'>fit_GA</span>, poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span>, area_var <span class='op'>=</span> <span class='st'>"cd"</span><span class='op'>)</span>
+<span class='va'>drw_GA</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 56,000 x 3</span>
+#&gt;    cd     iter p_mrp
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> GA-01     1 0.496
+#&gt; <span style='color: #BCBCBC;'> 2</span> GA-01     2 0.484
+#&gt; <span style='color: #BCBCBC;'> 3</span> GA-01     3 0.469
+#&gt; <span style='color: #BCBCBC;'> 4</span> GA-01     4 0.447
+#&gt; <span style='color: #BCBCBC;'> 5</span> GA-01     5 0.414
+#&gt; <span style='color: #BCBCBC;'> 6</span> GA-01     6 0.490
+#&gt; <span style='color: #BCBCBC;'> 7</span> GA-01     7 0.429
+#&gt; <span style='color: #BCBCBC;'> 8</span> GA-01     8 0.491
+#&gt; <span style='color: #BCBCBC;'> 9</span> GA-01     9 0.427
+#&gt; <span style='color: #BCBCBC;'>10</span> GA-01    10 0.435
+#&gt; <span style='color: #949494;'># … with 55,990 more rows</span></div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>  <span class='op'>{</span>
 
 <span class='co'># 1. get MRP estimates by CD, while calibrating the overall cd results to</span>
