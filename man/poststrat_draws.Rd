@@ -43,7 +43,8 @@ a trial count in the model. Defaults to \code{"count"}.}
 a pre-specificed, user input? See \code{calib_area_to}}
 
 \item{calib_area_to}{A dataset with area-level correct values to calibrate to in the last
-column.}
+column. It should contain the variables set in \code{calib_join_var} and \code{calib_to_var}.
+See \code{posthoc_error()} for details.}
 
 \item{calib_to_var}{The variable to calibrate to, e.g. the voteshare}
 
@@ -78,11 +79,39 @@ head(acs_GA) # dataset
 drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
 
 if (FALSE)  {
-# takes about 75 secs
+
+# 1. get MRP estimates by CD, while calibrating the overall cd results to
+# the election
+## Each takes about 75 secs
 drw_GA_fix <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, calibrate = TRUE,
                               calib_area_to = elec_GA,
                               calib_join_var = "cd",
                               calib_to_var = "clinton_vote_2pty")
+
+# to get MRP estimates by CD and sex, while calibrating the overall
+# cd result to the eleciton
+drw_GA_sex <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, calibrate = TRUE,
+                              calib_area_to = select(elec_GA, cd, clinton_vote_2pty),
+                              area_var = c("cd", "female"),
+                              calib_join_var = "cd",
+                              calib_to_var = "clinton_vote_2pty")
+
+
+## take some examples
+samp_ests <- drw_GA_sex \%>\% filter(cd == "GA-01", iter == 1:5) \%>\% arrange(iter)
+
+## Gender balance in poststratification target is 48.7 - 51.3
+sex_wt <- acs_GA \%>\%
+  filter(cd == "GA-01") \%>\%
+  count(cd, clinton_vote_2pty, female, wt = count) \%>\%
+  mutate(frac = n/sum(n))
+
+## In all iterations, the MRP estimates should add up to the calibration target
+samp_ests \%>\%
+  left_join(sex_wt, by = c("cd", "female")) \%>\%
+  group_by(cd, iter, clinton_vote_2pty) \%>\%
+  summarize(implied_vote = sum(p_mrp*frac) / sum(frac))
+
 }
 
 

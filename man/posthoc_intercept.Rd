@@ -18,6 +18,11 @@ posthoc_intercept(xi, ests, n, search = c(-5, 5))
 
 \item{search}{The lower and upper endpoints of the interval to search}
 }
+\value{
+The value of delta or the intercept that minimizes
+the absolute deviation in total. The value is on the logit scale.
+To translate to a probability, use invlogit.
+}
 \description{
 For a given geography g, there may be a value y_g which is
 the ground truth. You have C cells with estimates of y that

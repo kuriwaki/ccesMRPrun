@@ -86,6 +86,10 @@ posthoc_error <- function(delta, xi, ests, n) {
 #' @source FindDelta function at https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
 #' @seealso posthoc_error
 #'
+#' @returns The value of delta or the intercept that minimizes
+#'  the absolute deviation in total. The value is on the logit scale.
+#'  To translate to a probability, use invlogit.
+#'
 #' @examples
 #'
 #'  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
