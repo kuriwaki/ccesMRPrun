@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Fitted brms model — fit_GA" />
-<meta property="og:description" content="Fitted brms model" />
+<meta property="og:description" content="A fitted multilevel of the formula
+response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)
+where response is a binary variable for voting for Hilary Clinton in
+2016. The sample is 2062 respondents in Georgia in 2016." />
 
 
 
@@ -95,7 +98,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/temp_reg-v-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
+      <a href="../articles/pool-vs-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
     </li>
   </ul>
 </li>
@@ -129,7 +132,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Fitted brms model</p>
+    <p>A fitted multilevel of the formula
+<code>response ~ (1|age) + (1 + female |educ) + clinton_vote + (1|cd)</code>
+where <code>response</code> is a binary variable for voting for Hilary Clinton in
+2016. The sample is 2062 respondents in Georgia in 2016.</p>
     </div>
 
     <pre class="usage"><span class='va'>fit_GA</span></pre>

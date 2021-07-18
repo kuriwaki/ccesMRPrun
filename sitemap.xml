@@ -28,10 +28,22 @@
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/fit_brms_binomial.html</loc>
   </url>
   <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/invlogit.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/logit_ghitza.html</loc>
+  </url>
+  <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/mrp_onestep.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/pivot_celldraws_longer.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/posthoc_error.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/posthoc_intercept.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/poststrat_draws.html</loc>
@@ -46,6 +58,6 @@
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/summ_sims.html</loc>
   </url>
   <url>
-    <loc>https://kuriwaki.github.io/ccesMRPrun/articles/temp_reg-v-poststrat.html</loc>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/articles/pool-vs-poststrat.html</loc>
   </url>
 </urlset>

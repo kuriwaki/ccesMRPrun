@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/temp_reg-v-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
+      <a href="../articles/pool-vs-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
     </li>
   </ul>
 </li>
@@ -79,15 +79,15 @@
 
       
 
-      </header><script src="temp_reg-v-poststrat_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="pool-vs-poststrat_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Post-stratification vs. Aggregate Regression Adjustment</h1>
                         <h4 class="author">Shiro Kuriwaki</h4>
             
       
-      <small class="dont-index">Source: <a href="http://github.com/kuriwaki/ccesMRPrun/blob/master/vignettes/temp_reg-v-poststrat.Rmd"><code>vignettes/temp_reg-v-poststrat.Rmd</code></a></small>
-      <div class="hidden name"><code>temp_reg-v-poststrat.Rmd</code></div>
+      <small class="dont-index">Source: <a href="http://github.com/kuriwaki/ccesMRPrun/blob/master/vignettes/pool-vs-poststrat.Rmd"><code>vignettes/pool-vs-poststrat.Rmd</code></a></small>
+      <div class="hidden name"><code>pool-vs-poststrat.Rmd</code></div>
 
     </div>
 
@@ -161,21 +161,21 @@
 <span class="co">#&gt; Compiling Stan program...</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="va">mrp_df</span>
-<span class="co">#&gt; # A tibble: 42 x 11</span>
-<span class="co">#&gt;    spec    p_raw  p_wt cd    n_raw p_mrp_est p_mrp_050 p_mrp_100 p_mrp_900</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 omitted 0.344 0.530 GA-01   128     0.337     0.277     0.289     0.386</span>
-<span class="co">#&gt;  2 omitted 0.353 0.584 GA-02   116     0.345     0.280     0.293     0.398</span>
-<span class="co">#&gt;  3 omitted 0.391 0.474 GA-03   138     0.379     0.319     0.330     0.428</span>
-<span class="co">#&gt;  4 omitted 0.266 0.380 GA-04   207     0.271     0.224     0.233     0.311</span>
-<span class="co">#&gt;  5 omitted 0.219 0.436 GA-05   187     0.233     0.186     0.196     0.270</span>
-<span class="co">#&gt;  6 omitted 0.113 0.162 GA-06   141     0.154     0.105     0.115     0.194</span>
-<span class="co">#&gt;  7 omitted 0.226 0.322 GA-07   146     0.242     0.190     0.201     0.285</span>
-<span class="co">#&gt;  8 omitted 0.345 0.500 GA-08   113     0.338     0.272     0.287     0.391</span>
-<span class="co">#&gt;  9 omitted 0.343 0.457 GA-09   134     0.338     0.277     0.291     0.385</span>
-<span class="co">#&gt; 10 omitted 0.380 0.498 GA-10   142     0.369     0.307     0.320     0.418</span>
-<span class="co">#&gt; # … with 32 more rows, and 2 more variables: p_mrp_950 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   prop_HS_truth &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 42 x 14</span>
+<span class="co">#&gt;    spec    cd    p_raw  p_wt n_raw se_raw  n_wt  se_wt p_mrp_est p_mrp_050</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 omitted GA-01 0.344 0.530   128 0.0420  58.9 0.0650     0.337     0.277</span>
+<span class="co">#&gt;  2 omitted GA-02 0.353 0.584   116 0.0444  43.9 0.0744     0.345     0.280</span>
+<span class="co">#&gt;  3 omitted GA-03 0.391 0.474   138 0.0415  87.9 0.0533     0.379     0.319</span>
+<span class="co">#&gt;  4 omitted GA-04 0.266 0.380   207 0.0307 126.  0.0432     0.271     0.224</span>
+<span class="co">#&gt;  5 omitted GA-05 0.219 0.436   187 0.0303  57.9 0.0652     0.233     0.186</span>
+<span class="co">#&gt;  6 omitted GA-06 0.113 0.162   141 0.0267 103.  0.0363     0.154     0.105</span>
+<span class="co">#&gt;  7 omitted GA-07 0.226 0.322   146 0.0346  90.0 0.0493     0.242     0.190</span>
+<span class="co">#&gt;  8 omitted GA-08 0.345 0.500   113 0.0447  42.9 0.0764     0.338     0.272</span>
+<span class="co">#&gt;  9 omitted GA-09 0.343 0.457   134 0.0410  76.3 0.0570     0.338     0.277</span>
+<span class="co">#&gt; 10 omitted GA-10 0.380 0.498   142 0.0407  88.4 0.0532     0.369     0.307</span>
+<span class="co">#&gt; # … with 32 more rows, and 4 more variables: p_mrp_100 &lt;dbl&gt;, p_mrp_900 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   p_mrp_950 &lt;dbl&gt;, prop_HS_truth &lt;dbl&gt;</span></code></pre></div>
 <p>Now let’s plot the MRP results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mrp_plot</span> <span class="op">&lt;-</span> <span class="va">mrp_df</span> <span class="op">%&gt;%</span>
@@ -197,10 +197,10 @@
        First model does not account for education.
        Third model poststratifies on education, and is therefore perfectly correct.
        Second model is only given CD-level proportion of High School-only graduates (the truth)."</span><span class="op">)</span></code></pre></div>
-<p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="pool-vs-poststrat_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Notice that the second model where we only control for the CD-level aggregate will tighten the estimates around a 45 degree angle, but it does <em>not</em> make the estimates more representative. There is still a bias of the survey undersampling HS-only voters, and controlling for an aggregate does not solve this question.</p>
 <p>With a closer look, we see that including the aggregate variable worsens some estimates in this case. High education districts get their estimates pulled away from the truth, while low education districts improve. This again seems to be a function of pooling where the errors become more homogeneous.</p>
-<p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="pool-vs-poststrat_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div id="approach-2-synthetic-joint-estimation" class="section level1">
 <h1 class="hasAnchor">
@@ -270,7 +270,7 @@
 <span class="co">#&gt; Compiling Stan program...</span>
 <span class="co">#&gt; Start sampling</span></code></pre></div>
 <p>And examine the outcome.</p>
-<p><img src="temp_reg-v-poststrat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="pool-vs-poststrat_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>The first estimate look bad. If the imputation is faulty, it is not a good idea to use that to post-stratify, either. The only reason the second and third estimates are perfect is because we asked MRP <em>for an outcome</em> for which we supplied the joint for. If we were estimating a different outcome for which the margins are not known (which in practice is always the case), the values would change, of course.</p>
 </div>
   </div>

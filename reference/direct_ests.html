@@ -95,7 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/temp_reg-v-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
+      <a href="../articles/pool-vs-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
     </li>
   </ul>
 </li>
@@ -132,7 +132,7 @@
     <p>Collapses survey data to get direct estimates (i.e. non-pooled sample porportions)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>direct_ests</span><span class='op'>(</span><span class='va'>.formula</span>, <span class='va'>.data</span>, <span class='va'>area_var</span>, weight_var <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>direct_ests</span><span class='op'>(</span><span class='va'>.formula</span>, <span class='va'>.data</span>, <span class='va'>area_var</span>, weight_var <span class='op'>=</span> <span class='cn'>NULL</span>, shape <span class='op'>=</span> <span class='st'>"wide"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,36 +155,44 @@ aggregate to.</p></td>
       <th>weight_var</th>
       <td><p>Character for the variable that corresponds to weights.</p></td>
     </tr>
+    <tr>
+      <th>shape</th>
+      <td><p>Whether to return the output in <code>"wide"</code> (with one row per states)
+or <code>"long"</code> (one row per state x estimate). Defaults to <code>"wide"</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A wide dataframe where each row is a area, <code>p_raw</code> indicates the
-raw average, <code>p_wt</code> indicates the weighted average( if <code>weight_var</code> is provided),
-and <code>n_raw</code> is the raw sampe size.</p>
+raw average, <code>p_wt</code> indicates the weighted average (if <code>weight_var</code> is provided),
+and <code>n_raw</code> is the raw sample size.  We also provide standard errors in the form <code>se_</code>
+<code>se_raw</code> follows the standard standard error for proportion <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt(p*(1-p)/n)</a></code>.
+The <code>se_wt</code> implements the weighted standard error, where the sample size
+is replaced with the effective sample size, <code>sum(wt)^2 / sum(wt^2)</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='fu'>direct_ests</span><span class='op'>(</span><span class='va'>response</span> <span class='op'>~</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>|</span><span class='va'>cd</span><span class='op'>)</span>, <span class='va'>cces_GA</span>,
              area_var <span class='op'>=</span> <span class='st'>"cd"</span>,
              weight_var <span class='op'>=</span> <span class='st'>"weight_post"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 14 x 4</span><span>
-#&gt;    p_raw  p_wt cd    n_raw
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0.506 0.463 GA-01    85
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0.537 0.635 GA-02    67
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0.359 0.319 GA-03    78
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0.717 0.678 GA-04   127
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0.730 0.796 GA-05   111
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 0.559 0.560 GA-06   102
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0.46  0.418 GA-07   100
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 0.295 0.407 GA-08    61
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0.265 0.207 GA-09   102
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0.406 0.461 GA-10    96
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> 0.425 0.401 GA-11   127
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> 0.368 0.391 GA-12    76
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> 0.545 0.495 GA-13    99
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> 0.2   0.218 GA-14    75</div><div class='input'>
-</div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 14 x 7</span>
+#&gt;    cd    p_raw  p_wt n_raw se_raw  n_wt  se_wt
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> GA-01 0.506 0.463    85 0.054<span style='text-decoration: underline;'>2</span>  43.6 0.075<span style='text-decoration: underline;'>5</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span> GA-02 0.537 0.635    67 0.060<span style='text-decoration: underline;'>9</span>  30.5 0.087<span style='text-decoration: underline;'>2</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> GA-03 0.359 0.319    78 0.054<span style='text-decoration: underline;'>3</span>  60.2 0.060<span style='text-decoration: underline;'>1</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> GA-04 0.717 0.678   127 0.040<span style='text-decoration: underline;'>0</span>  69.8 0.055<span style='text-decoration: underline;'>9</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span> GA-05 0.730 0.796   111 0.042<span style='text-decoration: underline;'>2</span>  30.7 0.072<span style='text-decoration: underline;'>7</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> GA-06 0.559 0.560   102 0.049<span style='text-decoration: underline;'>2</span>  78.6 0.056<span style='text-decoration: underline;'>0</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> GA-07 0.46  0.418   100 0.049<span style='text-decoration: underline;'>8</span>  49.8 0.069<span style='text-decoration: underline;'>9</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> GA-08 0.295 0.407    61 0.058<span style='text-decoration: underline;'>4</span>  33.3 0.085<span style='text-decoration: underline;'>1</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span> GA-09 0.265 0.207   102 0.043<span style='text-decoration: underline;'>7</span>  72.1 0.047<span style='text-decoration: underline;'>7</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> GA-10 0.406 0.461    96 0.050<span style='text-decoration: underline;'>1</span>  60.7 0.064<span style='text-decoration: underline;'>0</span>
+#&gt; <span style='color: #BCBCBC;'>11</span> GA-11 0.425 0.401   127 0.043<span style='text-decoration: underline;'>9</span>  68.7 0.059<span style='text-decoration: underline;'>1</span>
+#&gt; <span style='color: #BCBCBC;'>12</span> GA-12 0.368 0.391    76 0.055<span style='text-decoration: underline;'>3</span>  47.5 0.070<span style='text-decoration: underline;'>8</span>
+#&gt; <span style='color: #BCBCBC;'>13</span> GA-13 0.545 0.495    99 0.050<span style='text-decoration: underline;'>0</span>  52.2 0.069<span style='text-decoration: underline;'>2</span>
+#&gt; <span style='color: #BCBCBC;'>14</span> GA-14 0.2   0.218    75 0.046<span style='text-decoration: underline;'>2</span>  31.5 0.073<span style='text-decoration: underline;'>6</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

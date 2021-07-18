@@ -95,7 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/temp_reg-v-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
+      <a href="../articles/pool-vs-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
     </li>
   </ul>
 </li>
@@ -141,9 +141,18 @@
   ylab <span class='op'>=</span> <span class='cn'>NULL</span>,
   xlim <span class='op'>=</span> <span class='cn'>NULL</span>,
   ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  size.point <span class='op'>=</span> <span class='fl'>0.8</span>,
+  size.text <span class='op'>=</span> <span class='fl'>2</span>,
+  size.errorstat <span class='op'>=</span> <span class='fl'>2</span>,
   ubvar <span class='op'>=</span> <span class='cn'>NULL</span>,
   lbvar <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alpha.CI <span class='op'>=</span> <span class='fl'>0.8</span>,
+  alpha.text <span class='op'>=</span> <span class='fl'>0.5</span>,
+  alpha.segment <span class='op'>=</span> <span class='fl'>0.5</span>,
+  max.overlaps <span class='op'>=</span> <span class='fl'>20</span>,
+  repeat.axis.text <span class='op'>=</span> <span class='cn'>FALSE</span>,
   by_form <span class='op'>=</span> <span class='cn'>NULL</span>,
+  by_nrow <span class='op'>=</span> <span class='cn'>NULL</span>,
   by_labels <span class='op'>=</span> <span class='cn'>NULL</span>,
   show_error <span class='op'>=</span> <span class='cn'>TRUE</span>,
   expand_axes <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -175,17 +184,56 @@
     </tr>
     <tr>
       <th>xlim, ylim</th>
-      <td><p>x and y-axis limits, respectively.</p></td>
+      <td><p>x and y-axis limits, respectively</p></td>
+    </tr>
+    <tr>
+      <th>size.point</th>
+      <td><p>Size of points to use in ggplot</p></td>
+    </tr>
+    <tr>
+      <th>size.text</th>
+      <td><p>Size for the labels</p></td>
+    </tr>
+    <tr>
+      <th>size.errorstat</th>
+      <td><p>Size for the error statistic</p></td>
     </tr>
     <tr>
       <th>ubvar, lbvar</th>
       <td><p>Variable to use as upper and lower bounds for <code>geom_errorbar</code>, unqoted</p></td>
     </tr>
     <tr>
+      <th>alpha.CI</th>
+      <td><p>The transparency value for the error bars, ranging from 0 to 1.</p></td>
+    </tr>
+    <tr>
+      <th>alpha.text</th>
+      <td><p>The transparency value for the labels, ranging from 0 to 1.</p></td>
+    </tr>
+    <tr>
+      <th>alpha.segment</th>
+      <td><p>The transparency value for the segments linking the labels to the points, ranging from 0 to 1.</p></td>
+    </tr>
+    <tr>
+      <th>max.overlaps</th>
+      <td><p>To be passed on to <code>geom_text_repel</code> if a label
+is used.</p></td>
+    </tr>
+    <tr>
+      <th>repeat.axis.text</th>
+      <td><p>Whether to reproduce the axis texts for every facets in
+<code>facet_rep_wrap()</code>. Defaults to <code>FALSE</code></p></td>
+    </tr>
+    <tr>
       <th>by_form</th>
       <td><p>If the dataset is in long form with separate rows for different
-model estimates, you can supply a formula to be passed on to <code>facet_wrap()</code> to
+model estimates, you can supply a formula to be passed on to <code>facet_rep_wrap()</code> to
 have separate facets for each model.</p></td>
+    </tr>
+    <tr>
+      <th>by_nrow</th>
+      <td><p>If using facets, how many rows should the facet take? Defaults to NULL,
+which is facet_wrap's default</p></td>
     </tr>
     <tr>
       <th>by_labels</th>
@@ -195,7 +243,7 @@ the values are the corresponding characters to recode to.</p></td>
     </tr>
     <tr>
       <th>show_error</th>
-      <td><p>Whether or not to show the accuracy metrics in caption</p></td>
+      <td><p>Whether or not to show the error statistic in a caption or a corner of the figure</p></td>
     </tr>
     <tr>
       <th>expand_axes</th>
