@@ -1,4 +1,8 @@
-# ccesMRPrun 0.0.6++
+# ccesMRPrun 0.0.7++
+
+# ccesMRPrun 0.0.6
+
+* Add Ghitza and Gelman's intercept correction, renamed`posthoc_intercept`
 
 # ccesMRPrun 0.0.5
 
