@@ -61,6 +61,9 @@ scatter_45(
 \item{max.overlaps}{To be passed on to \code{geom_text_repel} if a label
 is used.}
 
+\item{repeat.axis.text}{Whether to reproduce the axis texts for every facets in
+\code{facet_rep_wrap()}. Defaults to \code{FALSE}}
+
 \item{by_form}{If the dataset is in long form with separate rows for different
 model estimates, you can supply a formula to be passed on to \code{facet_rep_wrap()} to
 have separate facets for each model.}
@@ -78,9 +81,6 @@ the values are the corresponding characters to recode to.}
 even if there is more whitespace. Overrides xlim and ylim.}
 
 \item{...}{Additional arguments sent to the \code{error_lbl} function}
-
-\item{repeat.ticks}{Whether to reproduce the axis texts for every facets in
-\code{facet_rep_wrap()}. Defaults to \code{FALSE}}
 }
 \description{
 Standard scatterplot with 45 degree line

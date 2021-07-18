@@ -2,7 +2,7 @@
 % Please edit documentation in R/posthoc-adjust.R
 \name{invlogit}
 \alias{invlogit}
-\title{Traditional inverse logit. Turn llogit scale to probability.}
+\title{Traditional inverse logit. Turn logit scale to probability.}
 \usage{
 invlogit(x)
 }
@@ -10,6 +10,6 @@ invlogit(x)
 \item{x}{input}
 }
 \description{
-Traditional inverse logit. Turn llogit scale to probability.
+Traditional inverse logit. Turn logit scale to probability.
 }
 \keyword{internal}

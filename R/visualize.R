@@ -23,7 +23,7 @@
 #' @param size.errorstat Size for the error statistic
 #' @param max.overlaps To be passed on to \code{geom_text_repel} if a label
 #'  is used.
-#' @param repeat.ticks Whether to reproduce the axis texts for every facets in
+#' @param repeat.axis.text Whether to reproduce the axis texts for every facets in
 #'  `facet_rep_wrap()`. Defaults to `FALSE`
 #' @param show_error Whether or not to show the error statistic in a caption or a corner of the figure
 #' @param expand_axes Whether to expand the axes so that the plot is a square,

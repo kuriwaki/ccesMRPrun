@@ -6,6 +6,12 @@
 \usage{
 logit_ghitza(x, digits = 5)
 }
+\arguments{
+\item{x}{input}
+
+\item{digits}{The number of digits to round by. Larger values indicate
+more closer to a theoretical inverse logit.}
+}
 \description{
 This logit transformation (from a probability scale to unbounded) does some
 trimming around extreme values.

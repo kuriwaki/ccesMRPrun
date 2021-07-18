@@ -1,7 +1,18 @@
+
+#' Traditional inverse logit. Turn logit scale to probability.
+#' @param x input
+#' @keywords internal
+invlogit <- function(x) {1/(1 + exp(-x))}
+
 #' A logit transformation as implemented by Ghitza
 #'
 #' This logit transformation (from a probability scale to unbounded) does some
 #' trimming around extreme values.
+#'
+#'
+#' @param x input
+#' @param digits The number of digits to round by. Larger values indicate
+#'  more closer to a theoretical inverse logit.
 #'
 #' @author Yair Ghitza
 #'
@@ -57,11 +68,6 @@ posthoc_error <- function(delta, xi, ests, n) {
   abs(xi - (sum(ests_d_pr * n) / sum(n)))
 }
 
-
-#' Traditional inverse logit. Turn llogit scale to probability.
-#' @param x input
-#' @keywords internal
-invlogit <- function(x) {1/(1 + exp(-x))}
 
 #' Find intercept correction for cell estimates
 #'
