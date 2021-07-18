@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ccesMRPrun</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -189,7 +189,8 @@ a pre-specificed, user input? See <code>calib_area_to</code></p></td>
     <tr>
       <th>calib_area_to</th>
       <td><p>A dataset with area-level correct values to calibrate to in the last
-column.</p></td>
+column. It should contain the variables set in <code>calib_join_var</code> and <code>calib_to_var</code>.
+See <code><a href='posthoc_error.html'>posthoc_error()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>calib_to_var</th>
@@ -239,11 +240,39 @@ It contains the columns</p><dl>
 <span class='va'>drw_GA</span> <span class='op'>&lt;-</span> <span class='fu'>poststrat_draws</span><span class='op'>(</span><span class='va'>fit_GA</span>, poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span><span class='op'>)</span>
 
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>  <span class='op'>{</span>
-<span class='co'># takes about 75 secs</span>
+
+<span class='co'># 1. get MRP estimates by CD, while calibrating the overall cd results to</span>
+<span class='co'># the election</span>
+<span class='co'>## Each takes about 75 secs</span>
 <span class='va'>drw_GA_fix</span> <span class='op'>&lt;-</span> <span class='fu'>poststrat_draws</span><span class='op'>(</span><span class='va'>fit_GA</span>, poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span>, calibrate <span class='op'>=</span> <span class='cn'>TRUE</span>,
                               calib_area_to <span class='op'>=</span> <span class='va'>elec_GA</span>,
                               calib_join_var <span class='op'>=</span> <span class='st'>"cd"</span>,
                               calib_to_var <span class='op'>=</span> <span class='st'>"clinton_vote_2pty"</span><span class='op'>)</span>
+
+<span class='co'># to get MRP estimates by CD and sex, while calibrating the overall</span>
+<span class='co'># cd result to the eleciton</span>
+<span class='va'>drw_GA_sex</span> <span class='op'>&lt;-</span> <span class='fu'>poststrat_draws</span><span class='op'>(</span><span class='va'>fit_GA</span>, poststrat_tgt <span class='op'>=</span> <span class='va'>acs_GA</span>, calibrate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                              calib_area_to <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>elec_GA</span>, <span class='va'>cd</span>, <span class='va'>clinton_vote_2pty</span><span class='op'>)</span>,
+                              area_var <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cd"</span>, <span class='st'>"female"</span><span class='op'>)</span>,
+                              calib_join_var <span class='op'>=</span> <span class='st'>"cd"</span>,
+                              calib_to_var <span class='op'>=</span> <span class='st'>"clinton_vote_2pty"</span><span class='op'>)</span>
+
+
+<span class='co'>## take some examples</span>
+<span class='va'>samp_ests</span> <span class='op'>&lt;-</span> <span class='va'>drw_GA_sex</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>cd</span> <span class='op'>==</span> <span class='st'>"GA-01"</span>, <span class='va'>iter</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>iter</span><span class='op'>)</span>
+
+<span class='co'>## Gender balance in poststratification target is 48.7 - 51.3</span>
+<span class='va'>sex_wt</span> <span class='op'>&lt;-</span> <span class='va'>acs_GA</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>cd</span> <span class='op'>==</span> <span class='st'>"GA-01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>cd</span>, <span class='va'>clinton_vote_2pty</span>, <span class='va'>female</span>, wt <span class='op'>=</span> <span class='va'>count</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>frac <span class='op'>=</span> <span class='va'>n</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'>## In all iterations, the MRP estimates should add up to the calibration target</span>
+<span class='va'>samp_ests</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>sex_wt</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cd"</span>, <span class='st'>"female"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cd</span>, <span class='va'>iter</span>, <span class='va'>clinton_vote_2pty</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>implied_vote <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>p_mrp</span><span class='op'>*</span><span class='va'>frac</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>frac</span><span class='op'>)</span><span class='op'>)</span>
+
 <span class='op'>}</span>
 
 
