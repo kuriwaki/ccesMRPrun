@@ -40,7 +40,7 @@ count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is
 a trial count in the model. Defaults to \code{"count"}.}
 
 \item{calibrate}{Adjust each cell's posthoc estimates so they add up to
-a pre-specificed, user input? See \code{calib_area_to}}
+a pre-specified, user input? Logical, defaulting to FALSE. See \code{calib_area_to}}
 
 \item{calib_area_to}{A dataset with area-level correct values to calibrate to in the last
 column. It should contain the variables set in \code{calib_join_var} and \code{calib_to_var}.
@@ -76,7 +76,8 @@ Get MCMC draws of post-stratified estimate of demog x cd cells
 class(fit_GA) # brms object
 head(acs_GA) # dataset
 
-drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = "cd")
+drw_GA
 
 if (FALSE)  {
 

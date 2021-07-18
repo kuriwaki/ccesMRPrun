@@ -19,7 +19,7 @@
 #' coefficients in the survey data, should there be an extrapolation or assignment to 0s?
 #' The answer should almost always be No in MRP.
 #' @param calibrate Adjust each cell's posthoc estimates so they add up to
-#'  a pre-specificed, user input? See `calib_area_to`
+#'  a pre-specified, user input? Logical, defaulting to FALSE. See  the `calib_area_to` argument.
 #' @param calib_area_to A dataset with area-level correct values to calibrate to in the last
 #'  column. It should contain the variables set in `calib_join_var` and `calib_to_var`.
 #'  See `posthoc_error()` for details.
@@ -53,7 +53,8 @@
 #' class(fit_GA) # brms object
 #' head(acs_GA) # dataset
 #'
-#' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+#' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = "cd")
+#' drw_GA
 #'
 #' if (FALSE)  {
 #'
