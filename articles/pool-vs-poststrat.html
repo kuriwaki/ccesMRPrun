@@ -161,7 +161,7 @@
 <span class="co">#&gt; Compiling Stan program...</span>
 <span class="co">#&gt; Start sampling</span>
 <span class="va">mrp_df</span>
-<span class="co">#&gt; # A tibble: 42 x 14</span>
+<span class="co">#&gt; # A tibble: 42 × 14</span>
 <span class="co">#&gt;    spec    cd    p_raw  p_wt n_raw se_raw  n_wt  se_wt p_mrp_est p_mrp_050</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 omitted GA-01 0.344 0.530   128 0.0420  58.9 0.0650     0.337     0.277</span>
@@ -217,7 +217,7 @@
 <code class="sourceCode R"><span class="va">edu_margins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ccesMRPprep/man/collapse_table.html">collapse_table</a></span><span class="op">(</span><span class="va">acs_GA</span>, area_var <span class="op">=</span> <span class="st">"cd"</span>, X_vars <span class="op">=</span> <span class="st">"educ"</span>, 
                               count_var <span class="op">=</span> <span class="st">"count"</span>, new_name <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span>
 <span class="va">edu_margins</span>
-<span class="co">#&gt; # A tibble: 56 x 3</span>
+<span class="co">#&gt; # A tibble: 56 × 3</span>
 <span class="co">#&gt;    cd    educ          count</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;fct&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 GA-01 HS or Less   243060</span>
