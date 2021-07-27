@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   pool-vs-poststrat: pool-vs-poststrat.html
-last_built: 2021-07-26T04:30Z
+last_built: 2021-07-27T04:26Z
 urls:
   reference: https://kuriwaki.github.io/ccesMRPrun/reference
   article: https://kuriwaki.github.io/ccesMRPrun/articles
