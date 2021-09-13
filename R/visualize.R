@@ -95,6 +95,7 @@ scatter_45 <- function(tbl, xvar, yvar,
   ub_name <- quo_name(ubvar)
 
   colvar <- enquo(colvar)
+  col_name <- quo_name(colvar)
 
   if (!is.null(by_form))
     stopifnot(is_formula(by_form))
@@ -115,7 +116,7 @@ scatter_45 <- function(tbl, xvar, yvar,
 
   if (!is.null(colvar)) {
     gg0 <- gg0 +
-      aes(color = {{colvar}})
+      aes(color = .data[[col_name]])
   }
 
   gg1 <- gg0 +
