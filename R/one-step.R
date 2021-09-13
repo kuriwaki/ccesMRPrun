@@ -40,6 +40,7 @@ mrp_onestep <- function(.formula, .data,
   brms_fit <- fit_brms(.formula, .data, ...)
 
   # P-step
+  # if (!calibrate)
   post_fit <- poststrat_draws(brms_fit,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = .data,
