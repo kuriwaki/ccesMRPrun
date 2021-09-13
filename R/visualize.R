@@ -4,6 +4,7 @@
 #' @param xvar Variable to put on x-axis, unquoted
 #' @param yvar Variable to put on y-axis, unquoted
 #' @param lblvar Variable to use as labels for `geom_text_repel`, unquoted
+#' @param colvar Variable to use as colors, unquoted
 #' @param ubvar,lbvar Variable to use as upper and lower bounds for `geom_errorbar`, unqoted
 #' @param xlab,ylab x and y-axis labels, respectively
 #' @param xlim,ylim x and y-axis limits, respectively
@@ -61,7 +62,8 @@
 #'            ylab = "MRP Estimate")
 #'
 #'
-scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
+scatter_45 <- function(tbl, xvar, yvar,
+                       lblvar = NULL,
                        xlab = NULL, ylab = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -69,6 +71,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
                        size.text = 2,
                        size.errorstat = 2,
                        ubvar = NULL, lbvar = NULL,
+                       colvar = NULL,
                        alpha.CI = 0.8,
                        alpha.text = 0.5,
                        alpha.segment = 0.5,
@@ -91,6 +94,7 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
   ubvar <- enquo(ubvar)
   ub_name <- quo_name(ubvar)
 
+  colvar <- enquo(colvar)
 
   if (!is.null(by_form))
     stopifnot(is_formula(by_form))
@@ -108,6 +112,11 @@ scatter_45 <- function(tbl, xvar, yvar, lblvar = NULL,
     scale_x_continuous(labels = percent_format(accuracy = 1)) +
     scale_y_continuous(labels = percent_format(accuracy = 1)) +
     theme_bw()
+
+  if (!is.null(colvar)) {
+    gg0 <- gg0 +
+      aes(color = {{colvar}})
+  }
 
   gg1 <- gg0 +
     geom_abline(linetype = "dashed", alpha = 0.75)

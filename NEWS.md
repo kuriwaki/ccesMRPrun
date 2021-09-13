@@ -1,6 +1,7 @@
 # ccesMRPrun 0.0.7++
 
 * Add SE to summary estimates
+* Add color aesthetic to scatter
 
 # ccesMRPrun 0.0.6
 

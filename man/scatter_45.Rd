@@ -18,6 +18,7 @@ scatter_45(
   size.errorstat = 2,
   ubvar = NULL,
   lbvar = NULL,
+  colvar = NULL,
   alpha.CI = 0.8,
   alpha.text = 0.5,
   alpha.segment = 0.5,
@@ -51,6 +52,8 @@ scatter_45(
 \item{size.errorstat}{Size for the error statistic}
 
 \item{ubvar, lbvar}{Variable to use as upper and lower bounds for \code{geom_errorbar}, unqoted}
+
+\item{colvar}{Variable to use as colors, unquoted}
 
 \item{alpha.CI}{The transparency value for the error bars, ranging from 0 to 1.}
 
