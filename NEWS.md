@@ -1,5 +1,6 @@
-# ccesMRPrun 0.0.7++
+# ccesMRPrun 0.0.7
 
+* Drop viz and move it to https://github.com/kuriwaki/ccesMRPviz
 * Add SE to summary estimates
 * Add color aesthetic to scatter
 

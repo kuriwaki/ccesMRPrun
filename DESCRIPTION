@@ -1,6 +1,6 @@
 Package: ccesMRPrun
 Type: Package
-Title: Fitting and Visualizing MRP Models from Cleaned CCES and Census Data
+Title: Fitting and Diagnosing MRP Models from Cleaned CCES and Census Data
 Version: 0.0.7
 Authors@R: person(given = "Shiro",
              family = "Kuriwaki",
@@ -20,16 +20,13 @@ Imports:
     tibble,
     purrr,
     ccesMRPprep (>= 0.1.7),
+    ccesMRPviz,
     tidyr (>= 1.0.0),
-    ggplot2,
-    ggrepel,
-    lemon,
-    glue,
-    scales, 
     stringr,
     Formula
 Remotes:
     kuriwaki/ccesMRPprep
+    kuriwaki/ccesMRPviz
 Language: en-US
 Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
