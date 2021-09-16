@@ -35,7 +35,7 @@ The **main functions** in this package are:
 1.  `fit_brms()` for fitting a multilevel model (or `fit_brms_binomial`)
 2.  `poststrat_draws()` for extracting posterior draws for each area
 3.  `summ_sims()` for obtaining summary statistics from these draws
-4.  `scatter_45()` for clearly visualizing the relationship between the truth and estimate
+4.  `scatter_45()` (in ccesMRPviz) for clearly visualizing the relationship between the truth and estimate
 
 Steps 1-3 can be done via `mrp_onestep()`.
 
@@ -44,6 +44,7 @@ See below for a demonstration with an example in the state of Georgia.
 ```{r, message=FALSE, warning=FALSE}
 library(ccesMRPrun)
 library(tidyverse)
+library(ccesMRPviz)
 ```
 
 # Fitting
@@ -61,7 +62,7 @@ cc_voters <- filter(cces_GA, vv_turnout_gvm == "Voted")
 Now fit the model. `fit_brms` is basically the `brm` function, but with some wrappers.
 
 ```{r, warning=FALSE, message=FALSE}
-fit <- fit_brms(form, cc_voters, verbose = FALSE)
+fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 
 class(fit)
 ```

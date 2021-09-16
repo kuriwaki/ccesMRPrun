@@ -22,8 +22,10 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(scales)
 library(brms)
+library(synthjoint)
 library(ccesMRPrun)
 library(ccesMRPprep)
+library(ccesMRPviz)
 ```
 
 
@@ -109,7 +111,8 @@ mrp_df <- map_dfr(.x = mrp_forms,
                                 weight_var = "weight",
                                 add_on = val, 
                                 verbose = FALSE,
-                                .cores = 2)},
+                                .cores = 2,
+                                .backend = "cmdstanr")},
                   .id = "spec")
 mrp_df
 ```
@@ -236,7 +239,8 @@ mrsp_df <- map_dfr(.x = syn_datasets,
                                  weight_var = "weight",
                                  add_on = val, 
                                  verbose = FALSE,
-                                 .cores = 2)},
+                                 .cores = 2,
+                                 .backend = "cmdstanr")},
                    .id = "synth")
 
 ```

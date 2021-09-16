@@ -31,8 +31,8 @@ The **main functions** in this package are:
 1.  `fit_brms()` for fitting a multilevel model (or `fit_brms_binomial`)
 2.  `poststrat_draws()` for extracting posterior draws for each area
 3.  `summ_sims()` for obtaining summary statistics from these draws
-4.  `scatter_45()` for clearly visualizing the relationship between the
-    truth and estimate
+4.  `scatter_45()` (in ccesMRPviz) for clearly visualizing the
+    relationship between the truth and estimate
 
 Steps 1-3 can be done via `mrp_onestep()`.
 
@@ -41,6 +41,7 @@ See below for a demonstration with an example in the state of Georgia.
 ``` r
 library(ccesMRPrun)
 library(tidyverse)
+library(ccesMRPviz)
 ```
 
 # Fitting
@@ -62,30 +63,19 @@ Now fit the model. `fit_brms` is basically the `brm` function, but with
 some wrappers.
 
 ``` r
-fit <- fit_brms(form, cc_voters, verbose = FALSE)
+fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 ```
 
-    ## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-    ## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:88:
-    ## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'
-    ## namespace Eigen {
-    ## ^
-    ## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator
-    ## namespace Eigen {
-    ##                ^
-    ##                ;
-    ## In file included from <built-in>:1:
-    ## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-    ## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:
-    ## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-    ## #include <complex>
-    ##          ^~~~~~~~~
-    ## 3 errors generated.
-    ## make: *** [foo.o] Error 1
+    ## Running MCMC with 4 parallel chains...
+    ## 
+    ## Chain 3 finished in 9.9 seconds.
+    ## Chain 1 finished in 12.3 seconds.
+    ## Chain 2 finished in 12.6 seconds.
+    ## Chain 4 finished in 13.2 seconds.
+    ## 
+    ## All 4 chains finished successfully.
+    ## Mean chain execution time: 12.0 seconds.
+    ## Total execution time: 13.6 seconds.
 
 ``` r
 class(fit)
@@ -108,19 +98,19 @@ drw <- poststrat_draws(fit, poststrat_tgt = acs_GA)
 drw
 ```
 
-    ## # A tibble: 56,000 x 3
+    ## # A tibble: 56,000 × 3
     ##    cd     iter p_mrp
     ##    <chr> <dbl> <dbl>
-    ##  1 GA-01     1 0.429
-    ##  2 GA-01     2 0.390
-    ##  3 GA-01     3 0.517
-    ##  4 GA-01     4 0.392
-    ##  5 GA-01     5 0.574
-    ##  6 GA-01     6 0.504
-    ##  7 GA-01     7 0.536
-    ##  8 GA-01     8 0.340
-    ##  9 GA-01     9 0.425
-    ## 10 GA-01    10 0.412
+    ##  1 GA-01     1 0.498
+    ##  2 GA-01     2 0.419
+    ##  3 GA-01     3 0.438
+    ##  4 GA-01     4 0.431
+    ##  5 GA-01     5 0.469
+    ##  6 GA-01     6 0.406
+    ##  7 GA-01     7 0.443
+    ##  8 GA-01     8 0.435
+    ##  9 GA-01     9 0.403
+    ## 10 GA-01    10 0.439
     ## # … with 55,990 more rows
 
 # Summaries
