@@ -20,10 +20,11 @@ Imports:
     tibble,
     purrr,
     ccesMRPprep (>= 0.1.7),
-    ccesMRPviz,
     tidyr (>= 1.0.0),
     stringr,
     Formula
+Suggests:
+    ccesMRPviz,
 Remotes:
     kuriwaki/ccesMRPprep,
     kuriwaki/ccesMRPviz
