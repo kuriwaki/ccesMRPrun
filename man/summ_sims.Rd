@@ -16,7 +16,7 @@ and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 \link{poststrat_draws}, defaults to \code{p_mrp}.}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
-slightly faster dataframe wrangling.}
+slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
 }
 \description{
 Get summary statistics from draws (of counts)

@@ -53,7 +53,7 @@ See \code{posthoc_error()} for details.}
 that can be joined, e.g. the area}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
-slightly faster dataframe wrangling.}
+slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
 
 \item{new_levels}{If there are new levels in the poststrat table that do not have
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?

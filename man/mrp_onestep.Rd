@@ -37,7 +37,7 @@ a trial count in the model. Defaults to \code{"count"}.}
 for example validation data}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
-slightly faster dataframe wrangling.}
+slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
 
 \item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
 }

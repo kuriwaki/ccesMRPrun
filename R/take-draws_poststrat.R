@@ -27,7 +27,7 @@
 #'  that can be joined, e.g. the area
 #' @param calib_to_var The variable to calibrate to, e.g. the voteshare
 #' @param dtplyr Whether to use a data.table/dtplyr backend for processing for
-#'  slightly faster dataframe wrangling.
+#'  slightly faster dataframe wrangling. Currently does not apply to anything within the function.
 #'
 #'
 #' @return A tidy dataset with `qID` x `cd` x `iter` number of rows,
