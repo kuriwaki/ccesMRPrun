@@ -26,7 +26,8 @@
 #' }
 #'
 #' @export
-mrp_onestep <- function(.formula, .data,
+mrp_onestep <- function(.formula,
+                        .data,
                         poststrat_tgt,
                         area_var = "cd",
                         count_var = "count",
@@ -59,4 +60,29 @@ mrp_onestep <- function(.formula, .data,
   }
 
   return(out)
+}
+
+
+#' Do post-stratification and summarize draws in one step
+#'
+#' @details A simple wrapper around `poststrat_draws` and `summ_sims`.
+#' @inheritParams mrp_onestep
+#'
+#' @rdname mrp_onstep
+#' @export
+poststrat_onestep <- function(.formula,
+                              .data,
+                              poststrat_tgt,
+                              area_var = "cd",
+                              count_var = "count", ...) {
+  # if (!calibrate)
+  post_fit <- poststrat_draws(brms_fit,
+                              poststrat_tgt = poststrat_tgt,
+                              orig_data = .data,
+                              area_var = area_var, count_var = count_var)
+
+  # summarize
+  post_sum <- summ_sims(post_fit, area_var = area_var)
+
+  post_sum
 }

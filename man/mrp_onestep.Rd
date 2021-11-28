@@ -46,6 +46,7 @@ for options on visualization
 }
 \examples{
 \dontrun{
+library(ccesMRPviz)
 mrp_fit <- mrp_onestep(response ~ (1|educ) + (1|cd),
                        .data = cces_GA,
                        poststrat_tgt = acs_GA,
