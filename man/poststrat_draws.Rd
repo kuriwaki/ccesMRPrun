@@ -15,6 +15,7 @@ poststrat_draws(
   calib_area_to = NULL,
   calib_to_var = NULL,
   calib_join_var = NULL,
+  dtplyr = FALSE,
   new_levels = FALSE
 )
 }
@@ -50,6 +51,9 @@ See \code{posthoc_error()} for details.}
 
 \item{calib_join_var}{The variable that defines the level of the calibration dataframe
 that can be joined, e.g. the area}
+
+\item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
+slightly faster dataframe wrangling.}
 
 \item{new_levels}{If there are new levels in the poststrat table that do not have
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?

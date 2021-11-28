@@ -5,24 +5,26 @@
 \title{Do post-stratification and summarize draws in one step}
 \usage{
 poststrat_onestep(
-  .formula,
-  .data,
+  fit,
   poststrat_tgt,
+  orig_data = NULL,
   area_var = "cd",
   count_var = "count",
   ...
 )
 }
 \arguments{
-\item{.formula}{Formula in \verb{binary y ~ (1|x1) + (1|x2)} form.}
-
-\item{.data}{Individual-level dataset}
+\item{fit}{A brms object from \code{fit_brms}.}
 
 \item{poststrat_tgt}{The poststratification target. It must contain the column
 \code{count}, which is treated as the number of \code{trials} in the binomial model.}
 
-\item{area_var}{Character for the variable(s) that corresponds to the area to
-aggregate to.}
+\item{orig_data}{original survey data. This defaults to NULL but if supplied
+be used to (1) subset the poststratification, to areas only in the survey, and
+(2) label the question outcome.}
+
+\item{area_var}{A character string for the variable name(s) for area to group
+and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 
 \item{count_var}{A character string for the variable name for the population
 count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is

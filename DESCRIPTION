@@ -21,6 +21,7 @@ Imports:
     purrr,
     ccesMRPprep (>= 0.1.7),
     tidyr (>= 1.0.0),
+    dtplyr,
     stringr,
     Formula
 Suggests:

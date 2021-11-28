@@ -12,6 +12,7 @@ mrp_onestep(
   count_var = "count",
   weight_var = NULL,
   add_on = NULL,
+  dtplyr = TRUE,
   ...
 )
 }
@@ -34,6 +35,9 @@ a trial count in the model. Defaults to \code{"count"}.}
 
 \item{add_on}{Any area-level data to be merged with the output,
 for example validation data}
+
+\item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
+slightly faster dataframe wrangling.}
 
 \item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
 }

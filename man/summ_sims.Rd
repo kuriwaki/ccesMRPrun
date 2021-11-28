@@ -4,7 +4,7 @@
 \alias{summ_sims}
 \title{Get summary statistics from draws (of counts)}
 \usage{
-summ_sims(sims, area_var = "cd", est_var = "p_mrp")
+summ_sims(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE)
 }
 \arguments{
 \item{sims}{output of \link{poststrat_draws}}
@@ -14,6 +14,9 @@ and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 
 \item{est_var}{column name with estimates. Following the output of
 \link{poststrat_draws}, defaults to \code{p_mrp}.}
+
+\item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
+slightly faster dataframe wrangling.}
 }
 \description{
 Get summary statistics from draws (of counts)

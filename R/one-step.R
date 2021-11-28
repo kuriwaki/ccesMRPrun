@@ -7,9 +7,14 @@
 #'  for example validation data
 #' @param ... Additional arguments to pass to the model fitting function, `fit_brms()`
 #'
+#'
+#' @importFrom dtplyr lazy_dt
+#'
 #' @inheritParams fit_brms
 #' @inheritParams direct_ests
 #' @inheritParams poststrat_draws
+#'
+#'
 #' @examples
 #' \dontrun{
 #' library(ccesMRPviz)
@@ -33,6 +38,7 @@ mrp_onestep <- function(.formula,
                         count_var = "count",
                         weight_var = NULL,
                         add_on = NULL,
+                        dtplyr = TRUE,
                         ...) {
 
   # direct
@@ -46,10 +52,11 @@ mrp_onestep <- function(.formula,
   post_fit <- poststrat_draws(brms_fit,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = .data,
-                              area_var = area_var, count_var = count_var)
+                              area_var = area_var,
+                              count_var = count_var)
 
   # summarize
-  post_sum <- summ_sims(post_fit, area_var = area_var)
+  post_sum <- summ_sims(post_fit, area_var = area_var, dt = dtplyr)
 
   # combine
   out <- left_join(drct_fit, post_sum, by = area_var)
@@ -66,19 +73,23 @@ mrp_onestep <- function(.formula,
 #' Do post-stratification and summarize draws in one step
 #'
 #' @details A simple wrapper around `poststrat_draws` and `summ_sims`.
+#'
+#' @param fit A brms object from `fit_brms`.
+#'
+#' @inheritParams poststrat_draws
 #' @inheritParams mrp_onestep
 #'
 #' @rdname mrp_onstep
 #' @export
-poststrat_onestep <- function(.formula,
-                              .data,
+poststrat_onestep <- function(fit,
                               poststrat_tgt,
+                              orig_data = NULL,
                               area_var = "cd",
                               count_var = "count", ...) {
   # if (!calibrate)
-  post_fit <- poststrat_draws(brms_fit,
+  post_fit <- poststrat_draws(fit,
                               poststrat_tgt = poststrat_tgt,
-                              orig_data = .data,
+                              orig_data = orig_data,
                               area_var = area_var, count_var = count_var)
 
   # summarize

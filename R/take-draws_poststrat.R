@@ -26,6 +26,8 @@
 #' @param calib_join_var The variable that defines the level of the calibration dataframe
 #'  that can be joined, e.g. the area
 #' @param calib_to_var The variable to calibrate to, e.g. the voteshare
+#' @param dtplyr Whether to use a data.table/dtplyr backend for processing for
+#'  slightly faster dataframe wrangling.
 #'
 #'
 #' @return A tidy dataset with `qID` x `cd` x `iter` number of rows,
@@ -48,6 +50,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom brms posterior_epred
 #' @importFrom glue glue
+#' @import dtplyr
 #'
 #' @examples
 #' class(fit_GA) # brms object
@@ -104,6 +107,7 @@ poststrat_draws <- function(model,
                             calib_area_to = NULL,
                             calib_to_var = NULL,
                             calib_join_var = NULL,
+                            dtplyr = FALSE,
                             new_levels = FALSE) {
 
   # districts (CDs) to loop through. Remove extra in post-strat target
