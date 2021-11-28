@@ -25,6 +25,8 @@ Imports:
     Formula
 Suggests:
     ccesMRPviz,
+    knitr,
+    rmarkdown
 Remotes:
     kuriwaki/ccesMRPprep,
     kuriwaki/ccesMRPviz
@@ -34,7 +36,4 @@ License: MIT + file LICENSE
 URL: https://www.github.com/kuriwaki/ccesMRPrun
 BugReports: http://github.com/kuriwaki/ccesMRPrun/issues
 RoxygenNote: 7.1.1
-Suggests: 
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
