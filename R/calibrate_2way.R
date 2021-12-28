@@ -19,13 +19,13 @@ twoway_obj_fn <- function(par, obj) {
   #   group_by(!!sym(obj$var_area)) %>%
   #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
   by_area <- split(dat, dat[[obj$var_area]])
-  avg_area <- map_dbl(by_area, function(X) sum(X$n_gj * X$pi_adj) / sum(X$n_gj))
+  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
   by_group <- split(dat, dat[[obj$var_group]])
-  avg_group <- map_dbl(by_group, function(X) sum(X$n_gj * X$pi_adj) / sum(X$n_gj))
+  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
 
 

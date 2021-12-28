@@ -5,7 +5,7 @@
 \title{Two-way Calibration
 objective function}
 \usage{
-twoway_obj_fn(par, input_dat)
+twoway_obj_fn(par, obj)
 }
 \description{
 Two-way Calibration
