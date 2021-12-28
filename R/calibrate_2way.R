@@ -64,11 +64,13 @@ twoway_obj_fn <- function(par, obj) {
 #' @return
 #'    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
 #'
+#' @source Kuriwaki, S., Ansolabehere, S., Dagonel, A., & Yamauchi, S. (2021).
+#'  The Geography of Racially Polarized Voting: Calibrating Surveys at the
+#'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
 #'
 #' @examples
 #' # Single estimate
 #'
-#' posthoc_twoay <-
 #'
 posthoc_twoway <- function(
   data,
