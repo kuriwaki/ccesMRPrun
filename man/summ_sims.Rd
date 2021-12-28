@@ -22,8 +22,14 @@ slightly faster dataframe wrangling. Currently does not apply to anything within
 Get summary statistics from draws (of counts)
 }
 \examples{
+\dontrun{
 drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+summ_sims(drw_GA, area_bar = "cd") # also saved as data(`summ_GA`)
 
-summ_sims(drw_GA) # also saved as  data(`summ_GA`)
+# To create summaries by both CD and education
+drw_GA_educ <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = c("cd", "educ"))
+summ_sims(drw_GA_educ, area_var = c("cd", "educ"))
+
+}
 
 }

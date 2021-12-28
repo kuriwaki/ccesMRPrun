@@ -1,16 +1,16 @@
 #' Two-way Calibration
-#' objective funciton
+#' objective function
 twoway_obj_fn <- function(par, input_dat) {
   dat <- input_dat$dat
 
   ## convert to logit scale
-  est_logit <- logit(dat$est)
+  est_logit <- logit_ghitza(dat$est)
 
   ## adjustment factor
   delta <- input_dat$X %*% par
 
   ## adjusted value
-  dat$est_adj <- inv_logit(est_logit + delta)
+  dat$est_adj <- invlogit(est_logit + delta)
 
 
   ## objective wrt district ---------------------------------
@@ -33,33 +33,43 @@ twoway_obj_fn <- function(par, input_dat) {
 
   ## sum of two losses
   loss <- loss_area + loss_group
+
   return(loss)
 }
 
-## main function
-## @param data
-##    Estimates stored in the long format.
-##    The column should be named `est`.
-## @param var_area
-##    Variable name (char) for area in \code{data}.
-## @param var_group
-##    Variable name (char) for group in \code{data}.
-## @param tau_area
-##    Vector of true values for area.
-## @param tau_group
-##    Vector of true values for group.
-## @param X
-##    Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.
-## @param n_area
-##    Vector consists of population sizes in each area.
-## @param n_group
-##    Vector consists of population sizes for each group.
-## @param n_total
-##    Scalar of total number of population.
-## @param delta_init
-##    Initial values of delta.
-## @return
-##    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
+#' Two-way Calibration
+#'
+#'
+#' @param data
+#'    Estimates stored in the long format.
+#'    The column should be named `est`.
+#' @param var_area
+#'    Variable name (char) for area in \code{data}.
+#' @param var_group
+#'    Variable name (char) for group in \code{data}.
+#' @param tau_area
+#'    Vector of true values for area.
+#' @param tau_group
+#'    Vector of true values for group.
+#' @param X
+#'    Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.
+#' @param n_area
+#'    Vector consists of population sizes in each area.
+#' @param n_group
+#'    Vector consists of population sizes for each group.
+#' @param n_total
+#'    Scalar of total number of population.
+#' @param delta_init
+#'    Initial values of delta.
+#' @return
+#'    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
+#'
+#'
+#' @examples
+#' # Single estimate
+#'
+#' posthoc_twoay <-
+#'
 posthoc_twoway <- function(
   data,
   var_area, var_group,
@@ -101,7 +111,9 @@ posthoc_twoway <- function(
 
   ## update estimate
   delta <- as.vector(X %*% fit$par)
-  data$est_corrected <- inv_logit(logit(data$est) + delta)
+  data$est_corrected <- invlogit(logit_ghitza(data$est) + delta)
   data$delta <- delta
   return(data)
 }
+
+

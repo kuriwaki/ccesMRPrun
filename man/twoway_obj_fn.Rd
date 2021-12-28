@@ -3,11 +3,11 @@
 \name{twoway_obj_fn}
 \alias{twoway_obj_fn}
 \title{Two-way Calibration
-objective funciton}
+objective function}
 \usage{
 twoway_obj_fn(par, input_dat)
 }
 \description{
 Two-way Calibration
-objective funciton
+objective function
 }

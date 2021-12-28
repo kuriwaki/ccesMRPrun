@@ -9,10 +9,15 @@
 #' @importFrom stats quantile
 #' @import dtplyr
 #'
-#' @examples
+#' @examples \dontrun{
 #' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
+#' summ_sims(drw_GA, area_bar = "cd") # also saved as data(`summ_GA`)
 #'
-#' summ_sims(drw_GA) # also saved as  data(`summ_GA`)
+#' # To create summaries by both CD and education
+#' drw_GA_educ <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = c("cd", "educ"))
+#' summ_sims(drw_GA_educ, area_var = c("cd", "educ"))
+#'
+#' }
 #'
 #' @export
 summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE) {
