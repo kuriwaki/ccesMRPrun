@@ -51,3 +51,4 @@ summ_GA <- summ_sims(drw_GA)
 # Save
 usethis::use_data(cces_GA, overwrite = TRUE)
 usethis::use_data(fit_GA, overwrite = TRUE)
+usethis::use_data(summ_GA, overwrite = TRUE)

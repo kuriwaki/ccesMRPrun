@@ -24,6 +24,6 @@ Get summary statistics from draws (of counts)
 \examples{
 drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
 
-summ_sims(drw_GA)
+summ_sims(drw_GA) # also saved as  data(`summ_GA`)
 
 }

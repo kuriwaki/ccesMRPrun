@@ -12,7 +12,7 @@
 #' @examples
 #' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
 #'
-#' summ_sims(drw_GA)
+#' summ_sims(drw_GA) # also saved as  data(`summ_GA`)
 #'
 #' @export
 summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE) {
