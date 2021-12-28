@@ -19,7 +19,7 @@ twoway_obj_fn <- function(par, obj) {
     summarise(pi_area = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_area)
 
-  loss_area <- sum((obj$n_j / obj$n) * (obj$tau_area - avg_area)^2)
+  loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
@@ -28,7 +28,7 @@ twoway_obj_fn <- function(par, obj) {
     summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_group)
 
-  loss_group <- sum((obj$n_g / obj$n) * (obj$tau_group - avg_group)^2)
+  loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
 
 
   ## sum of two losses
@@ -47,9 +47,9 @@ twoway_obj_fn <- function(par, obj) {
 #'    Variable name (char) for area in \code{data}.
 #' @param var_group
 #'    Variable name (char) for group in \code{data}.
-#' @param tau_area
+#' @param tgt_area
 #'    Vector of true values for area.
-#' @param tau_group
+#' @param tgt_group
 #'    Vector of true values for group.
 #' @param X
 #'    Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.
@@ -73,7 +73,7 @@ twoway_obj_fn <- function(par, obj) {
 posthoc_twoway <- function(
   data,
   var_area, var_group,
-  tau_area, tau_group,
+  tgt_area, tgt_group,
   X, n_area, n_group, n_total,
   delta_init = NULL
 ) {
@@ -84,8 +84,8 @@ posthoc_twoway <- function(
     dat       = data,
     var_area  = var_area,
     var_group = var_group,
-    tau_area  = tau_area,
-    tau_group = tau_group,
+    tgt_area  = tgt_area,
+    tgt_group = tgt_group,
     X         = X,
     n_j       = n_area,
     n_g       = n_group,
