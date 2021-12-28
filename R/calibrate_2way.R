@@ -4,31 +4,31 @@ twoway_obj_fn <- function(par, input_dat) {
   dat <- input_dat$dat
 
   ## convert to logit scale
-  est_logit <- logit_ghitza(dat$est)
+  pi_logit <- logit_ghitza(dat$est)
 
   ## adjustment factor
   delta <- input_dat$X %*% par
 
   ## adjusted value
-  dat$est_adj <- invlogit(est_logit + delta)
+  dat$pi_adj <- invlogit(pi_logit + delta)
 
 
   ## objective wrt district ---------------------------------
-  pi_area <- dat %>%
+  avg_area <- dat %>%
     group_by(!!sym(input_dat$var_area)) %>%
-    summarise(pi_area = sum(n_gj * est_adj) / sum(n_gj)) %>%
+    summarise(pi_area = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_area)
 
-  loss_area <- sum((input_dat$tau_area - pi_area)^2 *
+  loss_area <- sum((input_dat$tau_area - avg_area)^2 *
                      input_dat$n_j / input_dat$n)
 
   ## objective wrt racial groups ----------------------------
-  pi_group <- dat %>%
+  avg_group <- dat %>%
     group_by(!!sym(input_dat$var_group)) %>%
-    summarise(pi_group = sum(n_gj * est_adj) / sum(n_gj)) %>%
+    summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_group)
 
-  loss_group <- sum((input_dat$tau_group - pi_group)^2  *
+  loss_group <- sum((input_dat$tau_group - avg_group)^2  *
                       input_dat$n_g / input_dat$n)
 
   ## sum of two losses
