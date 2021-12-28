@@ -1,5 +1,7 @@
 #' Two-way Calibration
 #' objective function
+#'
+#' @importFrom purrr map_dbl
 twoway_obj_fn <- function(par, obj) {
   dat <- obj$dat
 
@@ -12,22 +14,18 @@ twoway_obj_fn <- function(par, obj) {
   ## adjusted value
   dat$pi_adj <- invlogit(pi_logit + delta)
 
-
   ## objective wrt district ---------------------------------
-  avg_area <- dat %>%
-    group_by(!!sym(obj$var_area)) %>%
-    summarise(pi_area = sum(n_gj * pi_adj) / sum(n_gj)) %>%
-    pull(pi_area)
-
+  # dat %>%
+  #   group_by(!!sym(obj$var_area)) %>%
+  #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
+  by_area <- split(dat, dat[[obj$var_area]])
+  avg_area <- map_dbl(by_area, function(X) sum(X$n_gj * X$pi_adj) / sum(X$n_gj))
   loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
-  avg_group <- dat %>%
-    group_by(!!sym(obj$var_group)) %>%
-    summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj)) %>%
-    pull(pi_group)
-
+  by_group <- split(dat, dat[[obj$var_group]])
+  avg_group <- map_dbl(by_group, function(X) sum(X$n_gj * X$pi_adj) / sum(X$n_gj))
   loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
 
 
@@ -67,6 +65,7 @@ twoway_obj_fn <- function(par, obj) {
 #' @source Kuriwaki, S., Ansolabehere, S., Dagonel, A., & Yamauchi, S. (2021).
 #'  The Geography of Racially Polarized Voting: Calibrating Surveys at the
 #'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
+#'
 #'
 #' @examples
 #' # Single estimate
