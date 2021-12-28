@@ -1,13 +1,13 @@
 #' Two-way Calibration
 #' objective function
-twoway_obj_fn <- function(par, input_dat) {
-  dat <- input_dat$dat
+twoway_obj_fn <- function(par, obj) {
+  dat <- obj$dat
 
   ## convert to logit scale
   pi_logit <- logit_ghitza(dat$est)
 
   ## adjustment factor
-  delta <- input_dat$X %*% par
+  delta <- obj$X %*% par
 
   ## adjusted value
   dat$pi_adj <- invlogit(pi_logit + delta)
@@ -15,21 +15,21 @@ twoway_obj_fn <- function(par, input_dat) {
 
   ## objective wrt district ---------------------------------
   avg_area <- dat %>%
-    group_by(!!sym(input_dat$var_area)) %>%
+    group_by(!!sym(obj$var_area)) %>%
     summarise(pi_area = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_area)
 
-  loss_area <- sum((input_dat$tau_area - avg_area)^2 *
-                     input_dat$n_j / input_dat$n)
+  loss_area <- sum((obj$n_j / obj$n) * (obj$tau_area - avg_area)^2)
+
 
   ## objective wrt racial groups ----------------------------
   avg_group <- dat %>%
-    group_by(!!sym(input_dat$var_group)) %>%
+    group_by(!!sym(obj$var_group)) %>%
     summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj)) %>%
     pull(pi_group)
 
-  loss_group <- sum((input_dat$tau_group - avg_group)^2  *
-                      input_dat$n_g / input_dat$n)
+  loss_group <- sum((obj$n_g / obj$n) * (obj$tau_group - avg_group)^2)
+
 
   ## sum of two losses
   loss <- loss_area + loss_group
@@ -106,7 +106,7 @@ posthoc_twoway <- function(
     par = par_init,
     fn = twoway_obj_fn,
     method = "BFGS",
-    input_dat = input_dat)
+    obj = input_dat)
 
 
   ## update estimate
