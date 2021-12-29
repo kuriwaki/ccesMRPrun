@@ -5,26 +5,23 @@
 twoway_obj_fn <- function(par, obj) {
   dat <- obj$dat
 
-  ## convert to logit scale
-  pi_logit <- logit_ghitza(dat$est)
-
   ## adjustment factor
   delta <- obj$X %*% par
 
   ## adjusted value
-  dat$pi_adj <- invlogit(pi_logit + delta)
+  dat$pi_adj <- invlogit(dat$pi_logit + delta)
 
   ## objective wrt district ---------------------------------
   # dat %>%
   #   group_by(!!sym(obj$var_area)) %>%
   #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
-  by_area <- split(dat, dat[[obj$var_area]])
+  by_area <- split(dat, obj$ind_area)
   avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
-  by_group <- split(dat, dat[[obj$var_group]])
+  by_group <- split(dat, obj$ind_group)
   avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
 
@@ -79,12 +76,14 @@ posthoc_twoway <- function(
   delta_init = NULL
 ) {
 
+  ## convert to logit scale
+  data$pi_logit <- logit_ghitza(data$est)
 
   ## organize inputs
   input_dat <- list(
-    dat       = data,
-    var_area  = var_area,
-    var_group = var_group,
+    dat       = as.data.frame(data[, c("pi_logit", "n_gj")]),
+    ind_area  = data[[var_area]],
+    ind_group = data[[var_group]],
     tgt_area  = tgt_area,
     tgt_group = tgt_group,
     X         = X,
