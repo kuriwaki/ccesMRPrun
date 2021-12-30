@@ -92,6 +92,10 @@ posthoc_twoway <- function(
     n         = n_total
   )
 
+  # checks
+  stopifnot(names(tgt_area) == levels(ind_area))
+  stopifnot(names(tgt_group) == levels(ind_group))
+
 
   ## set initial values
   if (is.null(delta_init)) {
