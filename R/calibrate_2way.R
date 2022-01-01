@@ -70,9 +70,14 @@ twoway_obj_fn <- function(par, obj) {
 #'
 posthoc_twoway <- function(
   data,
-  var_area, var_group,
-  tgt_area, tgt_group,
-  X, n_area, n_group, n_total,
+  var_area,
+  var_group,
+  tgt_area,
+  tgt_group,
+  X,
+  n_area,
+  n_group,
+  n_total,
   delta_init = NULL
 ) {
 
