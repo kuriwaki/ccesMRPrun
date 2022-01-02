@@ -39,8 +39,8 @@ twoway_obj_fn <- function(par, obj) {
 #'
 #'
 #' @param data
-#'    Estimates stored in the long format.
-#'    The column should be named `est`.
+#'    Estimates stored in the long format. Must be coercible to a non-tibble dataframe.
+#'    The column should be named `est` and the sample size should be called `n_gj`.
 #' @param var_area
 #'    Variable name (char) for area in \code{data}.
 #' @param var_group

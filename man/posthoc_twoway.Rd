@@ -23,8 +23,8 @@ posthoc_twoway(
 )
 }
 \arguments{
-\item{data}{Estimates stored in the long format.
-The column should be named \code{est}.}
+\item{data}{Estimates stored in the long format. Must be coercible to a non-tibble dataframe.
+The column should be named \code{est} and the sample size should be called \code{n_gj}.}
 
 \item{var_area}{Variable name (char) for area in \code{data}.}
 
