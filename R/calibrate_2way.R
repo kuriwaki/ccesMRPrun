@@ -5,26 +5,23 @@
 twoway_obj_fn <- function(par, obj) {
   dat <- obj$dat
 
-  ## convert to logit scale
-  pi_logit <- logit_ghitza(dat$est)
-
   ## adjustment factor
   delta <- obj$X %*% par
 
   ## adjusted value
-  dat$pi_adj <- invlogit(pi_logit + delta)
+  dat$pi_adj <- invlogit(dat$pi_logit + delta)
 
   ## objective wrt district ---------------------------------
   # dat %>%
   #   group_by(!!sym(obj$var_area)) %>%
   #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
-  by_area <- split(dat, dat[[obj$var_area]])
+  by_area <- split(dat, obj$ind_area)
   avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
-  by_group <- split(dat, dat[[obj$var_group]])
+  by_group <- split(dat, obj$ind_group)
   avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
   loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
 
@@ -68,23 +65,76 @@ twoway_obj_fn <- function(par, obj) {
 #'
 #'
 #' @examples
-#' # Single estimate
+#' library(dplyr)
+#' library(tibble)
+#' library(tictoc)
+#'
+#' # MRP estimates
+#' drw_GA_educ <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = c("cd", "educ"))
+#' acs_GA_educ <- acs_GA %>% count(cd, educ, wt = count, name = "N")
+#'
+#' # for a particular draw
+#' i <- 1
+#'
+#' # Data at cell level
+#' draw_i <- drw_GA_educ %>%
+#'   filter(iter == i) %>%
+#'   left_join(acs_GA_educ, by = c("cd", "educ")) %>%
+#'   mutate(est = p_mrp, n_gj = N)
+#'
+#'
+#' # ys
+#' elec_tgt <- deframe(select(elec_GA, cd, clinton_vote_2pty))
+#' educ_tgt <- c(`HS or Less` = 0.40, `Some College` = 0.45, `4-Year` = 0.50, `Post-Grad` = 0.60)
+#'
+#' # Ns
+#' area_N <- deframe(count(acs_GA_educ, cd, wt = N))
+#' educ_N <- deframe(count(acs_GA_educ, educ, wt = N))
+#' totalN <- deframe(count(acs_GA_educ, wt = N))
+#'
+#' # Run
+#' tic()
+#' set.seed(02138)
+#' out <- posthoc_twoway(
+#'   data = draw_i,
+#'   var_area = "cd",
+#'   var_group = "educ",
+#'   tgt_area  = elec_tgt,
+#'   tgt_group = educ_tgt,
+#'   X = model.matrix(~ cd + educ - 1, data = draw_i),
+#'   n_area = area_N,
+#'   n_group = educ_N,
+#'   n_total = totalN
+#' )
+#' toc()
 #'
 #'
 posthoc_twoway <- function(
   data,
-  var_area, var_group,
-  tgt_area, tgt_group,
-  X, n_area, n_group, n_total,
+  var_area,
+  var_group,
+  tgt_area,
+  tgt_group,
+  X,
+  n_area,
+  n_group,
+  n_total,
   delta_init = NULL
 ) {
 
+  ## convert to logit scale
+  data$pi_logit <- logit_ghitza(data$est)
+
+  # shorten
+  dat <- as.data.frame(data[, c("pi_logit", "n_gj")])
+  ind_area <- data[[var_area]]
+  ind_group <- data[[var_group]]
 
   ## organize inputs
   input_dat <- list(
-    dat       = data,
-    var_area  = var_area,
-    var_group = var_group,
+    dat       = dat,
+    ind_area  = ind_area,
+    ind_group = ind_group,
     tgt_area  = tgt_area,
     tgt_group = tgt_group,
     X         = X,
@@ -92,6 +142,10 @@ posthoc_twoway <- function(
     n_g       = n_group,
     n         = n_total
   )
+
+  # checks
+  stopifnot(names(tgt_area) == levels(ind_area))
+  stopifnot(names(tgt_group) == levels(ind_group))
 
 
   ## set initial values
