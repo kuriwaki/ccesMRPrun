@@ -89,7 +89,7 @@ twoway_obj_fn <- function(par, obj) {
 #' draw_i <- drw_GA_educ %>%
 #'   filter(iter == i) %>%
 #'   left_join(acs_GA_educ, by = c("cd", "educ")) %>%
-#'   mutate(est = p_mrp, n = N)
+#'   rename(est = p_mrp, n = N)
 #'
 #'
 #' # ys
