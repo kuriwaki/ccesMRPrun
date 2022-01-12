@@ -68,14 +68,14 @@ fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 
     ## Running MCMC with 4 parallel chains...
     ## 
-    ## Chain 3 finished in 9.9 seconds.
-    ## Chain 1 finished in 12.3 seconds.
-    ## Chain 2 finished in 12.6 seconds.
-    ## Chain 4 finished in 13.2 seconds.
+    ## Chain 3 finished in 5.9 seconds.
+    ## Chain 4 finished in 6.5 seconds.
+    ## Chain 1 finished in 6.9 seconds.
+    ## Chain 2 finished in 7.0 seconds.
     ## 
     ## All 4 chains finished successfully.
-    ## Mean chain execution time: 12.0 seconds.
-    ## Total execution time: 13.6 seconds.
+    ## Mean chain execution time: 6.6 seconds.
+    ## Total execution time: 7.4 seconds.
 
 ``` r
 class(fit)

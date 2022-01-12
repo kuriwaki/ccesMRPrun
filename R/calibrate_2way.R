@@ -1,20 +1,55 @@
+#' Two-way Calibration objective function
+#' @param par The vector of parameters.
+#' @param obj A list of inputs See `calib_twoway`.
+#'
+#' @importFrom purrr map_dbl
+#' @keywords internal
+twoway_obj_fn <- function(par, obj) {
+  dat <- obj$dat
 
-#' Two-way Calibration
+  ## adjustment factor
+  delta <- obj$X %*% par
+
+  ## adjusted value
+  dat$pi_adj <- invlogit(dat$pi_logit + delta)
+
+  ## objective wrt district ---------------------------------
+  # dat %>%
+  #   group_by(!!sym(obj$var_area)) %>%
+  #   summarise(pi_group = sum(n * pi_adj) / sum(n))
+  by_area <- split(dat, obj$ind_area)
+  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n)))
+  loss_area <- sum((obj$n_j / obj$n_total) * (obj$tgt_area - avg_area)^2)
+
+
+  ## objective wrt racial groups ----------------------------
+  by_group <- split(dat, obj$ind_group)
+  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n)))
+  loss_group <- sum((obj$n_g / obj$n_total) * (obj$tgt_group - avg_group)^2)
+
+
+  ## sum of two losses
+  loss <- loss_area + loss_group
+
+  return(loss)
+}
+
+#' Find two-way correction for cell estimates
 #'
 #'
 #' @param data
 #'    Estimates stored in the long format. Must be coercible to a non-tibble dataframe.
-#'    The column should be named `est` and the sample size should be called `n_gj`.
+#'    The column should be named `est` and the sample size should be called `n`.
 #' @param var_area
 #'    Variable name (char) for area in \code{data}.
 #' @param var_group
 #'    Variable name (char) for group in \code{data}.
 #' @param tgt_area
-#'    Vector of true values for area.
+#'    Vector of true values for area. Must be named so that the names indicate
+#'    the area that corresponds to the number.
 #' @param tgt_group
-#'    Vector of true values for group.
-#' @param X
-#'    Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.
+#'    Vector of true values for group. Must be named so that the names indicate
+#'    the group that corresponds to the number.
 #' @param n_area
 #'    Vector consists of population sizes in each area.
 #' @param n_group
@@ -23,6 +58,8 @@
 #'    Scalar of total number of population.
 #' @param delta_init
 #'    Initial values of delta.
+#' @param use_grad
+#'    Whether to use the gradient function to speed up the optimization.
 #' @return
 #'    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
 #'
@@ -30,8 +67,13 @@
 #'  The Geography of Racially Polarized Voting: Calibrating Surveys at the
 #'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
 #'
+#' @seealso calib_oneway
+#'
+#' @importFrom glue glue
+#' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' library(tibble)
 #' library(tictoc)
@@ -47,7 +89,7 @@
 #' draw_i <- drw_GA_educ %>%
 #'   filter(iter == i) %>%
 #'   left_join(acs_GA_educ, by = c("cd", "educ")) %>%
-#'   mutate(est = p_mrp, n_gj = N)
+#'   rename(est = p_mrp, n = N)
 #'
 #'
 #' # ys
@@ -60,31 +102,26 @@
 #' totalN <- deframe(count(acs_GA_educ, wt = N))
 #'
 #' # Run
-#' tic()
 #' set.seed(02138)
-#' out <- posthoc_twoway(
+#' out <- calib_twoway(
 #'   data = draw_i,
 #'   var_area = "cd",
 #'   var_group = "educ",
 #'   tgt_area  = elec_tgt,
 #'   tgt_group = educ_tgt,
-#'   X = cbind(
-#'      model.matrix(~ cd - 1, data = draw_i),
-#'      model.matrix(~ educ - 1, data = draw_i)),
 #'   n_area = area_N,
 #'   n_group = educ_N,
-#'   n_total = totalN
+#'   n_total = totalN,
+#'   use_grad = TRUE
 #' )
-#' toc()
+#'}
 #'
-#'
-posthoc_twoway <- function(
+calib_twoway <- function(
   data,
   var_area,
   var_group,
   tgt_area,
   tgt_group,
-  X,
   n_area,
   n_group,
   n_total,
@@ -96,9 +133,21 @@ posthoc_twoway <- function(
   data$pi_logit <- logit_ghitza(data$est)
 
   # shorten
-  dat <- as.data.frame(data[, c("pi_logit", "n_gj")])
+  dat <- as.data.frame(data[, c("pi_logit", "n")])
   ind_area <- data[[var_area]]
   ind_group <- data[[var_group]]
+
+  # Checks ordering. If the data variable is a factor, check its levels.
+  lv_g <- names(tgt_group); lv_j <- names(tgt_area)
+  su <- function(x) sort(base::unique(x))
+  stopifnot(identical(lv_g, levels(ind_group)) || identical(lv_g, su(ind_group)))
+  stopifnot(identical(lv_j, levels(ind_area))  || identical(lv_j, su(ind_area)))
+
+  # Make X matrix
+  data_matrix <- cbind(
+    model.matrix(as.formula(glue("~ {var_area} - 1")), data),
+    model.matrix(as.formula(glue("~ {var_group} - 1")), data)
+  )
 
   ## organize inputs
   input_dat <- list(
@@ -107,22 +156,17 @@ posthoc_twoway <- function(
     ind_group = ind_group,
     tgt_area  = tgt_area,
     tgt_group = tgt_group,
-    X         = X,
+    X         = data_matrix,
     n_j       = n_area,
     n_g       = n_group,
-    n         = n_total
+    n_total   = n_total
   )
-
-  # checks
-  stopifnot(names(tgt_area) == levels(ind_area))
-  stopifnot(names(tgt_group) == levels(ind_group))
-
 
   ## set initial values
   if (is.null(delta_init)) {
-    par_init <- runif(ncol(X), -0.5, 0.5)
+    par_init <- runif(ncol(data_matrix), -0.5, 0.5)
   } else {
-    if (length(delta_init) != ncol(X)) stop("Wrong number of initial values.")
+    if (length(delta_init) != ncol(data_matrix)) stop("Wrong number of initial values.")
     par_init <- delta_init
   }
 
@@ -142,44 +186,8 @@ posthoc_twoway <- function(
 
 
   ## update estimate
-  delta <- as.vector(X %*% fit$par)
+  delta <- as.vector(data_matrix %*% fit$par)
   data$est_corrected <- invlogit(logit_ghitza(data$est) + delta)
   data$delta <- delta
   return(data)
 }
-
-
-#' Two-way Calibration
-#' objective function
-#'
-#' @importFrom purrr map_dbl
-twoway_obj_fn <- function(par, obj) {
-  dat <- obj$dat
-
-  ## adjustment factor
-  delta <- obj$X %*% par
-
-  ## adjusted value
-  dat$pi_adj <- invlogit(dat$pi_logit + delta)
-
-  ## objective wrt district ---------------------------------
-  # dat %>%
-  #   group_by(!!sym(obj$var_area)) %>%
-  #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
-  by_area <- split(dat, obj$ind_area)
-  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
-  loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
-
-
-  ## objective wrt racial groups ----------------------------
-  by_group <- split(dat, obj$ind_group)
-  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
-  loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
-
-
-  ## sum of two losses
-  loss <- loss_area + loss_group
-
-  return(loss)
-}
-

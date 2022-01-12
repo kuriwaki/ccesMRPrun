@@ -19,7 +19,7 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-")
 
 Cite as:
 
-* Shiro Kuriwaki (2020). ccesMRPrun: Fitting and Visualizing MRP Models from Cleaned CCES and Census Data. R package. <https://www.github.com/kuriwaki/ccesMRPrun>
+* Shiro Kuriwaki (2022). ccesMRPrun: Fitting and Visualizing MRP Models from Cleaned CCES and Census Data. R package. <https://www.github.com/kuriwaki/ccesMRPrun>
 
 
 This is a set of functions to facilitate running MRP models on CCES data and is a companion to [**`ccesMRPprep`**](https://www.shirokuriwaki.com/ccesMRPprep).
@@ -100,7 +100,8 @@ mrp_val <- summ_sims(drw) %>%
 
 # Visualization
 
-A wrapper for visualizing the accuracy relationship
+A wrapper for visualizing the accuracy relationship, from  [**`ccesMRPviz`**](https://github.com/kuriwaki/ccesMRPviz).
+
 
 ```{r mrp-plot, fig.w  = 4, fig.h = 4, fig.align = "center"}
 scatter_45(mrp_val, clinton_vote, p_mrp_est, 

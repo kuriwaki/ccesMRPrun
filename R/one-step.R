@@ -75,6 +75,7 @@ mrp_onestep <- function(.formula,
 #' @details A simple wrapper around `poststrat_draws` and `summ_sims`.
 #'
 #' @param fit A brms object from `fit_brms`.
+#' @param ... Additional arguments to `poststrat_draws`
 #'
 #' @inheritParams poststrat_draws
 #' @inheritParams mrp_onestep
@@ -90,7 +91,7 @@ poststrat_onestep <- function(fit,
   post_fit <- poststrat_draws(fit,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = orig_data,
-                              area_var = area_var, count_var = count_var)
+                              area_var = area_var, count_var = count_var, ...)
 
   # summarize
   post_sum <- summ_sims(post_fit, area_var = area_var)

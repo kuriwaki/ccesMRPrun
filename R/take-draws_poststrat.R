@@ -155,9 +155,9 @@ poststrat_draws <- function(model,
         left_join(calib_area_to, by = calib_join_var) %>%
         group_by(across(all_of(iter_join_vars))) %>%
         summarize(
-          delta = posthoc_intercept(xi = unique(.data[[calib_to_var]]),
-                                    ests = pred_n_yes / n_response,
-                                    n = n_response)
+          delta = calib_oneway(tgt = unique(.data[[calib_to_var]]),
+                               ests = pred_n_yes / n_response,
+                               n = n_response)
         )
       areas_grp <- areas_draws %>%
         left_join(correct_add, by = iter_join_vars) %>%

@@ -30,7 +30,7 @@ and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 count in the \code{poststrat_tgt} dataframe. This will be renamed as if it is
 a trial count in the model. Defaults to \code{"count"}.}
 
-\item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
+\item{...}{Additional arguments to \code{poststrat_draws}}
 }
 \description{
 Do post-stratification and summarize draws in one step

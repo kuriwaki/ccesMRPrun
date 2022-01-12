@@ -11,6 +11,8 @@ home:
 authors:
   Shiro Kuriwaki:
     href: "https://www.shirokuriwaki.com"
+  Soichiro Yamauchi:
+    href: "https://soichiroy.github.io/"
 
 reference:
   - title: Overall
@@ -27,20 +29,23 @@ reference:
     contents:
       - poststrat_draws
       - pivot_celldraws_longer
+      - poststrat_onestep
 
   - title: Summarize and Visualize
     contents:
-      - scatter_45
       - summ_sims
-      - error_lbl
 
   - title: Calibration
     contents:
-      - posthoc_intercept
+      - calib_oneway
+      - calib_twoway
       - posthoc_error
+      - logit_ghitza
 
   - title: Example Datasets
     contents:
     - cces_GA
     - acs_GA
     - elec_GA
+    - fit_GA
+    - summ_GA
