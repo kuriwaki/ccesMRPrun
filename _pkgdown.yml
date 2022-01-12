@@ -29,6 +29,7 @@ reference:
     contents:
       - poststrat_draws
       - pivot_celldraws_longer
+      - poststrat_onestep
 
   - title: Summarize and Visualize
     contents:
@@ -39,6 +40,7 @@ reference:
       - calib_oneway
       - calib_twoway
       - posthoc_error
+      - logit_ghitza
 
   - title: Example Datasets
     contents:
@@ -46,3 +48,4 @@ reference:
     - acs_GA
     - elec_GA
     - fit_GA
+    - summ_GA
