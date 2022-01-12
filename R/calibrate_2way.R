@@ -101,7 +101,9 @@ twoway_obj_fn <- function(par, obj) {
 #'   var_group = "educ",
 #'   tgt_area  = elec_tgt,
 #'   tgt_group = educ_tgt,
-#'   X = model.matrix(~ cd + educ - 1, data = draw_i),
+#'   X = cbind(
+#'      model.matrix(~ cd - 1, data = draw_i),
+#'      model.matrix(~ educ - 1, data = draw_i)),
 #'   n_area = area_N,
 #'   n_group = educ_N,
 #'   n_total = totalN
@@ -160,6 +162,7 @@ posthoc_twoway <- function(
   fit <- optim(
     par = par_init,
     fn = twoway_obj_fn,
+    gr = twoway_grad_fn,
     method = "BFGS",
     obj = input_dat)
 
