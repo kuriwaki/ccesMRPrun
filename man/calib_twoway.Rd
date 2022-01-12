@@ -15,7 +15,6 @@ calib_twoway(
   var_group,
   tgt_area,
   tgt_group,
-  X,
   n_area,
   n_group,
   n_total,
@@ -31,12 +30,11 @@ The column should be named \code{est} and the sample size should be called \code
 
 \item{var_group}{Variable name (char) for group in \code{data}.}
 
-\item{tgt_area}{Vector of true values for area.}
+\item{tgt_area}{Vector of true values for area. Must be named so that the names indicate
+the area that corresponds to the number.}
 
-\item{tgt_group}{Vector of true values for group.}
-
-\item{X}{Design matrix with the same ordering of covariates and al levels kept.
-E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.}
+\item{tgt_group}{Vector of true values for group. Must be named so that the names indicate
+the group that corresponds to the number.}
 
 \item{n_area}{Vector consists of population sizes in each area.}
 
@@ -45,6 +43,9 @@ E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1
 \item{n_total}{Scalar of total number of population.}
 
 \item{delta_init}{Initial values of delta.}
+
+\item{X}{Design matrix with the same ordering of covariates and al levels kept.
+E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.}
 }
 \value{
 Data frame with new columns \code{"est_corrected"} and \code{"delta"}
@@ -89,9 +90,6 @@ out <- calib_twoway(
   var_group = "educ",
   tgt_area  = elec_tgt,
   tgt_group = educ_tgt,
-  X = cbind(
-     model.matrix(~ cd - 1, data = draw_i),
-     model.matrix(~ educ - 1, data = draw_i)),
   n_area = area_N,
   n_group = educ_N,
   n_total = totalN

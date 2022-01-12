@@ -43,9 +43,11 @@ twoway_obj_fn <- function(par, obj) {
 #' @param var_group
 #'    Variable name (char) for group in \code{data}.
 #' @param tgt_area
-#'    Vector of true values for area.
+#'    Vector of true values for area. Must be named so that the names indicate
+#'    the area that corresponds to the number.
 #' @param tgt_group
-#'    Vector of true values for group.
+#'    Vector of true values for group. Must be named so that the names indicate
+#'    the group that corresponds to the number.
 #' @param X
 #'    Design matrix with the same ordering of covariates and al levels kept.
 #'    E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.
@@ -65,6 +67,8 @@ twoway_obj_fn <- function(par, obj) {
 #'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
 #'
 #' @seealso calib_oneway
+#'
+#' @importFrom glue glue
 #' @export
 #'
 #' @examples
@@ -104,9 +108,6 @@ twoway_obj_fn <- function(par, obj) {
 #'   var_group = "educ",
 #'   tgt_area  = elec_tgt,
 #'   tgt_group = educ_tgt,
-#'   X = cbind(
-#'      model.matrix(~ cd - 1, data = draw_i),
-#'      model.matrix(~ educ - 1, data = draw_i)),
 #'   n_area = area_N,
 #'   n_group = educ_N,
 #'   n_total = totalN
@@ -120,7 +121,6 @@ calib_twoway <- function(
   var_group,
   tgt_area,
   tgt_group,
-  X,
   n_area,
   n_group,
   n_total,
@@ -136,6 +136,18 @@ calib_twoway <- function(
   ind_area <- data[[var_area]]
   ind_group <- data[[var_group]]
 
+  # Checks ordering. If the data variable is a factor, check its levels.
+  lv_g <- names(tgt_group); lv_j <- names(tgt_area)
+  su <- function(x) sort(base::unique(x))
+  stopifnot(identical(lv_g, levels(ind_group)) || identical(lv_g, su(ind_group)))
+  stopifnot(identical(lv_j, levels(ind_area))  || identical(lv_j, su(ind_area)))
+
+  # Make X matrix
+  data_matrix <- cbind(
+    model.matrix(as.formula(glue("~ {var_area} - 1")), data),
+    model.matrix(as.formula(glue("~ {var_group} - 1")), data)
+  )
+
   ## organize inputs
   input_dat <- list(
     dat       = dat,
@@ -143,22 +155,17 @@ calib_twoway <- function(
     ind_group = ind_group,
     tgt_area  = tgt_area,
     tgt_group = tgt_group,
-    X         = X,
+    X         = data_matrix,
     n_j       = n_area,
     n_g       = n_group,
     n         = n_total
   )
 
-  # checks
-  stopifnot(names(tgt_area) == levels(ind_area))
-  stopifnot(names(tgt_group) == levels(ind_group))
-
-
   ## set initial values
   if (is.null(delta_init)) {
-    par_init <- runif(ncol(X), -0.5, 0.5)
+    par_init <- runif(ncol(data_matrix), -0.5, 0.5)
   } else {
-    if (length(delta_init) != ncol(X)) stop("Wrong number of initial values.")
+    if (length(delta_init) != ncol(data_matrix)) stop("Wrong number of initial values.")
     par_init <- delta_init
   }
 
@@ -178,7 +185,7 @@ calib_twoway <- function(
 
 
   ## update estimate
-  delta <- as.vector(X %*% fit$par)
+  delta <- as.vector(data_matrix %*% fit$par)
   data$est_corrected <- invlogit(logit_ghitza(data$est) + delta)
   data$delta <- delta
   return(data)
