@@ -14,16 +14,16 @@ twoway_obj_fn <- function(par, obj) {
   ## objective wrt district ---------------------------------
   # dat %>%
   #   group_by(!!sym(obj$var_area)) %>%
-  #   summarise(pi_group = sum(n_gj * pi_adj) / sum(n_gj))
+  #   summarise(pi_group = sum(n * pi_adj) / sum(n))
   by_area <- split(dat, obj$ind_area)
-  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
-  loss_area <- sum((obj$n_j / obj$n) * (obj$tgt_area - avg_area)^2)
+  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n)))
+  loss_area <- sum((obj$n_j / obj$n_total) * (obj$tgt_area - avg_area)^2)
 
 
   ## objective wrt racial groups ----------------------------
   by_group <- split(dat, obj$ind_group)
-  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
-  loss_group <- sum((obj$n_g / obj$n) * (obj$tgt_group - avg_group)^2)
+  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n)))
+  loss_group <- sum((obj$n_g / obj$n_total) * (obj$tgt_group - avg_group)^2)
 
 
   ## sum of two losses
@@ -37,7 +37,7 @@ twoway_obj_fn <- function(par, obj) {
 #'
 #' @param data
 #'    Estimates stored in the long format. Must be coercible to a non-tibble dataframe.
-#'    The column should be named `est` and the sample size should be called `n_gj`.
+#'    The column should be named `est` and the sample size should be called `n`.
 #' @param var_area
 #'    Variable name (char) for area in \code{data}.
 #' @param var_group
@@ -90,7 +90,7 @@ twoway_obj_fn <- function(par, obj) {
 #' draw_i <- drw_GA_educ %>%
 #'   filter(iter == i) %>%
 #'   left_join(acs_GA_educ, by = c("cd", "educ")) %>%
-#'   mutate(est = p_mrp, n_gj = N)
+#'   mutate(est = p_mrp, n = N)
 #'
 #'
 #' # ys
@@ -134,7 +134,7 @@ calib_twoway <- function(
   data$pi_logit <- logit_ghitza(data$est)
 
   # shorten
-  dat <- as.data.frame(data[, c("pi_logit", "n_gj")])
+  dat <- as.data.frame(data[, c("pi_logit", "n")])
   ind_area <- data[[var_area]]
   ind_group <- data[[var_group]]
 
@@ -160,7 +160,7 @@ calib_twoway <- function(
     X         = data_matrix,
     n_j       = n_area,
     n_g       = n_group,
-    n         = n_total
+    n_total   = n_total
   )
 
   ## set initial values

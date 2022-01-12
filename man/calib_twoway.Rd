@@ -24,7 +24,7 @@ calib_twoway(
 }
 \arguments{
 \item{data}{Estimates stored in the long format. Must be coercible to a non-tibble dataframe.
-The column should be named \code{est} and the sample size should be called \code{n_gj}.}
+The column should be named \code{est} and the sample size should be called \code{n}.}
 
 \item{var_area}{Variable name (char) for area in \code{data}.}
 
@@ -72,7 +72,7 @@ i <- 1
 draw_i <- drw_GA_educ \%>\%
   filter(iter == i) \%>\%
   left_join(acs_GA_educ, by = c("cd", "educ")) \%>\%
-  mutate(est = p_mrp, n_gj = N)
+  mutate(est = p_mrp, n = N)
 
 
 # ys

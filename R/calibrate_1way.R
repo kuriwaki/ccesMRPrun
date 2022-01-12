@@ -68,7 +68,7 @@ posthoc_error <- function(delta, xi, ests, n) {
 #'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
 #'  tru <- 0.5
 #'
-#'  calib_oneway(tru, biased_ests, sizes)
+#'  calib_oneway(tgt = tru, ests = biased_ests, n = sizes)
 #'
 #' @export
 calib_oneway <- function(tgt, ests, n, search = c(-5, 5)) {
