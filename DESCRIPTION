@@ -1,6 +1,6 @@
 Package: ccesMRPrun
 Type: Package
-Title: Fitting and Diagnosing MRP Models from Cleaned CCES and Census Data
+Title: Using MRP Models from Cleaned CCES and Census Data
 Version: 0.0.8
 Authors@R: c(person(given = "Shiro",
              family = "Kuriwaki",
@@ -12,7 +12,8 @@ Authors@R: c(person(given = "Shiro",
              role = c("aut"),
              email = "syamauchi@g.harvard.edu",
              comment = c(ORCID = "0000-0003-0554-2717")))
-Description: Companion to ccesMRPprep
+Description: Fits, Diagnoses, and Calibrates MRP model with standard and 
+ new features. Companion to ccesMRPprep. Data should be processed following ccesMRPprep.
 Encoding: UTF-8
 LazyData: true
 Depends: 
