@@ -2,18 +2,16 @@
 % Please edit documentation in R/calibrate_2way-grad.R
 \name{twoway_grad_fn}
 \alias{twoway_grad_fn}
-\title{Two-way Calibration
-gradient function}
+\title{Two-way Calibration gradient function}
 \usage{
 twoway_grad_fn(par, obj)
 }
 \arguments{
 \item{par}{A vector of parameters.}
 
-\item{obj}{A list of inputs.}
+\item{obj}{A list of inputs, see \code{calib_twoway}}
 }
 \description{
-Two-way Calibration
-gradient function
+Two-way Calibration gradient function
 }
 \keyword{internal}

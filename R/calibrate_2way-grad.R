@@ -1,8 +1,8 @@
 
-#' Two-way Calibration
-#' gradient function
+#' Two-way Calibration gradient function
+#'
 #' @param par A vector of parameters.
-#' @param obj A list of inputs.
+#' @param obj A list of inputs, see `calib_twoway`
 #' @importFrom purrr map_dbl map2
 #' @keywords internal
 twoway_grad_fn <- function(par, obj) {

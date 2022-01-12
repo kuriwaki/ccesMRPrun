@@ -2,12 +2,16 @@
 % Please edit documentation in R/calibrate_2way.R
 \name{twoway_obj_fn}
 \alias{twoway_obj_fn}
-\title{Two-way Calibration
-objective function}
+\title{Two-way Calibration objective function}
 \usage{
 twoway_obj_fn(par, obj)
 }
-\description{
-Two-way Calibration
-objective function
+\arguments{
+\item{par}{The vector of parameters.}
+
+\item{obj}{A list of inputs See \code{calib_twoway}.}
 }
+\description{
+Two-way Calibration objective function
+}
+\keyword{internal}

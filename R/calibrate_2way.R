@@ -1,7 +1,9 @@
-#' Two-way Calibration
-#' objective function
+#' Two-way Calibration objective function
+#' @param par The vector of parameters.
+#' @param obj A list of inputs See `calib_twoway`.
 #'
 #' @importFrom purrr map_dbl
+#' @keywords internal
 twoway_obj_fn <- function(par, obj) {
   dat <- obj$dat
 
@@ -48,9 +50,6 @@ twoway_obj_fn <- function(par, obj) {
 #' @param tgt_group
 #'    Vector of true values for group. Must be named so that the names indicate
 #'    the group that corresponds to the number.
-#' @param X
-#'    Design matrix with the same ordering of covariates and al levels kept.
-#'    E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.
 #' @param n_area
 #'    Vector consists of population sizes in each area.
 #' @param n_group

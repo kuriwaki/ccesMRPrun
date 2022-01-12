@@ -45,9 +45,6 @@ the group that corresponds to the number.}
 \item{delta_init}{Initial values of delta.}
 
 \item{use_grad}{Whether to use the gradient function to speed up the optimization.}
-
-\item{X}{Design matrix with the same ordering of covariates and al levels kept.
-E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.}
 }
 \value{
 Data frame with new columns \code{"est_corrected"} and \code{"delta"}
