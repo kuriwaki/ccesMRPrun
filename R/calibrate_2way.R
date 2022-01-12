@@ -32,7 +32,7 @@ twoway_obj_fn <- function(par, obj) {
   return(loss)
 }
 
-#' Two-way Calibration
+#' Find two-way correction for cell estimates
 #'
 #'
 #' @param data
@@ -64,6 +64,7 @@ twoway_obj_fn <- function(par, obj) {
 #'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
 #'
 #' @seealso calib_oneway
+#' @export
 #'
 #' @examples
 #' library(dplyr)
@@ -96,7 +97,7 @@ twoway_obj_fn <- function(par, obj) {
 #' # Run
 #' tic()
 #' set.seed(02138)
-#' out <- posthoc_twoway(
+#' out <- calib_twoway(
 #'   data = draw_i,
 #'   var_area = "cd",
 #'   var_group = "educ",
@@ -112,7 +113,7 @@ twoway_obj_fn <- function(par, obj) {
 #' toc()
 #'
 #'
-posthoc_twoway <- function(
+calib_twoway <- function(
   data,
   var_area,
   var_group,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calibrate_1way.R
 \name{calib_oneway}
 \alias{calib_oneway}
-\title{Find intercept correction for cell estimates}
+\title{Find one-way (intercept) correction for cell estimates}
 \source{
 FindDelta function at
 https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
@@ -46,7 +46,7 @@ absolute values of the deviation.
 
 }
 \seealso{
-posthoc_error
+calib_twoway
 }
 \author{
 Yair Ghitza

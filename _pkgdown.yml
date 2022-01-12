@@ -36,7 +36,8 @@ reference:
 
   - title: Calibration
     contents:
-      - posthoc_intercept
+      - calib_oneway
+      - calib_twoway
       - posthoc_error
 
   - title: Example Datasets

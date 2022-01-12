@@ -34,7 +34,7 @@ posthoc_error <- function(delta, xi, ests, n) {
 }
 
 
-#' Find intercept correction for cell estimates
+#' Find one-way (intercept) correction for cell estimates
 #'
 #'
 #' For a given geography g, there may be a value y_g which is
@@ -55,7 +55,7 @@ posthoc_error <- function(delta, xi, ests, n) {
 #'  "Recalibration of Predictive Models as Approximate Probabilistic Updates"
 #'  <https://arxiv.org/abs/2112.06674>
 #'
-#' @seealso posthoc_error
+#' @seealso calib_twoway
 #'
 #' @returns The value of delta or the intercept that minimizes
 #'  the absolute deviation in total. The value is on the logit scale.
