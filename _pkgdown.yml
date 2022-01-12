@@ -11,6 +11,8 @@ home:
 authors:
   Shiro Kuriwaki:
     href: "https://www.shirokuriwaki.com"
+  Soichiro Yamauchi:
+    href: "https://soichiroy.github.io/"
 
 reference:
   - title: Overall
@@ -30,9 +32,7 @@ reference:
 
   - title: Summarize and Visualize
     contents:
-      - scatter_45
       - summ_sims
-      - error_lbl
 
   - title: Calibration
     contents:
@@ -45,3 +45,4 @@ reference:
     - cces_GA
     - acs_GA
     - elec_GA
+    - fit_GA
