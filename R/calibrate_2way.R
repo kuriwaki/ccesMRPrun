@@ -121,7 +121,8 @@ posthoc_twoway <- function(
   n_area,
   n_group,
   n_total,
-  delta_init = NULL
+  delta_init = NULL,
+  use_grad   = FALSE
 ) {
 
   ## convert to logit scale
@@ -158,11 +159,17 @@ posthoc_twoway <- function(
     par_init <- delta_init
   }
 
+  if (isTRUE(use_grad)) {
+    grad_fn <- twoway_grad_fn
+  } else {
+    grad_fn <- NULL
+  }
+
   ## estimate parameters
   fit <- optim(
     par = par_init,
     fn = twoway_obj_fn,
-    gr = twoway_grad_fn,
+    gr = grad_fn,
     method = "BFGS",
     obj = input_dat)
 

@@ -19,7 +19,8 @@ posthoc_twoway(
   n_area,
   n_group,
   n_total,
-  delta_init = NULL
+  delta_init = NULL,
+  use_grad = FALSE
 )
 }
 \arguments{
