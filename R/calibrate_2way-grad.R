@@ -18,12 +18,12 @@ twoway_grad_fn <- function(par, obj) {
 
   ## fix area and average over groups
   by_area <- split(dat, obj$ind_area)
-  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n_gj)))
+  avg_area <- map_dbl(by_area, function(X) with(X, weighted.mean(pi_adj, n)))
   loss_area <- obj$tgt_area - avg_area
 
   ## fix groups and average over areas
   by_group <- split(dat, obj$ind_group)
-  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n_gj)))
+  avg_group <- map_dbl(by_group, function(X) with(X, weighted.mean(pi_adj, n)))
   loss_group <- obj$tgt_group - avg_group
 
   ## grad wrt areas -----------------------------
