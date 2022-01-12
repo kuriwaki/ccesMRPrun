@@ -5,10 +5,6 @@ output:
   rmarkdown::html_vignette:
     fig_width: 8
     fig_height: 4
-vignette: >
-  %\VignetteIndexEntry{Post-stratification vs. Aggregate Regression Adjustment}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
