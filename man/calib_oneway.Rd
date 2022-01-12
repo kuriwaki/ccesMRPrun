@@ -12,10 +12,10 @@ Also see Evan T. R. Rosenman and Santiago Olivella,
 \url{https://arxiv.org/abs/2112.06674}
 }
 \usage{
-calib_oneway(xi, ests, n, search = c(-5, 5))
+calib_oneway(tgt, ests, n, search = c(-5, 5))
 }
 \arguments{
-\item{xi}{The true target}
+\item{tgt}{The true target}
 
 \item{ests}{A vector of current estimate, by cell}
 
@@ -29,11 +29,10 @@ the absolute deviation in total. The value is on the logit scale.
 To translate to a probability, use invlogit.
 }
 \description{
-For a given geography g, there may be a value y_g which is
-the ground truth. You have C cells with estimates of y that
+For a given geography \code{j}, there may be a value \code{pi_j} which is
+the ground truth. The analyst has \code{C} cells with estimates of \code{pi_c} that
 may be biased. This function, proposed by Ghitza and Gelman
-and Ghitza, will find a intercept shift for all C cells
-to best fit the estimand y. It is the argmin of the sum of
+and Ghitza, will find a intercept shift for all \verb{C cells to best fit the total }pi`. It is the argmin of the sum of
 absolute values of the deviation.
 }
 \examples{

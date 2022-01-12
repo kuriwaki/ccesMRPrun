@@ -37,13 +37,14 @@ posthoc_error <- function(delta, xi, ests, n) {
 #' Find one-way (intercept) correction for cell estimates
 #'
 #'
-#' For a given geography g, there may be a value y_g which is
-#' the ground truth. You have C cells with estimates of y that
+#' For a given geography `j`, there may be a value `pi_j` which is
+#' the ground truth. The analyst has `C` cells with estimates of `pi_c` that
 #' may be biased. This function, proposed by Ghitza and Gelman
-#' and Ghitza, will find a intercept shift for all C cells
-#' to best fit the estimand y. It is the argmin of the sum of
+#' and Ghitza, will find a intercept shift for all `C cells
+#' to best fit the total `pi`. It is the argmin of the sum of
 #' absolute values of the deviation.
 #'
+#' @param tgt The true target
 #' @param search The lower and upper endpoints of the interval to search
 #' @inheritParams posthoc_error
 #'
@@ -70,10 +71,10 @@ posthoc_error <- function(delta, xi, ests, n) {
 #'  calib_oneway(tru, biased_ests, sizes)
 #'
 #' @export
-calib_oneway <- function(xi, ests, n, search = c(-5, 5)) {
+calib_oneway <- function(tgt, ests, n, search = c(-5, 5)) {
   optimize(posthoc_error,
            interval = search,
-           xi = xi,
+           xi = tgt,
            ests = ests,
            n = n)$minimum
 }

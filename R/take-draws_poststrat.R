@@ -155,7 +155,7 @@ poststrat_draws <- function(model,
         left_join(calib_area_to, by = calib_join_var) %>%
         group_by(across(all_of(iter_join_vars))) %>%
         summarize(
-          delta = calib_oneway(xi = unique(.data[[calib_to_var]]),
+          delta = calib_oneway(tgt = unique(.data[[calib_to_var]]),
                                ests = pred_n_yes / n_response,
                                n = n_response)
         )
