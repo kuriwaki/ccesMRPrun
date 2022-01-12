@@ -37,7 +37,7 @@ Compute absolute deviation
 
 }
 \seealso{
-logit_ghitza posthoc_intercept
+logit_ghitza calib_oneway
 }
 \author{
 Yair Ghitza and Shiro Kuriwaki

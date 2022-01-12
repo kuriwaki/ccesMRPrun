@@ -8,7 +8,7 @@
 #' @author Yair Ghitza and Shiro Kuriwaki
 #' @source Modified from AbsError in https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
 #'
-#' @seealso logit_ghitza posthoc_intercept
+#' @seealso logit_ghitza calib_oneway
 #'
 #' @examples
 #'  biased_ests <- ccesMRPrun:::invlogit(rnorm(n = 100, mean = 1, sd = 1))
@@ -48,7 +48,13 @@ posthoc_error <- function(delta, xi, ests, n) {
 #' @inheritParams posthoc_error
 #'
 #' @author Yair Ghitza
-#' @source FindDelta function at https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
+#' @source FindDelta function at
+#'  https://github.com/Catalist-LLC/unemployment/blob/master/unemployment_cps_mrp/helper_functions/GetYHat.R
+#'
+#'  Also see Evan T. R. Rosenman and Santiago Olivella,
+#'  "Recalibration of Predictive Models as Approximate Probabilistic Updates"
+#'  <https://arxiv.org/abs/2112.06674>
+#'
 #' @seealso posthoc_error
 #'
 #' @returns The value of delta or the intercept that minimizes
@@ -61,14 +67,19 @@ posthoc_error <- function(delta, xi, ests, n) {
 #'  sizes <- rbinom(n = 100, size = 100, prob = 0.1)
 #'  tru <- 0.5
 #'
-#'  posthoc_intercept(tru, biased_ests, sizes)
+#'  calib_oneway(tru, biased_ests, sizes)
 #'
 #' @export
-posthoc_intercept <- function(xi, ests, n, search = c(-5, 5)) {
+calib_oneway <- function(xi, ests, n, search = c(-5, 5)) {
   optimize(posthoc_error,
            interval = search,
            xi = xi,
            ests = ests,
            n = n)$minimum
+}
+
+posthoc_intercept <- function(xi, ests, n, search = c(-5, 5)) {
+  .Deprecated("calib_oneway")
+  calib_oneway(xi, ests, n, search)
 }
 

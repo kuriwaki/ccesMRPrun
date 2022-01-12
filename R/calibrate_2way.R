@@ -63,6 +63,7 @@ twoway_obj_fn <- function(par, obj) {
 #'  The Geography of Racially Polarized Voting: Calibrating Surveys at the
 #'  District Level. <https://doi.org/10.31219/osf.io/mk9e6>
 #'
+#' @seealso calib_oneway
 #'
 #' @examples
 #' library(dplyr)

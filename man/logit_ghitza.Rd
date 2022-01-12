@@ -25,7 +25,7 @@ trimming around extreme values.
 
 }
 \seealso{
-posthoc_error posthoc_intercept
+posthoc_error calib_oneway
 }
 \author{
 Yair Ghitza

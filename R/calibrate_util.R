@@ -23,7 +23,7 @@ invlogit <- function(x) {1/(1 + exp(-x))}
 #'  logit_ghitza(0.000001, digits = 1)
 #'  logit_ghitza(0.000001, digits = 10)
 #'
-#' @seealso posthoc_error posthoc_intercept
+#' @seealso posthoc_error calib_oneway
 #' @export
 logit_ghitza <- function(x, digits=5) {
   return(-1 * log(1/pmin(
