@@ -28,6 +28,7 @@ Imports:
     tidyr (>= 1.0.0),
     dtplyr,
     stringr,
+    glue,
     Formula
 Suggests:
     ccesMRPviz,
