@@ -59,6 +59,8 @@ twoway_obj_fn <- function(par, obj) {
 #'    Scalar of total number of population.
 #' @param delta_init
 #'    Initial values of delta.
+#' @param use_grad
+#'    Whether to use the gradient function to speed up the optimization.
 #' @return
 #'    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
 #'
@@ -72,6 +74,7 @@ twoway_obj_fn <- function(par, obj) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' library(tibble)
 #' library(tictoc)
@@ -100,7 +103,6 @@ twoway_obj_fn <- function(par, obj) {
 #' totalN <- deframe(count(acs_GA_educ, wt = N))
 #'
 #' # Run
-#' tic()
 #' set.seed(02138)
 #' out <- calib_twoway(
 #'   data = draw_i,
@@ -110,10 +112,10 @@ twoway_obj_fn <- function(par, obj) {
 #'   tgt_group = educ_tgt,
 #'   n_area = area_N,
 #'   n_group = educ_N,
-#'   n_total = totalN
+#'   n_total = totalN,
+#'   use_grad = TRUE
 #' )
-#' toc()
-#'
+#'}
 #'
 calib_twoway <- function(
   data,

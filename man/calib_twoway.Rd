@@ -44,6 +44,8 @@ the group that corresponds to the number.}
 
 \item{delta_init}{Initial values of delta.}
 
+\item{use_grad}{Whether to use the gradient function to speed up the optimization.}
+
 \item{X}{Design matrix with the same ordering of covariates and al levels kept.
 E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.}
 }
@@ -54,6 +56,7 @@ Data frame with new columns \code{"est_corrected"} and \code{"delta"}
 Find two-way correction for cell estimates
 }
 \examples{
+\dontrun{
 library(dplyr)
 library(tibble)
 library(tictoc)
@@ -82,7 +85,6 @@ educ_N <- deframe(count(acs_GA_educ, educ, wt = N))
 totalN <- deframe(count(acs_GA_educ, wt = N))
 
 # Run
-tic()
 set.seed(02138)
 out <- calib_twoway(
   data = draw_i,
@@ -92,10 +94,10 @@ out <- calib_twoway(
   tgt_group = educ_tgt,
   n_area = area_N,
   n_group = educ_N,
-  n_total = totalN
+  n_total = totalN,
+  use_grad = TRUE
 )
-toc()
-
+}
 
 }
 \seealso{
