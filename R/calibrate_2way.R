@@ -47,7 +47,8 @@ twoway_obj_fn <- function(par, obj) {
 #' @param tgt_group
 #'    Vector of true values for group.
 #' @param X
-#'    Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.
+#'    Design matrix with the same ordering of covariates and al levels kept.
+#'    E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.
 #' @param n_area
 #'    Vector consists of population sizes in each area.
 #' @param n_group

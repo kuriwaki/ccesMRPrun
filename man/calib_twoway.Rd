@@ -35,7 +35,8 @@ The column should be named \code{est} and the sample size should be called \code
 
 \item{tgt_group}{Vector of true values for group.}
 
-\item{X}{Design matrix. E.g., \code{data.matrix(~cd+race-1, data = data)}.}
+\item{X}{Design matrix with the same ordering of covariates and al levels kept.
+E.g., \code{cbind(model.matrix(~ cd - 1, data = draw_i), model.matrix(~ educ - 1, data = draw_i))}.}
 
 \item{n_area}{Vector consists of population sizes in each area.}
 
