@@ -20,6 +20,7 @@
 #'
 #' @importFrom Formula as.Formula
 #' @importFrom dplyr group_by summarize relocate left_join
+#' @importFrom rlang syms
 #' @importFrom tidyr pivot_longer
 #' @export
 #'

@@ -1,3 +1,10 @@
+# ccesMRPrun 0.0.8 
+
+* Add `calib_twoway`
+* Rename `posthoc_intercept` to `calib_oneway`.
+* Add @soichiroy as author
+
+
 # ccesMRPrun 0.0.7
 
 * Drop viz and move it to https://github.com/kuriwaki/ccesMRPviz
