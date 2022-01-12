@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,18 +34,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ccesMRPrun</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.8</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -65,7 +61,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="http://github.com/kuriwaki/ccesMRPrun/">
+  <a href="http://github.com/kuriwaki/ccesMRPrun/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -83,23 +79,23 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="running-mrp-with-cces" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#running-mrp-with-cces" class="anchor"></a>Running MRP with CCES</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="running-mrp-with-cces">Running MRP with CCES<a class="anchor" aria-label="anchor" href="#running-mrp-with-cces"></a>
+</h1></div>
 <!-- badges: start -->
 
 <!-- badges: end -->
 <p>Cite as:</p>
 <ul>
-<li>Shiro Kuriwaki (2020). ccesMRPrun: Fitting and Visualizing MRP Models from Cleaned CCES and Census Data. R package. <a href="https://www.github.com/kuriwaki/ccesMRPrun" class="uri">https://www.github.com/kuriwaki/ccesMRPrun</a>
+<li>Shiro Kuriwaki (2020). ccesMRPrun: Fitting and Visualizing MRP Models from Cleaned CCES and Census Data. R package. <a href="https://www.github.com/kuriwaki/ccesMRPrun" class="external-link uri">https://www.github.com/kuriwaki/ccesMRPrun</a>
 </li>
 </ul>
-<p>This is a set of functions to facilitate running MRP models on CCES data and is a companion to <a href="https://www.shirokuriwaki.com/ccesMRPprep"><strong><code>ccesMRPprep</code></strong></a>.</p>
+<p>This is a set of functions to facilitate running MRP models on CCES data and is a companion to <a href="https://www.shirokuriwaki.com/ccesMRPprep" class="external-link"><strong><code>ccesMRPprep</code></strong></a>.</p>
 <p>To install,</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"kuriwaki/ccesMRPrun"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"kuriwaki/ccesMRPrun"</span><span class="op">)</span></code></pre></div>
 <p>The <strong>main functions</strong> in this package are:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>
 <code><a href="reference/fit_brms.html">fit_brms()</a></code> for fitting a multilevel model (or <code>fit_brms_binomial</code>)</li>
 <li>
@@ -107,76 +103,66 @@
 <li>
 <code><a href="reference/summ_sims.html">summ_sims()</a></code> for obtaining summary statistics from these draws</li>
 <li>
-<code><a href="reference/scatter_45.html">scatter_45()</a></code> for clearly visualizing the relationship between the truth and estimate</li>
+<code><a href="https://rdrr.io/pkg/ccesMRPviz/man/scatter_45.html" class="external-link">scatter_45()</a></code> (in ccesMRPviz) for clearly visualizing the relationship between the truth and estimate</li>
 </ol>
 <p>Steps 1-3 can be done via <code><a href="reference/mrp_onestep.html">mrp_onestep()</a></code>.</p>
 <p>See below for a demonstration with an example in the state of Georgia.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPrun">ccesMRPrun</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPrun" class="external-link">ccesMRPrun</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.github.com/kuriwaki/ccesMRPviz" class="external-link">ccesMRPviz</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="fitting" class="section level1">
-<h1 class="hasAnchor">
-<a href="#fitting" class="anchor"></a>Fitting</h1>
-<p>This is a simple wrapper around <code><a href="https://rdrr.io/pkg/brms/man/brm.html">brms::brm</a></code> but with some custom priors and a binomial model as a default.</p>
+<div class="section level1">
+<h1 id="fitting">Fitting<a class="anchor" aria-label="anchor" href="#fitting"></a>
+</h1>
+<p>This is a simple wrapper around <code><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brms::brm</a></code> but with some custom priors and a binomial model as a default.</p>
 <p>The two key parts of the workflow is a formula and a data. The formula should be a brms formula with a binary variable in the outcome. The data should be individual level data and have all the variables mentioned in the formula.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">form</span> <span class="op">&lt;-</span> <span class="va">response</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">female</span> <span class="op">|</span><span class="va">educ</span><span class="op">)</span> <span class="op">+</span> <span class="va">clinton_vote</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cd</span><span class="op">)</span>
-<span class="va">cc_voters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">cces_GA</span>, <span class="va">vv_turnout_gvm</span> <span class="op">==</span> <span class="st">"Voted"</span><span class="op">)</span></code></pre></div>
+<span class="va">cc_voters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cces_GA</span>, <span class="va">vv_turnout_gvm</span> <span class="op">==</span> <span class="st">"Voted"</span><span class="op">)</span></code></pre></div>
 <p>Now fit the model. <code>fit_brms</code> is basically the <code>brm</code> function, but with some wrappers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_brms.html">fit_brms</a></span><span class="op">(</span><span class="va">form</span>, <span class="va">cc_voters</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">## In file included from &lt;built-in&gt;:1:</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:88:</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">## namespace Eigen {</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">## ^</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">## namespace Eigen {</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">##                ^</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">##                ;</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">## In file included from &lt;built-in&gt;:1:</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">## In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">## /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">## #include &lt;complex&gt;</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">##          ^~~~~~~~~</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">## 3 errors generated.</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">## make: *** [foo.o] Error 1</span></span></code></pre></div>
+<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_brms.html">fit_brms</a></span><span class="op">(</span><span class="va">form</span>, <span class="va">cc_voters</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, .backend <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Running MCMC with 4 parallel chains...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 3 finished in 5.9 seconds.</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 4 finished in 6.5 seconds.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 1 finished in 6.9 seconds.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 2 finished in 7.0 seconds.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## All 4 chains finished successfully.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Mean chain execution time: 6.6 seconds.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Total execution time: 7.4 seconds.</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">## [1] "brmsfit"</span></span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "brmsfit"</span></span></code></pre></div>
 </div>
-<div id="poststratification" class="section level1">
-<h1 class="hasAnchor">
-<a href="#poststratification" class="anchor"></a>Poststratification</h1>
+<div class="section level1">
+<h1 id="poststratification">Poststratification<a class="anchor" aria-label="anchor" href="#poststratification"></a>
+</h1>
 <p>We can take predicted values from each of the MCMC draws, and aggregate it up to the area of interest.</p>
 <p>Here we use the poststratification data to fit <em>on</em>. We use the <code>acs_GA</code> built-in data here, but refer to <a href="www.shirokuriwaki.com/ccesMRPprep"><code>ccesMRPprep</code></a> to make a data that is your own.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">drw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/poststrat_draws.html">poststrat_draws</a></span><span class="op">(</span><span class="va">fit</span>, poststrat_tgt <span class="op">=</span> <span class="va">acs_GA</span><span class="op">)</span>
 <span class="va">drw</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## # A tibble: 56,000 x 3</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">##    cd     iter p_mrp</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">##  1 GA-01     1 0.429</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">##  2 GA-01     2 0.390</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">##  3 GA-01     3 0.517</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">##  4 GA-01     4 0.392</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">##  5 GA-01     5 0.574</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">##  6 GA-01     6 0.504</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">##  7 GA-01     7 0.536</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">##  8 GA-01     8 0.340</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">##  9 GA-01     9 0.425</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">## 10 GA-01    10 0.412</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">## # … with 55,990 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 56,000 × 3</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    cd     iter p_mrp</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 GA-01     1 0.498</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 GA-01     2 0.419</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 GA-01     3 0.438</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 GA-01     4 0.431</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 GA-01     5 0.469</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 GA-01     6 0.406</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 GA-01     7 0.443</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 GA-01     8 0.435</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 GA-01     9 0.403</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 GA-01    10 0.439</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 55,990 more rows</span></span></code></pre></div>
 </div>
-<div id="summaries" class="section level1">
-<h1 class="hasAnchor">
-<a href="#summaries" class="anchor"></a>Summaries</h1>
+<div class="section level1">
+<h1 id="summaries">Summaries<a class="anchor" aria-label="anchor" href="#summaries"></a>
+</h1>
 <p>We often care about the posterior mean and 95 percent credible intervals of the draws.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mrp_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summ_sims.html">summ_sims</a></span><span class="op">(</span><span class="va">drw</span><span class="op">)</span></code></pre></div>
@@ -186,16 +172,16 @@
                        area_var <span class="op">=</span> <span class="st">"cd"</span>, 
                        weight_var <span class="op">=</span> <span class="st">"weight_post"</span><span class="op">)</span>
 
-<span class="va">mrp_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summ_sims.html">summ_sims</a></span><span class="op">(</span><span class="va">drw</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">left_join</span><span class="op">(</span><span class="va">elec_GA</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">left_join</span><span class="op">(</span><span class="va">dir_val</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
+<span class="va">mrp_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summ_sims.html">summ_sims</a></span><span class="op">(</span><span class="va">drw</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">elec_GA</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">dir_val</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="visualization" class="section level1">
-<h1 class="hasAnchor">
-<a href="#visualization" class="anchor"></a>Visualization</h1>
+<div class="section level1">
+<h1 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
+</h1>
 <p>A wrapper for visualizing the accuracy relationship</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/scatter_45.html">scatter_45</a></span><span class="op">(</span><span class="va">mrp_val</span>, <span class="va">clinton_vote</span>, <span class="va">p_mrp_est</span>, 
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ccesMRPviz/man/scatter_45.html" class="external-link">scatter_45</a></span><span class="op">(</span><span class="va">mrp_val</span>, <span class="va">clinton_vote</span>, <span class="va">p_mrp_est</span>, 
            lblvar <span class="op">=</span> <span class="va">cd</span>,
            ubvar <span class="op">=</span> <span class="va">p_mrp_900</span>,
            lbvar <span class="op">=</span> <span class="va">p_mrp_050</span>,
@@ -207,16 +193,16 @@
 <p>It may be easier to store the models in long form and show them at once.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># reshape to long</span>
-<span class="va">mrp_long</span> <span class="op">&lt;-</span> <span class="va">mrp_val</span> <span class="op">%&gt;%</span> 
-    <span class="fu">select</span><span class="op">(</span><span class="va">cd</span>, <span class="va">p_mrp_est</span>, <span class="va">p_raw</span>, <span class="va">p_wt</span>, <span class="va">clinton_vote</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">clinton_vote</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model"</span><span class="op">)</span> 
+<span class="va">mrp_long</span> <span class="op">&lt;-</span> <span class="va">mrp_val</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">p_mrp_est</span>, <span class="va">p_raw</span>, <span class="va">p_wt</span>, <span class="va">clinton_vote</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">clinton_vote</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model"</span><span class="op">)</span> 
 
 <span class="co"># plot</span>
-<span class="fu"><a href="reference/scatter_45.html">scatter_45</a></span><span class="op">(</span><span class="va">mrp_long</span>, 
+<span class="fu"><a href="https://rdrr.io/pkg/ccesMRPviz/man/scatter_45.html" class="external-link">scatter_45</a></span><span class="op">(</span><span class="va">mrp_long</span>, 
            <span class="va">clinton_vote</span>, 
            <span class="va">value</span>, 
            by_form <span class="op">=</span> <span class="op">~</span><span class="va">model</span>,
-           by_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>p_mrp_est <span class="op">=</span> <span class="st">"MRP"</span>, p_raw <span class="op">=</span> <span class="st">"Raw"</span>, p_wt <span class="op">=</span> <span class="st">"YouGov Weighted"</span><span class="op">)</span>,
+           by_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>p_mrp_est <span class="op">=</span> <span class="st">"MRP"</span>, p_raw <span class="op">=</span> <span class="st">"Raw"</span>, p_wt <span class="op">=</span> <span class="st">"YouGov Weighted"</span><span class="op">)</span>,
            xlab <span class="op">=</span> <span class="st">"Clinton Vote"</span>,
            ylab <span class="op">=</span> <span class="st">"Estimate"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-long-plot-1.png"><!-- --></p>
@@ -226,46 +212,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="http://github.com/kuriwaki/ccesMRPrun/">http://​github.com/​kuriwaki/​ccesMRPrun/​</a>
-</li>
-<li>Report a bug at <br><a href="http://github.com/kuriwaki/ccesMRPrun/issues">http://​github.com/​kuriwaki/​ccesMRPrun/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://www.shirokuriwaki.com">Shiro Kuriwaki</a> <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-5687-2647" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="http://github.com/kuriwaki/ccesMRPrun/" class="external-link">Browse source code</a></li>
+<li><a href="http://github.com/kuriwaki/ccesMRPrun/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/kuriwaki/ccesMRPrun/actions"><img src="https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master" alt="tic"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ccesMRPrun</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://www.shirokuriwaki.com" class="external-link">Shiro Kuriwaki</a> <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-5687-2647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://soichiroy.github.io/" class="external-link">Soichiro Yamauchi</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0554-2717" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/kuriwaki/ccesMRPrun/actions" class="external-link"><img src="https://github.com/kuriwaki/ccesMRPrun/workflows/tic/badge.svg?branch=master" alt="tic"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.shirokuriwaki.com">Shiro Kuriwaki</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.shirokuriwaki.com" class="external-link">Shiro Kuriwaki</a>, <a href="https://soichiroy.github.io/" class="external-link">Soichiro Yamauchi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -273,6 +272,8 @@
 
   
 
+
+  
 
   </body>
 </html>

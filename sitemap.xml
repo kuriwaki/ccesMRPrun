@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/404.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/articles/pool-vs-poststrat.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/authors.html</loc>
+  </url>
+  <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/index.html</loc>
   </url>
   <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/acs_GA.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/calib_oneway.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/calib_twoway.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/cces_GA.html</loc>
@@ -16,9 +43,6 @@
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/elec_GA.html</loc>
   </url>
   <url>
-    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/error_lbl.html</loc>
-  </url>
-  <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/fit_GA.html</loc>
   </url>
   <url>
@@ -26,6 +50,9 @@
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/fit_brms_binomial.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/index.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/invlogit.html</loc>
@@ -37,13 +64,13 @@
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/mrp_onestep.html</loc>
   </url>
   <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/mrp_onstep.html</loc>
+  </url>
+  <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/pivot_celldraws_longer.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/posthoc_error.html</loc>
-  </url>
-  <url>
-    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/posthoc_intercept.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/poststrat_draws.html</loc>
@@ -52,12 +79,15 @@
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/prior_pd_binomial.html</loc>
   </url>
   <url>
-    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/scatter_45.html</loc>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/summ_GA.html</loc>
   </url>
   <url>
     <loc>https://kuriwaki.github.io/ccesMRPrun/reference/summ_sims.html</loc>
   </url>
   <url>
-    <loc>https://kuriwaki.github.io/ccesMRPrun/articles/pool-vs-poststrat.html</loc>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/twoway_grad_fn.html</loc>
+  </url>
+  <url>
+    <loc>https://kuriwaki.github.io/ccesMRPrun/reference/twoway_obj_fn.html</loc>
   </url>
 </urlset>
