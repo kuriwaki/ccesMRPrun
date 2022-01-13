@@ -43,18 +43,6 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/pool-vs-poststrat.html">Post-stratification vs. Aggregate Regression Adjustment</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -119,23 +107,23 @@
 <p>The two key parts of the workflow is a formula and a data. The formula should be a brms formula with a binary variable in the outcome. The data should be individual level data and have all the variables mentioned in the formula.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">form</span> <span class="op">&lt;-</span> <span class="va">response</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">female</span> <span class="op">|</span><span class="va">educ</span><span class="op">)</span> <span class="op">+</span> <span class="va">clinton_vote</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cd</span><span class="op">)</span>
-<span class="va">cc_voters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cces_GA</span>, <span class="va">vv_turnout_gvm</span> <span class="op">==</span> <span class="st">"Voted"</span><span class="op">)</span></code></pre></div>
+<span class="va">cc_voters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cces_GA</span>, <span class="va">vv_turnout_gvm</span> <span class="op">==</span> <span class="st">"Voted"</span><span class="op">)</span></code></pre></div>
 <p>Now fit the model. <code>fit_brms</code> is basically the <code>brm</code> function, but with some wrappers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_brms.html">fit_brms</a></span><span class="op">(</span><span class="va">form</span>, <span class="va">cc_voters</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, .backend <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Running MCMC with 4 parallel chains...</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 3 finished in 5.9 seconds.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 4 finished in 6.5 seconds.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 1 finished in 6.9 seconds.</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Chain 2 finished in 7.0 seconds.</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## All 4 chains finished successfully.</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Mean chain execution time: 6.6 seconds.</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Total execution time: 7.4 seconds.</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## Running MCMC with 4 parallel chains...</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">## </span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">## Chain 3 finished in 5.9 seconds.</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">## Chain 4 finished in 6.5 seconds.</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">## Chain 1 finished in 6.9 seconds.</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">## Chain 2 finished in 7.0 seconds.</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">## </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">## All 4 chains finished successfully.</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">## Mean chain execution time: 6.6 seconds.</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">## Total execution time: 7.4 seconds.</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "brmsfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">## [1] "brmsfit"</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="poststratification">Poststratification<a class="anchor" aria-label="anchor" href="#poststratification"></a>
@@ -145,20 +133,20 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">drw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/poststrat_draws.html">poststrat_draws</a></span><span class="op">(</span><span class="va">fit</span>, poststrat_tgt <span class="op">=</span> <span class="va">acs_GA</span><span class="op">)</span>
 <span class="va">drw</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 56,000 × 3</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    cd     iter p_mrp</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 GA-01     1 0.498</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 GA-01     2 0.419</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 GA-01     3 0.438</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 GA-01     4 0.431</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 GA-01     5 0.469</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 GA-01     6 0.406</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 GA-01     7 0.443</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 GA-01     8 0.435</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 GA-01     9 0.403</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 GA-01    10 0.439</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 55,990 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## # A tibble: 56,000 × 3</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">##    cd     iter p_mrp</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">##  1 GA-01     1 0.498</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">##  2 GA-01     2 0.419</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">##  3 GA-01     3 0.438</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">##  4 GA-01     4 0.431</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">##  5 GA-01     5 0.469</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">##  6 GA-01     6 0.406</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">##  7 GA-01     7 0.443</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">##  8 GA-01     8 0.435</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">##  9 GA-01     9 0.403</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">## 10 GA-01    10 0.439</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">## # … with 55,990 more rows</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="summaries">Summaries<a class="anchor" aria-label="anchor" href="#summaries"></a>
@@ -172,9 +160,9 @@
                        area_var <span class="op">=</span> <span class="st">"cd"</span>, 
                        weight_var <span class="op">=</span> <span class="st">"weight_post"</span><span class="op">)</span>
 
-<span class="va">mrp_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summ_sims.html">summ_sims</a></span><span class="op">(</span><span class="va">drw</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">elec_GA</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">dir_val</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
+<span class="va">mrp_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summ_sims.html">summ_sims</a></span><span class="op">(</span><span class="va">drw</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">left_join</span><span class="op">(</span><span class="va">elec_GA</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">left_join</span><span class="op">(</span><span class="va">dir_val</span>, by <span class="op">=</span> <span class="st">"cd"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
@@ -193,9 +181,9 @@
 <p>It may be easier to store the models in long form and show them at once.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># reshape to long</span>
-<span class="va">mrp_long</span> <span class="op">&lt;-</span> <span class="va">mrp_val</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">p_mrp_est</span>, <span class="va">p_raw</span>, <span class="va">p_wt</span>, <span class="va">clinton_vote</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">clinton_vote</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model"</span><span class="op">)</span> 
+<span class="va">mrp_long</span> <span class="op">&lt;-</span> <span class="va">mrp_val</span> <span class="op">%&gt;%</span> 
+    <span class="fu">select</span><span class="op">(</span><span class="va">cd</span>, <span class="va">p_mrp_est</span>, <span class="va">p_raw</span>, <span class="va">p_wt</span>, <span class="va">clinton_vote</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cd</span>, <span class="va">clinton_vote</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model"</span><span class="op">)</span> 
 
 <span class="co"># plot</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ccesMRPviz/man/scatter_45.html" class="external-link">scatter_45</a></span><span class="op">(</span><span class="va">mrp_long</span>, 

@@ -1,9 +1,8 @@
-pandoc: 2.14.0.3
+pandoc: 2.7.3
 pkgdown: 2.0.1
 pkgdown_sha: ~
-articles:
-  pool-vs-poststrat: pool-vs-poststrat.html
-last_built: 2022-01-12T09:28Z
+articles: {}
+last_built: 2022-01-13T04:45Z
 urls:
   reference: https://kuriwaki.github.io/ccesMRPrun/reference
   article: https://kuriwaki.github.io/ccesMRPrun/articles
