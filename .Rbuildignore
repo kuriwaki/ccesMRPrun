@@ -11,8 +11,5 @@
 ^\.ccache$
 ^tic\.R$
 ^LICENSE\.md$
-vignettes/pool-vs-poststrat.Rmd
+^vignettes/pool-vs-poststrat\.Rmd$
 /Untitled.*R
-
-
-vignettes/pool-vs-poststrat.Rmd
