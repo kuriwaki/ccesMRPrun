@@ -24,6 +24,7 @@
 #'    Initial values of delta.
 #' @param use_grad
 #'    Whether to use the gradient function to speed up the optimization.
+#'    Default is \code{TRUE}.
 #' @return
 #'    Data frame with new columns \code{"est_corrected"} and \code{"delta"}
 #'
@@ -90,7 +91,7 @@ calib_twoway <- function(
   n_group,
   n_total,
   delta_init = NULL,
-  use_grad   = FALSE
+  use_grad   = TRUE 
 ) {
 
   ## convert to logit scale
