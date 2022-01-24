@@ -19,7 +19,7 @@ calib_twoway(
   n_group,
   n_total,
   delta_init = NULL,
-  use_grad = FALSE
+  use_grad = TRUE
 )
 }
 \arguments{
@@ -44,7 +44,8 @@ the group that corresponds to the number.}
 
 \item{delta_init}{Initial values of delta.}
 
-\item{use_grad}{Whether to use the gradient function to speed up the optimization.}
+\item{use_grad}{Whether to use the gradient function to speed up the optimization.
+Default is \code{TRUE}.}
 }
 \value{
 Data frame with new columns \code{"est_corrected"} and \code{"delta"}
