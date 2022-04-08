@@ -23,10 +23,7 @@
 summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE) {
   grp_by_vars <- area_var
 
-  if ("qID" %in% colnames(sims))
-    grp_by_vars <- c("qID", grp_by_vars)
-
-  sims_grouped <- group_by(sims, across(all_of(grp_by_vars)))
+  sims_grouped <- group_by(as_tibble(sims), across(all_of(grp_by_vars)))
 
   if (dtplyr) {
     sims <- lazy_dt(sims)
