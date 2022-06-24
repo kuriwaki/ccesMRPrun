@@ -14,6 +14,8 @@
 #' @param .seed seed for randomization to pass into brm
 #' @param .backend The backend argument of brms. Defaults to `"rstan"`, can also
 #'  be `"cmdstanr"`
+#' @param .threads The number of threads to do within-chain parallelization. Defaults
+#'  to not using, which is NULL
 #'
 #'
 #'
@@ -30,6 +32,7 @@ fit_brms_binomial <- function(.formula,
                               .warmup = floor(.iter/2),
                               .cores = 4,
                               .chains = 4,
+                              .threads = NULL,
                               .backend = "rstan",
                               .seed = 02138) {
 
@@ -53,6 +56,7 @@ fit_brms_binomial <- function(.formula,
                               max_treedepth = 10),
                refresh = ifelse(verbose, 200, 0),
                backend = .backend,
+               thread = threading(.threads),
                seed = .seed)
   return(fit)
 }

@@ -14,6 +14,7 @@ fit_brms_binomial(
   .warmup = floor(.iter/2),
   .cores = 4,
   .chains = 4,
+  .threads = NULL,
   .backend = "rstan",
   .seed = 2138
 )
@@ -36,6 +37,9 @@ shown to have good prior posterior draws}
 \item{.cores}{Number of cores to uses}
 
 \item{.chains}{Number of chains to pass on fit_brms}
+
+\item{.threads}{The number of threads to do within-chain parallelization. Defaults
+to not using, which is NULL}
 
 \item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
 be \code{"cmdstanr"}}

@@ -35,6 +35,8 @@ shown to have good prior posterior draws}
     \item{\code{.seed}}{seed for randomization to pass into brm}
     \item{\code{.backend}}{The backend argument of brms. Defaults to \code{"rstan"}, can also
 be \code{"cmdstanr"}}
+    \item{\code{.threads}}{The number of threads to do within-chain parallelization. Defaults
+to not using, which is NULL}
   }}
 }
 \description{
