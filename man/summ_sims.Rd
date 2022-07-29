@@ -12,11 +12,20 @@ summ_sims(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE)
 \item{area_var}{A character string for the variable name(s) for area to group
 and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 
-\item{est_var}{column name with estimates. Following the output of
+\item{est_var}{input column name with estimates. Following the output of
 \link{poststrat_draws}, defaults to \code{p_mrp}.}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
 slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
+}
+\value{
+A tibble with the following statistics by each variable specified in \code{area_var}:
+\code{p_mrp_est}: posterior mean,
+\code{p_mrp_se}: standard deviation of posterior,
+\code{p_mrp_050}: 5\% quantile,
+\code{p_mrp_100}: 10\% quantile,
+\code{p_mrp_900}: 90\% quantile, and
+\code{p_mrp_950}: 95\% quantile.
 }
 \description{
 Get summary statistics from draws (of counts)
@@ -24,7 +33,7 @@ Get summary statistics from draws (of counts)
 \examples{
 \dontrun{
 drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
-summ_sims(drw_GA, area_bar = "cd") # also saved as data(`summ_GA`)
+summ_sims(drw_GA, area_var = "cd") # also saved as data(`summ_GA`)
 
 # To create summaries by both CD and education
 drw_GA_educ <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = c("cd", "educ"))

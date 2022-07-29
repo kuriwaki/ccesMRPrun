@@ -1,8 +1,16 @@
 #' Get summary statistics from draws (of counts)
 #'
 #' @param sims output of \link{poststrat_draws}
-#' @param est_var column name with estimates. Following the output of
+#' @param est_var input column name with estimates. Following the output of
 #' \link{poststrat_draws}, defaults to `p_mrp`.
+#'
+#' @returns A tibble with the following statistics by each variable specified in `area_var`:
+#'  `p_mrp_est`: posterior mean,
+#'  `p_mrp_se`: standard deviation of posterior,
+#'  `p_mrp_050`: 5% quantile,
+#'  `p_mrp_100`: 10% quantile,
+#'  `p_mrp_900`: 90% quantile, and
+#'  `p_mrp_950`: 95% quantile.
 #'
 #' @inheritParams poststrat_draws
 #' @importFrom dplyr group_by summarize across all_of as_tibble
@@ -11,7 +19,7 @@
 #'
 #' @examples \dontrun{
 #' drw_GA <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA)
-#' summ_sims(drw_GA, area_bar = "cd") # also saved as data(`summ_GA`)
+#' summ_sims(drw_GA, area_var = "cd") # also saved as data(`summ_GA`)
 #'
 #' # To create summaries by both CD and education
 #' drw_GA_educ <- poststrat_draws(fit_GA, poststrat_tgt = acs_GA, area_var = c("cd", "educ"))
