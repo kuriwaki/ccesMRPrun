@@ -21,6 +21,7 @@ Depends:
 Imports:
     brms (>= 2.15.0),
     cmdstanr,
+    rstan,
     dplyr,
     rlang,
     stats,
