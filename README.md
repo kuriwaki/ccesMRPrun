@@ -12,9 +12,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 Cite as:
 
--   Shiro Kuriwaki (2020). ccesMRPrun: Fitting and Visualizing MRP
-    Models from Cleaned CCES and Census Data. R package.
-    <https://www.github.com/kuriwaki/ccesMRPrun>
+- Shiro Kuriwaki (2022). ccesMRPrun: Fitting and Visualizing MRP Models
+  from Cleaned CCES and Census Data. R package.
+  <https://www.github.com/kuriwaki/ccesMRPrun>
 
 This is a set of functions to facilitate running MRP models on CCES data
 and is a companion to
@@ -68,20 +68,33 @@ fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 
     ## Running MCMC with 4 parallel chains...
     ## 
-    ## Chain 3 finished in 5.9 seconds.
-    ## Chain 4 finished in 6.5 seconds.
-    ## Chain 1 finished in 6.9 seconds.
-    ## Chain 2 finished in 7.0 seconds.
+    ## Chain 3 finished in 4.2 seconds.
+    ## Chain 4 finished in 4.5 seconds.
+    ## Chain 1 finished in 4.7 seconds.
+    ## Chain 2 finished in 4.8 seconds.
     ## 
     ## All 4 chains finished successfully.
-    ## Mean chain execution time: 6.6 seconds.
-    ## Total execution time: 7.4 seconds.
+    ## Mean chain execution time: 4.5 seconds.
+    ## Total execution time: 4.9 seconds.
 
 ``` r
 class(fit)
 ```
 
     ## [1] "brmsfit"
+
+The `cmdstanr` is more lightweight than `rstan` and takes advantage of
+all the latest improvements. However, you will need to install the
+package from Github (rather than CRAN) and run the following command
+once:
+
+``` r
+cmdstanr::check_cmdstan_toolchain()
+cmdstanr::install_cmdstan(cores = 2)
+```
+
+To avoid this, you can just not specify `.backend` and it will default
+to `rstan`.
 
 # Poststratification
 
@@ -101,17 +114,17 @@ drw
     ## # A tibble: 56,000 × 3
     ##    cd     iter p_mrp
     ##    <chr> <dbl> <dbl>
-    ##  1 GA-01     1 0.498
-    ##  2 GA-01     2 0.419
-    ##  3 GA-01     3 0.438
-    ##  4 GA-01     4 0.431
+    ##  1 GA-01     1 0.544
+    ##  2 GA-01     2 0.331
+    ##  3 GA-01     3 0.421
+    ##  4 GA-01     4 0.396
     ##  5 GA-01     5 0.469
-    ##  6 GA-01     6 0.406
-    ##  7 GA-01     7 0.443
-    ##  8 GA-01     8 0.435
-    ##  9 GA-01     9 0.403
-    ## 10 GA-01    10 0.439
-    ## # … with 55,990 more rows
+    ##  6 GA-01     6 0.473
+    ##  7 GA-01     7 0.452
+    ##  8 GA-01     8 0.458
+    ##  9 GA-01     9 0.462
+    ## 10 GA-01    10 0.392
+    ## # ℹ 55,990 more rows
 
 # Summaries
 
@@ -136,7 +149,8 @@ mrp_val <- summ_sims(drw) %>%
 
 # Visualization
 
-A wrapper for visualizing the accuracy relationship
+A wrapper for visualizing the accuracy relationship, from
+[**`ccesMRPviz`**](https://github.com/kuriwaki/ccesMRPviz).
 
 ``` r
 scatter_45(mrp_val, clinton_vote, p_mrp_est, 

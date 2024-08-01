@@ -19,7 +19,7 @@
 #'
 #'
 #'
-#' @importFrom brms brm prior_string
+#' @importFrom brms brm prior_string threading
 #'
 #' @export
 fit_brms_binomial <- function(.formula,

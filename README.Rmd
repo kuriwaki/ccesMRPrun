@@ -66,6 +66,14 @@ fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 
 class(fit)
 ```
+The `cmdstanr` is more lightweight than `rstan` and takes advantage of all the latest improvements. However, you will need to install the package from Github (rather than CRAN) and run the following command once:
+
+```{r, eval = FALSE}
+cmdstanr::check_cmdstan_toolchain()
+cmdstanr::install_cmdstan(cores = 2)
+```
+
+To avoid this, you can just not specify `.backend` and it will default to `rstan`.
 
 # Poststratification
 

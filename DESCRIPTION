@@ -20,6 +20,7 @@ Depends:
     R (>= 2.10)
 Imports:
     brms (>= 2.15.0),
+    cmdstanr,
     dplyr,
     rlang,
     stats,
@@ -38,11 +39,12 @@ Suggests:
     rmarkdown
 Remotes:
     kuriwaki/ccesMRPprep,
-    kuriwaki/ccesMRPviz
+    kuriwaki/ccesMRPviz,
+    stan-dev/cmdstanr
 Language: en-US
 Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
 URL: https://www.github.com/kuriwaki/ccesMRPrun
 BugReports: http://github.com/kuriwaki/ccesMRPrun/issues
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
