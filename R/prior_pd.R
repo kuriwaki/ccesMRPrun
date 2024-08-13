@@ -13,7 +13,7 @@ prior_pd_binomial <- function(.formula,
                               .warmup = floor(.iter/2),
                               .cores = 2,
                               .chains = 2,
-                              .backend = "rstan",
+                              .backend = "cmdstanr",
                               .seed = 02138) {
 
   brm(formula = .formula,

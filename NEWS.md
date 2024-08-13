@@ -1,3 +1,7 @@
+# ccesMRPrun 0.0.9
+
+* Rely only on cmdstanr as backend for lightweight footprint
+
 # ccesMRPrun 0.0.8 
 
 * Add `calib_twoway`

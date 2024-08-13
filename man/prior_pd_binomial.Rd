@@ -14,7 +14,7 @@ prior_pd_binomial(
   .warmup = floor(.iter/2),
   .cores = 2,
   .chains = 2,
-  .backend = "rstan",
+  .backend = "cmdstanr",
   .seed = 2138
 )
 }
@@ -37,8 +37,7 @@ shown to have good prior posterior draws}
 
 \item{.chains}{Number of chains to pass on fit_brms}
 
-\item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
-be \code{"cmdstanr"}}
+\item{.backend}{The backend argument of brms. Currently only \code{"cmdstanr"}}
 
 \item{.seed}{seed for randomization to pass into brm}
 }
