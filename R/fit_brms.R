@@ -12,8 +12,7 @@
 #' @param .warmup Of the iterations, how much are burn-ins. Defaults to half.
 #' @param verbose Whether to show iteration messages
 #' @param .seed seed for randomization to pass into brm
-#' @param .backend The backend argument of brms. Defaults to `"rstan"`, can also
-#'  be `"cmdstanr"`
+#' @param .backend The backend argument of brms. Currently only `"cmdstanr"`
 #' @param .threads The number of threads to do within-chain parallelization. Defaults
 #'  to not using, which is NULL
 #'
@@ -33,9 +32,11 @@ fit_brms_binomial <- function(.formula,
                               .cores = 4,
                               .chains = 4,
                               .threads = NULL,
-                              .backend = "rstan",
+                              .backend = "cmdstanr",
                               .seed = 02138) {
 
+  if (.backend != "cmdstanr")
+    stop("From 0.0.9, we are only supporting cmdstanr")
 
   RHS <- attr(terms(as.formula(.formula)), "term.labels")
 

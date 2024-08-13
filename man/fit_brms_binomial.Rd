@@ -15,7 +15,7 @@ fit_brms_binomial(
   .cores = 4,
   .chains = 4,
   .threads = NULL,
-  .backend = "rstan",
+  .backend = "cmdstanr",
   .seed = 2138
 )
 }
@@ -41,8 +41,7 @@ shown to have good prior posterior draws}
 \item{.threads}{The number of threads to do within-chain parallelization. Defaults
 to not using, which is NULL}
 
-\item{.backend}{The backend argument of brms. Defaults to \code{"rstan"}, can also
-be \code{"cmdstanr"}}
+\item{.backend}{The backend argument of brms. Currently only \code{"cmdstanr"}}
 
 \item{.seed}{seed for randomization to pass into brm}
 }

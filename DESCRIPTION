@@ -1,7 +1,7 @@
 Package: ccesMRPrun
 Type: Package
 Title: Using MRP Models from Cleaned CCES and Census Data
-Version: 0.0.8
+Version: 0.0.9
 Authors@R: c(person(given = "Shiro",
              family = "Kuriwaki",
              role = c("aut", "cre", "cph"),
@@ -21,7 +21,6 @@ Depends:
 Imports:
     brms (>= 2.15.0),
     cmdstanr,
-    rstan,
     dplyr,
     rlang,
     stats,
