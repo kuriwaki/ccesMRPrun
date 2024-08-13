@@ -36,7 +36,7 @@ fit_brms_binomial <- function(.formula,
                               .seed = 02138) {
 
   if (.backend != "cmdstanr")
-    stop("From 0.0.9, we are only supporting cmdstanr")
+    warning("From v0.0.9, we are only explicitly supporting cmdstanr")
 
   RHS <- attr(terms(as.formula(.formula)), "term.labels")
 

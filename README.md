@@ -68,14 +68,14 @@ fit <- fit_brms(form, cc_voters, verbose = FALSE, .backend = "cmdstanr")
 
     ## Running MCMC with 4 parallel chains...
     ## 
-    ## Chain 3 finished in 4.2 seconds.
-    ## Chain 4 finished in 4.5 seconds.
-    ## Chain 1 finished in 4.7 seconds.
-    ## Chain 2 finished in 4.8 seconds.
+    ## Chain 3 finished in 4.4 seconds.
+    ## Chain 4 finished in 4.7 seconds.
+    ## Chain 1 finished in 4.8 seconds.
+    ## Chain 2 finished in 4.9 seconds.
     ## 
     ## All 4 chains finished successfully.
-    ## Mean chain execution time: 4.5 seconds.
-    ## Total execution time: 4.9 seconds.
+    ## Mean chain execution time: 4.7 seconds.
+    ## Total execution time: 5.1 seconds.
 
 ``` r
 class(fit)
@@ -93,8 +93,8 @@ cmdstanr::check_cmdstan_toolchain()
 cmdstanr::install_cmdstan(cores = 2)
 ```
 
-To avoid this, you can just not specify `.backend` and it will default
-to `rstan`.
+To avoid this, you can set `.backend = "rstan"` if you have rstan
+installed and pre-loaded.
 
 # Poststratification
 

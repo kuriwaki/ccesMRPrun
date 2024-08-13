@@ -73,7 +73,7 @@ cmdstanr::check_cmdstan_toolchain()
 cmdstanr::install_cmdstan(cores = 2)
 ```
 
-To avoid this, you can just not specify `.backend` and it will default to `rstan`.
+To avoid this, you can set `.backend = "rstan"` if you have rstan installed and pre-loaded.
 
 # Poststratification
 
