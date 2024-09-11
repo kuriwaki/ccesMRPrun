@@ -13,6 +13,7 @@ mrp_onestep(
   weight_var = NULL,
   add_on = NULL,
   dtplyr = TRUE,
+  new_levels = FALSE,
   ...
 )
 }
@@ -38,6 +39,10 @@ for example validation data}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
 slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
+
+\item{new_levels}{If there are new levels in the poststrat table that do not have
+coefficients in the survey data, should there be an extrapolation or assignment to 0s?
+The answer should almost always be No in MRP.}
 
 \item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
 }
