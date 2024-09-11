@@ -39,6 +39,7 @@ mrp_onestep <- function(.formula,
                         weight_var = NULL,
                         add_on = NULL,
                         dtplyr = TRUE,
+                        new_levels = FALSE,
                         ...) {
 
   # direct
@@ -53,7 +54,8 @@ mrp_onestep <- function(.formula,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = .data,
                               area_var = area_var,
-                              count_var = count_var)
+                              count_var = count_var,
+                              new_levels = new_levels)
 
   # summarize
   post_sum <- summ_sims(post_fit, area_var = area_var, dt = dtplyr)
