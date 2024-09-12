@@ -40,25 +40,32 @@ mrp_onestep <- function(.formula,
                         add_on = NULL,
                         dtplyr = TRUE,
                         new_levels = FALSE,
+                        allow_NA = FALSE,
+                        .iter = 1000,
                         ...) {
 
   # direct
   drct_fit <- direct_ests(.formula, .data, area_var = area_var, weight_var = weight_var)
 
   # brms
-  brms_fit <- fit_brms(.formula, .data, ...)
+  brms_fit <- fit_brms(.formula,
+                       .data,
+                       .iter = .iter,
+                       ...)
 
   # P-step
   # if (!calibrate)
   post_fit <- poststrat_draws(brms_fit,
+                              new_levels = new_levels,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = .data,
                               area_var = area_var,
                               count_var = count_var,
-                              new_levels = new_levels)
+                              ...)
 
   # summarize
-  post_sum <- summ_sims(post_fit, area_var = area_var, dt = dtplyr)
+  post_sum <- summ_sims(post_fit, area_var = area_var, dt = dtplyr, allow_NA = allow_NA)
+
 
   # combine
   out <- left_join(drct_fit, post_sum, by = area_var)
