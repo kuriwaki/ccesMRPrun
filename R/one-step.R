@@ -41,7 +41,6 @@ mrp_onestep <- function(.formula,
                         dtplyr = TRUE,
                         new_levels = FALSE,
                         allow_NA = FALSE,
-                        .iter = 1000,
                         ...) {
 
   # direct
@@ -50,7 +49,7 @@ mrp_onestep <- function(.formula,
   # brms
   brms_fit <- fit_brms(.formula,
                        .data,
-                       .iter = .iter)
+                       ...)
 
   # P-step
   # if (!calibrate)
