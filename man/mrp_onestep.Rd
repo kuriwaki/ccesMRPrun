@@ -14,6 +14,8 @@ mrp_onestep(
   add_on = NULL,
   dtplyr = TRUE,
   new_levels = FALSE,
+  allow_NA = FALSE,
+  .iter = 1000,
   ...
 )
 }

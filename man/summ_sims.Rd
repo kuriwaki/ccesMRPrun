@@ -4,7 +4,13 @@
 \alias{summ_sims}
 \title{Get summary statistics from draws (of counts)}
 \usage{
-summ_sims(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE)
+summ_sims(
+  sims,
+  area_var = "cd",
+  est_var = "p_mrp",
+  dtplyr = TRUE,
+  allow_NA = FALSE
+)
 }
 \arguments{
 \item{sims}{output of \link{poststrat_draws}}
