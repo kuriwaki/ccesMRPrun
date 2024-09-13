@@ -50,8 +50,7 @@ mrp_onestep <- function(.formula,
   # brms
   brms_fit <- fit_brms(.formula,
                        .data,
-                       .iter = .iter,
-                       ...)
+                       .iter = .iter)
 
   # P-step
   # if (!calibrate)
@@ -60,8 +59,7 @@ mrp_onestep <- function(.formula,
                               poststrat_tgt = poststrat_tgt,
                               orig_data = .data,
                               area_var = area_var,
-                              count_var = count_var,
-                              ...)
+                              count_var = count_var)
 
   # summarize
   post_sum <- summ_sims(post_fit, area_var = area_var, dt = dtplyr, allow_NA = allow_NA)
