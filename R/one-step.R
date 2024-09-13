@@ -13,6 +13,7 @@
 #' @inheritParams fit_brms
 #' @inheritParams direct_ests
 #' @inheritParams poststrat_draws
+#' @inheritDotParams fit_brms_binomial
 #'
 #'
 #' @examples
