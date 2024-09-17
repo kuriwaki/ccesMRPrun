@@ -1,8 +1,11 @@
 #' Get summary statistics from draws (of counts)
 #'
-#' @param sims output of \link{poststrat_draws}
-#' @param est_var input column name with estimates. Following the output of
+#' @param sims Output of \link{poststrat_draws}
+#' @param est_var Input column name with estimates. Following the output of
 #' \link{poststrat_draws}, defaults to `p_mrp`.
+#' @param allow_NA A logical (TRUE or FALSE) indicating whether
+#' the `summ_sims` function should allow NAs in the cell-level estimate or break.
+#' The default is FALSE.
 #'
 #' @returns A tibble with the following statistics by each variable specified in `area_var`:
 #'  `p_mrp_est`: posterior mean,
@@ -28,7 +31,7 @@
 #' }
 #'
 #' @export
-summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE) {
+summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE, allow_NA = FALSE) {
   grp_by_vars <- area_var
 
   sims_grouped <- group_by(as_tibble(sims), across(all_of(grp_by_vars)))
@@ -37,12 +40,14 @@ summ_sims <- function(sims, area_var = "cd", est_var = "p_mrp", dtplyr = TRUE) {
     sims <- lazy_dt(sims)
   }
 
-  summarize(sims_grouped,
-            p_mrp_est = mean(.data[[est_var]]),
-            p_mrp_se  = sd(.data[[est_var]]),
-            p_mrp_050 = quantile(.data[[est_var]], 0.050),
-            p_mrp_100 = quantile(.data[[est_var]], 0.100),
-            p_mrp_900 = quantile(.data[[est_var]], 0.900),
-            p_mrp_950 = quantile(.data[[est_var]], 0.950)) %>%
+  summarize(
+    sims_grouped,
+    p_mrp_est = mean(.data[[est_var]], na.rm = allow_NA),
+    p_mrp_se  = sd(.data[[est_var]], na.rm = allow_NA),
+    p_mrp_050 = quantile(.data[[est_var]], 0.050, na.rm = allow_NA),
+    p_mrp_100 = quantile(.data[[est_var]], 0.100, na.rm = allow_NA),
+    p_mrp_900 = quantile(.data[[est_var]], 0.900, na.rm = allow_NA),
+    p_mrp_950 = quantile(.data[[est_var]], 0.950, na.rm = allow_NA)
+  ) %>%
     as_tibble()
 }

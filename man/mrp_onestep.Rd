@@ -14,6 +14,7 @@ mrp_onestep(
   add_on = NULL,
   dtplyr = TRUE,
   new_levels = FALSE,
+  allow_NA = FALSE,
   ...
 )
 }
@@ -44,7 +45,26 @@ slightly faster dataframe wrangling. Currently does not apply to anything within
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?
 The answer should almost always be No in MRP.}
 
-\item{...}{Additional arguments to pass to the model fitting function, \code{fit_brms()}}
+\item{allow_NA}{A logical (TRUE or FALSE) indicating whether
+the \code{summ_sims} function should allow NAs in the cell-level estimate or break.
+The default is FALSE.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=fit_brms_binomial]{fit_brms_binomial}}
+  \describe{
+    \item{\code{.prior}}{prior specification that can be interpreted by brms. The default
+is a standard normal prior, which is tighter than the brms default but has
+shown to have good prior posterior draws}
+    \item{\code{.cores}}{Number of cores to uses}
+    \item{\code{.chains}}{Number of chains to pass on fit_brms}
+    \item{\code{.iter}}{Number of total iterations.}
+    \item{\code{.warmup}}{Of the iterations, how much are burn-ins. Defaults to half.}
+    \item{\code{verbose}}{Whether to show iteration messages}
+    \item{\code{.seed}}{seed for randomization to pass into brm}
+    \item{\code{.backend}}{The backend argument of brms. Currently only \code{"cmdstanr"}}
+    \item{\code{.threads}}{The number of threads to do within-chain parallelization. Defaults
+to not using, which is NULL}
+  }}
 }
 \description{
 Fits and tidies MRP outputs in one step
