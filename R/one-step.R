@@ -13,6 +13,7 @@
 #' @inheritParams fit_brms
 #' @inheritParams direct_ests
 #' @inheritParams poststrat_draws
+#' @inheritParams summ_sims
 #' @inheritDotParams fit_brms_binomial
 #'
 #'

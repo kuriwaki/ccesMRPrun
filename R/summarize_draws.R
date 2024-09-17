@@ -1,8 +1,10 @@
 #' Get summary statistics from draws (of counts)
 #'
-#' @param sims output of \link{poststrat_draws}
-#' @param est_var input column name with estimates. Following the output of
+#' @param sims Output of \link{poststrat_draws}
+#' @param est_var Input column name with estimates. Following the output of
 #' \link{poststrat_draws}, defaults to `p_mrp`.
+#' @param allow_NA A logical evaluation to TRUE or FALSE indicating whether
+#' the function should allow NAs or break. The default is FALSE.
 #'
 #' @returns A tibble with the following statistics by each variable specified in `area_var`:
 #'  `p_mrp_est`: posterior mean,

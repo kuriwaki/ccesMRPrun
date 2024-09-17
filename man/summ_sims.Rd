@@ -13,16 +13,19 @@ summ_sims(
 )
 }
 \arguments{
-\item{sims}{output of \link{poststrat_draws}}
+\item{sims}{Output of \link{poststrat_draws}}
 
 \item{area_var}{A character string for the variable name(s) for area to group
 and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 
-\item{est_var}{input column name with estimates. Following the output of
+\item{est_var}{Input column name with estimates. Following the output of
 \link{poststrat_draws}, defaults to \code{p_mrp}.}
 
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
 slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
+
+\item{allow_NA}{A logical evaluation to TRUE or FALSE indicating whether
+the function should allow NAs or break. The default is FALSE.}
 }
 \value{
 A tibble with the following statistics by each variable specified in \code{area_var}:
