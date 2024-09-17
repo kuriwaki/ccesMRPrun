@@ -45,8 +45,9 @@ slightly faster dataframe wrangling. Currently does not apply to anything within
 coefficients in the survey data, should there be an extrapolation or assignment to 0s?
 The answer should almost always be No in MRP.}
 
-\item{allow_NA}{A logical evaluation to TRUE or FALSE indicating whether
-the function should allow NAs or break. The default is FALSE.}
+\item{allow_NA}{A logical (TRUE or FALSE) indicating whether
+the \code{summ_sims} function should allow NAs in the cell-level estimate or break.
+The default is FALSE.}
 
 \item{...}{
   Arguments passed on to \code{\link[=fit_brms_binomial]{fit_brms_binomial}}

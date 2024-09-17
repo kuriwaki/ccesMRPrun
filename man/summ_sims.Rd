@@ -24,8 +24,9 @@ and aggregate by. That is, the area of interest in MRP. Defaults to \code{"cd"}}
 \item{dtplyr}{Whether to use a data.table/dtplyr backend for processing for
 slightly faster dataframe wrangling. Currently does not apply to anything within the function.}
 
-\item{allow_NA}{A logical evaluation to TRUE or FALSE indicating whether
-the function should allow NAs or break. The default is FALSE.}
+\item{allow_NA}{A logical (TRUE or FALSE) indicating whether
+the \code{summ_sims} function should allow NAs in the cell-level estimate or break.
+The default is FALSE.}
 }
 \value{
 A tibble with the following statistics by each variable specified in \code{area_var}:
