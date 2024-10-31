@@ -5,10 +5,13 @@
 #'
 #' @param add_on Any area-level data to be merged with the output,
 #'  for example validation data
+#' @param brms_path If not null, save the brms model to the given path
 #' @param ... Additional arguments to pass to the model fitting function, `fit_brms()`
 #'
 #'
 #' @importFrom dtplyr lazy_dt
+#' @importFrom readr write_rds
+#' @importFrom fs dir_exists path_dir
 #'
 #' @inheritParams fit_brms
 #' @inheritParams direct_ests
@@ -43,7 +46,12 @@ mrp_onestep <- function(.formula,
                         dtplyr = TRUE,
                         new_levels = FALSE,
                         allow_NA = FALSE,
+                        brms_path = NULL,
                         ...) {
+  # check save path exists
+  if (!is.null(brms_path))
+    stopifnot(fs::dir_exists(fs::path_dir(brms_path)))
+
 
   # direct
   drct_fit <- direct_ests(.formula, .data, area_var = area_var, weight_var = weight_var)
@@ -72,6 +80,10 @@ mrp_onestep <- function(.formula,
   # optional
   if (!is.null(add_on)) {
     out <- left_join(out, add_on, by = area_var)
+  }
+
+  if (!is.null(brms_path)) {
+    readr::write_rds(brms_fit, brms_path)
   }
 
   return(out)

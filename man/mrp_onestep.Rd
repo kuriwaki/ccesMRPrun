@@ -15,6 +15,7 @@ mrp_onestep(
   dtplyr = TRUE,
   new_levels = FALSE,
   allow_NA = FALSE,
+  brms_path = NULL,
   ...
 )
 }
@@ -48,6 +49,8 @@ The answer should almost always be No in MRP.}
 \item{allow_NA}{A logical (TRUE or FALSE) indicating whether
 the \code{summ_sims} function should allow NAs in the cell-level estimate or break.
 The default is FALSE.}
+
+\item{brms_path}{If not null, save the brms model to the given path}
 
 \item{...}{
   Arguments passed on to \code{\link[=fit_brms_binomial]{fit_brms_binomial}}
