@@ -61,6 +61,10 @@ mrp_onestep <- function(.formula,
                        .data,
                        ...)
 
+  if (!is.null(brms_path)) {
+    readr::write_rds(brms_fit, brms_path)
+  }
+
   # P-step
   # if (!calibrate)
   post_fit <- poststrat_draws(brms_fit,
@@ -80,10 +84,6 @@ mrp_onestep <- function(.formula,
   # optional
   if (!is.null(add_on)) {
     out <- left_join(out, add_on, by = area_var)
-  }
-
-  if (!is.null(brms_path)) {
-    readr::write_rds(brms_fit, brms_path)
   }
 
   return(out)
